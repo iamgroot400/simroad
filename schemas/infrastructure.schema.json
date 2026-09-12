@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "Crossing": {
+      "additionalProperties": false,
+      "properties": {
+        "node": {
+          "title": "Node",
+          "type": "string"
+        },
+        "edges": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Edges",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "signalized",
+            "zebra",
+            "informal"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "width_m": {
+          "default": 4,
+          "exclusiveMinimum": 0,
+          "title": "Width M",
+          "type": "number"
+        },
+        "min_walk_seconds": {
+          "default": 10,
+          "exclusiveMinimum": 0,
+          "title": "Min Walk Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "node",
+        "edges",
+        "kind"
+      ],
+      "title": "Crossing",
+      "type": "object"
+    },
+    "TransitRoute": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "edges": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Edges",
+          "type": "array"
+        },
+        "stops": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Stops",
+          "type": "array"
+        },
+        "headway_seconds": {
+          "default": 600,
+          "exclusiveMinimum": 0,
+          "title": "Headway Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "edges",
+        "stops"
+      ],
+      "title": "TransitRoute",
+      "type": "object"
+    },
+    "TransitStop": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "lane": {
+          "title": "Lane",
+          "type": "string"
+        },
+        "start_pos": {
+          "minimum": 0,
+          "title": "Start Pos",
+          "type": "number"
+        },
+        "end_pos": {
+          "exclusiveMinimum": 0,
+          "title": "End Pos",
+          "type": "number"
+        },
+        "blocks_lane": {
+          "default": true,
+          "title": "Blocks Lane",
+          "type": "boolean"
+        },
+        "dwell_mean": {
+          "default": 20,
+          "minimum": 0,
+          "title": "Dwell Mean",
+          "type": "number"
+        },
+        "dwell_std": {
+          "default": 5,
+          "minimum": 0,
+          "title": "Dwell Std",
+          "type": "number"
+        },
+        "stop_probability": {
+          "default": 1,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Stop Probability",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "lane",
+        "start_pos",
+        "end_pos"
+      ],
+      "title": "TransitStop",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "crossings": {
+      "items": {
+        "$ref": "#/$defs/Crossing"
+      },
+      "title": "Crossings",
+      "type": "array"
+    },
+    "stops": {
+      "items": {
+        "$ref": "#/$defs/TransitStop"
+      },
+      "title": "Stops",
+      "type": "array"
+    },
+    "transit_routes": {
+      "items": {
+        "$ref": "#/$defs/TransitRoute"
+      },
+      "title": "Transit Routes",
+      "type": "array"
+    }
+  },
+  "title": "Infrastructure",
+  "type": "object"
+}

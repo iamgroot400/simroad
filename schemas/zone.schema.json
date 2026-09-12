@@ -1,0 +1,108 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "school",
+        "office",
+        "market",
+        "residential",
+        "hospital",
+        "transit"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "population": {
+      "exclusiveMinimum": 0,
+      "title": "Population",
+      "type": "integer"
+    },
+    "coordinates": {
+      "default": "lonlat",
+      "enum": [
+        "xy",
+        "lonlat"
+      ],
+      "title": "Coordinates",
+      "type": "string"
+    },
+    "center": {
+      "anyOf": [
+        {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Center"
+    },
+    "radius_m": {
+      "default": 100,
+      "exclusiveMinimum": 0,
+      "title": "Radius M",
+      "type": "number"
+    },
+    "polygon": {
+      "anyOf": [
+        {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "minItems": 3,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Polygon"
+    },
+    "edges": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Edges",
+      "type": "array"
+    },
+    "parameters": {
+      "additionalProperties": true,
+      "title": "Parameters",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "population"
+  ],
+  "title": "Zone",
+  "type": "object"
+}

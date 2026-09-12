@@ -1,0 +1,155 @@
+{
+  "$defs": {
+    "FleetType": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "vclass": {
+          "title": "Vclass",
+          "type": "string"
+        },
+        "share": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Share",
+          "type": "number"
+        },
+        "length": {
+          "exclusiveMinimum": 0,
+          "title": "Length",
+          "type": "number"
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "number"
+        },
+        "max_speed": {
+          "exclusiveMinimum": 0,
+          "title": "Max Speed",
+          "type": "number"
+        },
+        "accel": {
+          "exclusiveMinimum": 0,
+          "title": "Accel",
+          "type": "number"
+        },
+        "decel": {
+          "exclusiveMinimum": 0,
+          "title": "Decel",
+          "type": "number"
+        },
+        "tau": {
+          "exclusiveMinimum": 0,
+          "title": "Tau",
+          "type": "number"
+        },
+        "sigma": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Sigma",
+          "type": "number"
+        },
+        "speed_deviation": {
+          "minimum": 0,
+          "title": "Speed Deviation",
+          "type": "number"
+        },
+        "min_gap": {
+          "minimum": 0,
+          "title": "Min Gap",
+          "type": "number"
+        },
+        "min_gap_lat": {
+          "minimum": 0,
+          "title": "Min Gap Lat",
+          "type": "number"
+        },
+        "lc_assertive": {
+          "exclusiveMinimum": 0,
+          "title": "Lc Assertive",
+          "type": "number"
+        },
+        "lc_pushy": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Lc Pushy",
+          "type": "number"
+        },
+        "lc_speed_gain": {
+          "minimum": 0,
+          "title": "Lc Speed Gain",
+          "type": "number"
+        },
+        "jm_drive_after_yellow": {
+          "minimum": 0,
+          "title": "Jm Drive After Yellow",
+          "type": "number"
+        },
+        "jm_drive_after_red": {
+          "minimum": 0,
+          "title": "Jm Drive After Red",
+          "type": "number"
+        },
+        "jm_ignore_foe_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Jm Ignore Foe Probability",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "vclass",
+        "share",
+        "length",
+        "width",
+        "max_speed",
+        "accel",
+        "decel",
+        "tau",
+        "sigma",
+        "speed_deviation",
+        "min_gap",
+        "min_gap_lat",
+        "lc_assertive",
+        "lc_pushy",
+        "lc_speed_gain",
+        "jm_drive_after_yellow",
+        "jm_drive_after_red",
+        "jm_ignore_foe_probability"
+      ],
+      "title": "FleetType",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "types": {
+      "items": {
+        "$ref": "#/$defs/FleetType"
+      },
+      "minItems": 1,
+      "title": "Types",
+      "type": "array"
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "types"
+  ],
+  "title": "Fleet",
+  "type": "object"
+}

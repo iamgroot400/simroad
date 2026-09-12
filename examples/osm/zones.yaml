@@ -1,0 +1,16 @@
+zones:
+  - id: example_school
+    type: school
+    population: 150
+    center: [85.317, 27.707]
+    radius_m: 150
+  - id: example_office
+    type: office
+    population: 300
+    center: [85.322, 27.706]
+    radius_m: 150
+  - id: example_market
+    type: market
+    population: 200
+    center: [85.317, 27.703]
+    radius_m: 150

@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "Pulse": {
+      "additionalProperties": false,
+      "properties": {
+        "hour": {
+          "exclusiveMaximum": 24,
+          "minimum": 0,
+          "title": "Hour",
+          "type": "number"
+        },
+        "sigma_minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Sigma Minutes",
+          "type": "number"
+        },
+        "weight": {
+          "exclusiveMinimum": 0,
+          "title": "Weight",
+          "type": "number"
+        },
+        "direction": {
+          "default": "in",
+          "enum": [
+            "in",
+            "out"
+          ],
+          "title": "Direction",
+          "type": "string"
+        }
+      },
+      "required": [
+        "hour",
+        "sigma_minutes",
+        "weight"
+      ],
+      "title": "Pulse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "vehicle_trips_per_person": {
+      "minimum": 0,
+      "title": "Vehicle Trips Per Person",
+      "type": "number"
+    },
+    "pedestrian_trips_per_person": {
+      "minimum": 0,
+      "title": "Pedestrian Trips Per Person",
+      "type": "number"
+    },
+    "speed_kph": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Speed Kph"
+    },
+    "encroachment_fraction": {
+      "default": 0,
+      "exclusiveMaximum": 0.8,
+      "minimum": 0,
+      "title": "Encroachment Fraction",
+      "type": "number"
+    },
+    "min_walk_seconds": {
+      "default": 10,
+      "exclusiveMinimum": 0,
+      "title": "Min Walk Seconds",
+      "type": "number"
+    },
+    "pedestrian_speed": {
+      "default": 1.2,
+      "exclusiveMinimum": 0,
+      "title": "Pedestrian Speed",
+      "type": "number"
+    },
+    "informal_crossing_probability": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Informal Crossing Probability",
+      "type": "number"
+    },
+    "parking_search_probability": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Parking Search Probability",
+      "type": "number"
+    },
+    "parking_search_seconds": {
+      "default": 30,
+      "minimum": 0,
+      "title": "Parking Search Seconds",
+      "type": "number"
+    },
+    "pulses": {
+      "items": {
+        "$ref": "#/$defs/Pulse"
+      },
+      "minItems": 1,
+      "title": "Pulses",
+      "type": "array"
+    }
+  },
+  "required": [
+    "vehicle_trips_per_person",
+    "pedestrian_trips_per_person",
+    "pulses"
+  ],
+  "title": "ZoneParameters",
+  "type": "object"
+}

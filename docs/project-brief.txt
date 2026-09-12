@@ -1,0 +1,91 @@
+Project Prompt: Configurable Urban Traffic Simulator
+Copy everything below into a fresh coding session (Claude Code, or similar) to start the project. Sections marked [CUSTOMIZE] are where you should fill in your own preferences before using it — the rest is the spec itself.
+
+1. Vision
+Build a general-purpose urban traffic simulation platform: given a real city (or any region imported from OpenStreetMap), let a user define zones of human activity (schools, offices, markets, hospitals, residential blocks), place pedestrian infrastructure (zebra crossings, signalized crossings, school zones), configure a realistic local vehicle mix and driving culture, and run microscopic (vehicle-by-vehicle, pedestrian-by-pedestrian) traffic simulations to test signal timing, road changes, or policy ideas — with the same statistical rigor a transport engineer would demand, not just a pretty visualization.
+
+The end deliverable is not a simulation of one city. It is a toolkit: a config schema plus an engine, such that pointing it at a different bounding box and a different zone/demand config produces a working simulation of that city, without touching the engine's code.
+
+2. Engine choice — do not build a physics engine from scratch
+[CUSTOMIZE: this decision is close to non-negotiable and is stated as a recommendation, not a preference — read the reasoning before overriding it.]
+
+Use SUMO (Simulation of Urban MObility), driven from Python via traci (pip install eclipse-sumo traci sumolib — this bundles the SUMO binaries, no separate install needed). Do not hand-roll car-following, lane-changing, or junction right-of-way logic. Reasons, from direct experience building an earlier version of this:
+
+SUMO already has a sublane model (--lateral-resolution), which is what lets motorcycles/scooters filter between stopped cars — essential for any city with mixed, non-lane-disciplined traffic, and very hard to get right from scratch.
+SUMO already has a pedestrian model with crossings, and can place <crossing> elements (signalized or priority/zebra) directly at a junction.
+SUMO is CPU-only, single-core per instance — parallelize by running many independent SUMO processes (one per seed/scenario), not by expecting one instance to use multiple cores. Design the architecture around this from day one.
+SUMO ships with an osmWebWizard.py / netconvert --osm-files import path, so "point it at a real city" is a solved problem, not something to reinvent.
+3. Core requirement: works on any city, not one hardcoded corridor
+The engine must accept, as input:
+
+A bounding box or place name, resolved to real road geometry via OpenStreetMap (Overpass API for small/medium areas; direct .osm.pbf extract for large ones).
+A zone configuration file (see §4) describing human-activity areas within that bounding box.
+A demand configuration (vehicle volumes per gateway/hour, vehicle-class mix, pedestrian generation rates) — either hand-authored or derived from the zone file (an office zone with 3,000 workers implies a morning demand pulse; the engine should be able to derive one from the other, not require both to be authored by hand for a basic run).
+A fleet/culture profile — see §6 — since "realistic" driving behavior in Hanoi, Lagos, and Los Angeles are not the same distribution.
+Nothing about a specific city's name, coordinates, or road layout should appear in engine code. If you ever write if city == "kathmandu":, that is a design smell — push it into a config file instead.
+
+4. Zone system — the human-factor layer
+This is the part that makes the simulation of a city rather than of a road. Each zone is a polygon (or a point + radius, for simple cases) tagged with a zone type, each of which parameterizes real behavior:
+
+Zone type	What it changes
+School	Speed limit reduced within the zone (commonly 20-30 km/h). Sharp pedestrian surge twice a day (drop-off ~15 min before start time, pickup ~15 min after end time) rather than a flat rate. Higher jaywalk / midblock-crossing probability for child pedestrians. Often paired with a zebra crossing without signals immediately outside the gate — see §5.
+Office / commercial district	Morning inbound + evening outbound vehicle demand pulses (not flat all-day). Parking search behavior: a share of vehicles circle or double-park near destinations instead of parking instantly (this alone is a major real-world congestion source that flat "trip generation" models miss).
+Market / informal commercial street	Encroachment: a configurable share of a lane's width is treated as permanently occupied (vendors, parked bikes), reducing effective capacity without closing the lane entirely. Higher pedestrian midblock crossing rate (jaywalking) versus crossing only at marked points.
+Residential	Standard morning-out / evening-in commute generation; lower nonresident through-traffic.
+Hospital	Small but nonzero emergency vehicle demand with weakened right-of-way constraints (if you implement priority vehicles) — plus a permanent, non-negotiable minimum-service crossing time for elderly/disabled pedestrians.
+Transit corridor	Bus/microbus routes with real stop locations, real dwell-time distributions, and the explicit choice of whether a stop blocks the lane (a proper bus bay does not; a kerb-side stop with no bay does — this single switch materially changes corridor throughput and should not be hidden).
+Each zone type ships with sane literature/survey-informed defaults but every numeric parameter must be overridable in the config file. Do not hardcode "school zones are always 25 km/h" in code — that is a default value in a schema, not a constant.
+
+5. Pedestrian infrastructure — model it as a first-class thing, not an afterthought
+Signalized crossings: a pedestrian phase inserted into the junction's signal program, with a configurable minimum walk time and a person-based demand-actuation option (a real crossing button, modeled as: pedestrian demand triggers a phase request rather than running unconditionally every cycle).
+Zebra / unsignalized crossings: implemented as SUMO priority crossings — vehicles yield to a pedestrian who has already committed to crossing, but there is no signal cycle involved. This is the dominant crossing type outside signalized junctions in most cities and is frequently the actual bottleneck near a school or market that a junction-only model completely misses.
+Midblock / informal crossings: a probability that a pedestrian crosses somewhere that isn't a marked crossing at all, at a location and rate configurable per zone type (near-zero in a zone type like "arterial," high in "market").
+Pedestrian volume must vary by time of day, driven by the zone system in §4 — a flat pedestrian arrival rate all day is not realistic near a school or office.
+6. Fleet mix and driving culture — make this a swappable profile
+A vehicle's physical size is not what makes a simulation "feel like" a specific city — its behavioral parameters do (this was the single most consequential lesson from building the first version of this: modeling a motorcycle as a small car, instead of giving it its own lateral-gap and lane-changing parameters, silently breaks the whole simulation's realism). Package each city/region's fleet as a named, swappable profile containing, per vehicle class:
+
+Physical: length, width, max speed, acceleration/deceleration.
+Car-following: desired time headway (tau), speed variance, driver imperfection (sigma).
+Lane-changing/filtering: lateral gap tolerance, assertiveness, eagerness to squeeze into partial gaps — this is what produces (or fails to produce) realistic motorcycle/scooter filtering behavior.
+Junction behavior: tolerance for entering on a stale green, willingness to force a gap against crossing traffic, red-running tendency.
+Passenger service (for transit classes): dwell time distribution, stop probability.
+Share of the overall fleet.
+Ship at least two or three example profiles (e.g., "motorcycle-dominant mixed traffic," "car-dominant disciplined traffic") so a user calibrating a new city has a reasonable starting point rather than a blank schema.
+
+7. Statistical and engineering discipline — do not skip this
+These are not nice-to-haves; skipping them produces a simulator that looks like it works and quietly does not:
+
+A hard invariant check at startup: the simulation step length must never exceed the shortest tau in the active fleet profile. Violating this silently breaks SUMO's collision-free guarantee and produces phantom rear-end collisions that look like "realistic chaos" but are actually a numerical-integration bug. Fail loudly, at config-load time, if this is violated — do not let it surface only as an unexplained spike in a results table.
+Report collisions as a first-class metric, counted as distinct events, not per-step overlap counts (which wildly over-count an unresolved overlap). A rising collision count is a model-health signal a user must see, not a debug-only detail.
+Every comparison between two ideas/scenarios must be paired by random seed, with a reported 95% confidence interval and an explicit significance flag — never a bare single-run number presented as a conclusion.
+A calibration mode: given real observed traffic counts at specific points, fit the model's uncertain parameters (demand levels, saturation flow, fleet mix) against them, and report the standard GEH goodness-of-fit statistic (accepted practice: GEH < 5 on ≥85% of measured points, GEH < 10 everywhere). Until that check passes for a given city, the UI/report output must visibly flag results as uncalibrated — ranks scenarios against each other, not a real-world prediction for that specific city. This flag should be structurally difficult to remove (e.g., stamped from the same code path that generates the report), not just a comment convention.
+A pluggable strategy registry for anything being compared (signal-timing algorithms, lane-priority schemes, pedestrian-priority policies) — adding a new idea to test should be a small, self-contained addition, not a change scattered across the engine.
+8. Architecture sketch
+config/
+  city.yaml            # bounding box or place name, projection, corridor/network scope
+  zones.yaml            # zone polygons + type + per-zone parameter overrides
+  fleet_profiles/
+    mixed_motorcycle.yaml
+    car_dominant.yaml
+  demand.yaml            # gateway volumes, or "derive from zones" flag
+src/
+  osm_import.py          # bounding box -> real network geometry (junctions, lanes, crossings)
+  zones.py               # zone polygon loading, per-zone time-of-day demand/pedestrian profiles
+  fleet.py               # fleet profile loading -> SUMO vType generation
+  demand.py               # OD matrix + pedestrian flow generation from zones/demand config
+  strategies/             # pluggable signal-timing / priority strategies, one file each
+  engine.py               # single-run orchestration: build routes, launch SUMO, collect metrics
+  lab.py                  # compare N strategies across paired seeds, report CI + significance
+  calibrate.py            # fit uncertain parameters against real counts, report GEH
+  live_view/              # optional: browser-based live visualization (canvas/WebGL map + vehicles)
+tests/
+  test_zone_demand.py     # pure-Python unit tests, no simulator, for the zone->demand math
+  test_fleet_validity.py  # the tau/step-length invariant, checked without running SUMO
+9. What "done" looks like for a first version
+Point the tool at a real bounding box (any city); it produces a working SUMO network with real junction geometry.
+Author a zones.yaml with at least one school, one office district, and one market street; the tool generates time-varying vehicle and pedestrian demand from it without hand-authored OD matrices.
+At least one signalized crossing and one zebra crossing are present and behaving differently (one gates on a phase, one is priority-yield).
+Run two signal-timing strategies through lab.py; get back a paired, seeded, confidence-interval comparison — not a single number per strategy.
+Swap the fleet profile from "mixed motorcycle" to "car dominant" on the same city and observe the results change in an explicable direction (this is your regression test for whether the fleet profile is actually doing anything).
+The uncalibrated-results warning is visibly present in every report until a real calibrate.py run against real counts has passed GEH.
+[CUSTOMIZE before use]: pick your first target city/bounding box, decide whether you want the live browser visualization in v1 or as a fast-follow, and decide how many example zone types (§4) you want pre-built versus left as an exercise for the config author.

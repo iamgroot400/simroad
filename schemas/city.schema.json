@@ -1,0 +1,104 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "source": {
+      "default": "demo",
+      "enum": [
+        "demo",
+        "osm",
+        "network"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "bbox": {
+      "anyOf": [
+        {
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bbox"
+    },
+    "place": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Place"
+    },
+    "osm_file": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Osm File"
+    },
+    "network_file": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Network File"
+    },
+    "left_hand": {
+      "default": false,
+      "title": "Left Hand",
+      "type": "boolean"
+    },
+    "grid_size": {
+      "default": 4,
+      "maximum": 20,
+      "minimum": 3,
+      "title": "Grid Size",
+      "type": "integer"
+    },
+    "grid_length_m": {
+      "default": 180,
+      "exclusiveMinimum": 50,
+      "title": "Grid Length M",
+      "type": "number"
+    },
+    "overpass_url": {
+      "default": "https://overpass-api.de/api/interpreter",
+      "title": "Overpass Url",
+      "type": "string"
+    }
+  },
+  "title": "City",
+  "type": "object"
+}

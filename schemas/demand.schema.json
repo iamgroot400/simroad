@@ -1,0 +1,73 @@
+{
+  "$defs": {
+    "Gateway": {
+      "additionalProperties": false,
+      "properties": {
+        "edge": {
+          "title": "Edge",
+          "type": "string"
+        },
+        "to_edge": {
+          "title": "To Edge",
+          "type": "string"
+        },
+        "vehicles_per_hour": {
+          "minimum": 0,
+          "title": "Vehicles Per Hour",
+          "type": "number"
+        },
+        "begin_hour": {
+          "default": 0,
+          "exclusiveMaximum": 24,
+          "minimum": 0,
+          "title": "Begin Hour",
+          "type": "number"
+        },
+        "end_hour": {
+          "default": 24,
+          "exclusiveMinimum": 0,
+          "maximum": 24,
+          "title": "End Hour",
+          "type": "number"
+        }
+      },
+      "required": [
+        "edge",
+        "to_edge",
+        "vehicles_per_hour"
+      ],
+      "title": "Gateway",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "derive_from_zones": {
+      "default": true,
+      "title": "Derive From Zones",
+      "type": "boolean"
+    },
+    "scale": {
+      "default": 1,
+      "exclusiveMinimum": 0,
+      "title": "Scale",
+      "type": "number"
+    },
+    "bin_minutes": {
+      "default": 5,
+      "exclusiveMinimum": 0,
+      "maximum": 60,
+      "title": "Bin Minutes",
+      "type": "number"
+    },
+    "gateways": {
+      "items": {
+        "$ref": "#/$defs/Gateway"
+      },
+      "title": "Gateways",
+      "type": "array"
+    }
+  },
+  "title": "Demand",
+  "type": "object"
+}

@@ -1,0 +1,5 @@
+# First build/import, inspect network.net.xml in sumo-gui/netedit, then set real node/edge IDs.
+# OSM-imported/guessed crossings remain present. No invented infrastructure IDs.
+crossings: []
+stops: []
+transit_routes: []

@@ -1,0 +1,25 @@
+zones:
+  - id: school
+    type: school
+    population: 180
+    coordinates: xy
+    center: [180, 180]
+    radius_m: 70
+  - id: offices
+    type: office
+    population: 400
+    coordinates: xy
+    center: [360, 360]
+    radius_m: 80
+  - id: market
+    type: market
+    population: 220
+    coordinates: xy
+    center: [360, 180]
+    radius_m: 60
+  - id: homes
+    type: residential
+    population: 300
+    coordinates: xy
+    center: [180, 360]
+    radius_m: 70

@@ -1,0 +1,10 @@
+derive_from_zones: true
+scale: 1.0
+bin_minutes: 5
+gateways: []
+# Explicit flows can supplement zone demand:
+# - edge: A0B0
+#   to_edge: C3D3
+#   vehicles_per_hour: 120
+#   begin_hour: 7
+#   end_hour: 9

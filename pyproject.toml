@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simroad"
+version = "0.1.0"
+description = "Configurable, seeded urban traffic experiments powered by Eclipse SUMO"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["eclipse-sumo>=1.24,<2", "traci>=1.24,<2", "sumolib>=1.24,<2", "pydantic>=2.10,<3", "PyYAML>=6,<7", "scipy>=1.14,<2", "requests>=2.32,<3", "pyproj>=3.6,<4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.9"]
+
+[project.scripts]
+simroad = "simroad.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: launches installed SUMO binaries"]
+
+[tool.ruff]
+line-length = 110

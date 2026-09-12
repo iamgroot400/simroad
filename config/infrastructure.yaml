@@ -1,0 +1,10 @@
+crossings:
+  - node: B1
+    edges: [A1B1, B1A1]
+    kind: signalized
+    min_walk_seconds: 15
+  - node: C1
+    edges: [B1C1, C1B1]
+    kind: zebra
+stops: []
+transit_routes: []

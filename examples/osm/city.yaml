@@ -1,0 +1,4 @@
+# Example only: activity locations below are illustrative, not a survey.
+source: osm
+bbox: [85.312, 27.700, 85.326, 27.712]
+left_hand: true

@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "Simulation": {
+      "additionalProperties": false,
+      "properties": {
+        "begin": {
+          "default": 25200,
+          "minimum": 0,
+          "title": "Begin",
+          "type": "number"
+        },
+        "end": {
+          "default": 32400,
+          "exclusiveMinimum": 0,
+          "maximum": 86400,
+          "title": "End",
+          "type": "number"
+        },
+        "step_length": {
+          "default": 0.2,
+          "exclusiveMinimum": 0,
+          "title": "Step Length",
+          "type": "number"
+        },
+        "lateral_resolution": {
+          "default": 0.4,
+          "exclusiveMinimum": 0,
+          "title": "Lateral Resolution",
+          "type": "number"
+        },
+        "min_green": {
+          "default": 10,
+          "exclusiveMinimum": 0,
+          "title": "Min Green",
+          "type": "number"
+        },
+        "max_green": {
+          "default": 60,
+          "exclusiveMinimum": 0,
+          "title": "Max Green",
+          "type": "number"
+        }
+      },
+      "title": "Simulation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "city": {
+      "default": "city.yaml",
+      "title": "City",
+      "type": "string"
+    },
+    "zones": {
+      "default": "zones.yaml",
+      "title": "Zones",
+      "type": "string"
+    },
+    "zone_defaults": {
+      "default": "zone_defaults.yaml",
+      "title": "Zone Defaults",
+      "type": "string"
+    },
+    "fleet": {
+      "default": "fleet_profiles/mixed_motorcycle.yaml",
+      "title": "Fleet",
+      "type": "string"
+    },
+    "demand": {
+      "default": "demand.yaml",
+      "title": "Demand",
+      "type": "string"
+    },
+    "infrastructure": {
+      "default": "infrastructure.yaml",
+      "title": "Infrastructure",
+      "type": "string"
+    },
+    "simulation": {
+      "$ref": "#/$defs/Simulation"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "title": "Project",
+  "type": "object"
+}
