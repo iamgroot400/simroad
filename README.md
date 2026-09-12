@@ -1,14 +1,134 @@
 # Simroad
 
-**Configurable urban traffic experiments, powered by Eclipse SUMO.**
+**Explore how roads, people, vehicles, and traffic signals interact in a neighborhood.**
 
-Import OpenStreetMap roads, describe activity zones and a local fleet in YAML,
-then run vehicle-by-vehicle and pedestrian-by-pedestrian simulations. Compare
-signal policies using identical demand and paired random seeds, with 95%
-confidence intervals and explicit calibration status.
+## What is Simroad? — the brief version
 
-Simroad is an early research toolkit. Its example populations and behavior
-parameters are illustrative. **Uncalibrated output is not a city forecast.**
+Simroad is a Python toolkit for running urban traffic experiments on your computer.
+You choose a road network, describe places such as schools and offices, set the
+vehicle mix, and run a simulation. It uses **Eclipse SUMO** to move individual
+vehicles and pedestrians, then helps you compare traffic-signal policies using
+repeatable experiments and readable reports.
+
+For example: **does a signal that responds to queues and waiting pedestrians
+perform differently from a fixed signal schedule during the morning rush?**
+Simroad runs both policies with matching demand and random seeds, then reports
+throughput, stopped time, collisions, and uncertainty in the difference.
+
+![Simroad workflow: describe the roads and travelers, simulate them in SUMO, and compare repeated experiments with calibration checks.](docs/images/simroad-workflow.png)
+
+**Current form:** a command-line research toolkit with optional native SUMO live
+viewing and HTML/JSON reports. The browser-based live viewer is deferred.
+The included examples use illustrative inputs. **Uncalibrated output is not a
+validated prediction of real traffic.**
+
+[How it works](#how-it-works--the-detailed-version) ·
+[Install and run](#start-here) ·
+[Compare policies](#compare-two-policies) ·
+[Use real roads](#use-real-roads) ·
+[Configuration](#configuration) ·
+[Current limitations](#version-01-scope)
+
+## Who is it for?
+
+Simroad is useful for students learning traffic simulation, researchers prototyping
+signal policies, and developers building reproducible transport experiments.
+You should be comfortable running Python commands and editing small YAML files.
+Transport-engineering decisions also require suitable observations, calibration,
+and a review of the model's assumptions.
+
+You can explore questions such as:
+
+- How do school arrival peaks affect nearby queues and crossing demand?
+- What changes when the fleet contains more motorcycles and fewer cars?
+- How do a lower speed limit or reduced usable lane width affect a scenario?
+- How do fixed and queue-responsive signal policies compare across repeated runs?
+- What happens when a scheduled bus stop blocks a lane versus using an off-road bay approximation?
+
+The built-in comparison command handles **signal policies within one configured
+scenario**. Changes to fleet, road geometry, or zone settings need separately
+configured experiments; one run per configuration is not enough for a conclusion.
+
+## How it works — the detailed version
+
+### 1. Choose the roads
+
+Start with the included offline grid, import a small real region from
+OpenStreetMap, or supply an existing SUMO network. The map provides the road
+geometry and junction layout. Simroad uses SUMO's network tools to build the
+simulation network and apply configured changes.
+
+The engine is configurable: changing the city should mean changing input files,
+not rewriting the traffic-simulation code. A real map alone does not supply
+measured traffic demand or establish that the resulting model is realistic.
+
+### 2. Describe why people travel
+
+A **zone** is an area associated with an activity, such as a school, office,
+market, residential neighborhood, hospital, or transit corridor. You define its
+location, population, and optional behavior overrides.
+
+Simroad derives time-varying trips from these inputs. School demand has arrival
+and pickup peaks. Office demand has morning arrivals and evening departures.
+Residential demand runs in the opposite commute direction. The timing and volume
+are editable in YAML rather than fixed to one city.
+
+![Offline Simroad neighborhood with school, office, market and residential zones, plus labeled signalized and zebra crossings.](docs/images/demo-neighborhood.png)
+
+*This explanatory image uses the actual offline-demo road geometry. The colors
+and labels are documentation overlays, not a live-view screenshot. Zone locations
+and populations are illustrative.*
+
+Zones can also affect the roads: a school can lower the speed limit; a market can
+reduce usable lane width. The current parking behavior approximates an in-lane
+obstruction near a destination. It does not simulate a driver searching for a
+parking space around the neighborhood.
+
+### 3. Define vehicles and pedestrian infrastructure
+
+A **fleet profile** describes more than the proportion of cars, motorcycles, and
+buses. It also sets vehicle sizes, acceleration, following gaps, speed variation,
+and lateral behavior. SUMO's sublane model allows lateral positioning within
+lanes, which is important when studying motorcycle filtering.
+
+Pedestrians use SUMO walking routes and crossings. A signalized crossing follows
+traffic-light phases; a zebra crossing gives pedestrians priority without a
+signal cycle. Scheduled transit services can have explicit routes, stops, and
+variable dwell times. Configuration selects whether a stop blocks the lane or
+uses the current off-road bay approximation.
+
+### 4. Run the experiment
+
+**SUMO handles movement and interactions. Simroad organizes the experiment.**
+Through SUMO's Python interface, TraCI, Simroad starts the simulation, applies the
+chosen signal policy, and collects measurements at each step.
+
+A **random seed** is a number that makes the random parts of a run repeatable.
+For a policy comparison, Simroad gives both policies the same generated demand
+for each seed. It repeats this over several seeds so a fortunate or unfortunate
+single run does not become the entire result.
+
+### 5. Read the results and check their limits
+
+Every run creates a browser-readable HTML report, a JSON result, and underlying
+SUMO logs and XML outputs. A policy comparison adds confidence intervals and
+significance flags for the differences between policies.
+
+| Report item | What it tells you |
+| --- | --- |
+| Throughput | How many vehicles finish their trips within the simulation window, expressed per hour. |
+| Stopped vehicle time | Total time vehicles spend stopped during the window; useful for comparing queueing. |
+| Unfinished / not-inserted vehicles | Trips still on the road or unable to enter before the window ends. These help reveal congestion that completed-trip averages can miss. |
+| Collision episodes | Distinct collision episodes detected by SUMO; a model-health signal that needs investigation. |
+| Paired 95% confidence interval | Uncertainty in the average candidate-minus-baseline difference across matching seeds. An interval spanning zero does not establish a difference at that level. |
+| Calibration status | Whether matching field-count evidence has passed this toolkit's validation checks. |
+
+**Calibration** means adjusting uncertain model inputs against observed traffic
+counts. Simroad can fit demand, following-headway scaling, and motorcycle share,
+then evaluate the count fit with GEH, a traffic-model goodness-of-fit statistic.
+A passed count fit does not automatically validate pedestrian behavior, safety,
+or a different time period. See [Calibration](#calibration) for the workflow and
+[model assumptions](docs/model-assumptions.md) for the practical limits.
 
 ## Start here
 
