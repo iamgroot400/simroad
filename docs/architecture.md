@@ -24,6 +24,11 @@ YAML project -> validated Bundle -> netconvert / netgenerate -> network.net.xml
 `lab.py` creates paired experiments through a process pool, returning t intervals.
 `calibrate.py` grid-fits uncertain parameters and evaluates held-out seeds.
 `report.py` is the single path for report generation and calibration status.
+`live_view/` serves local HTML/CSS/JavaScript and snapshots actual SUMO state.
+One simulation worker owns TraCI; browser requests communicate through synchronized
+state and playback controls. The engine observer is optional, so batch runs do
+not pay the live-view rendering or pacing cost. Browser Stop produces an explicitly
+interrupted report, while closing the server requests worker shutdown.
 
 Run artifacts include demand XML, stops, SUMO logs, tripinfo, collision XML,
 demand-generation diagnostics, a manifest, and HTML/JSON results. Generated data

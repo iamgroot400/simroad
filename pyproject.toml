@@ -25,3 +25,6 @@ markers = ["integration: launches installed SUMO binaries"]
 
 [tool.ruff]
 line-length = 110
+
+[tool.setuptools.package-data]
+"simroad.live_view" = ["*.html", "*.css", "*.js"]

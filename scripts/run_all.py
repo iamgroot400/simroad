@@ -1,14 +1,15 @@
 """Shared, self-contained launcher. Bootstrap uses only Python's standard library."""
+
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
 import os
-from pathlib import Path
 import subprocess
 import sys
 import uuid
 import webbrowser
+from datetime import UTC, datetime
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -23,12 +24,20 @@ def env_python(directory):
 
 
 def healthy(python, tests=False):
-    probe = "import pydantic_core._pydantic_core, numpy, scipy, pyproj, yaml, sumo, traci, sumolib, simroad.cli"
+    probe = (
+        "import pydantic_core._pydantic_core, numpy, scipy, pyproj, yaml, sumo, traci, sumolib, simroad.cli"
+    )
     if tests:
         probe += ", pytest"
-    probe += "; from pathlib import Path; import simroad; assert Path(simroad.__file__).resolve().is_relative_to(Path(" + repr(str(ROOT)) + "))"
+    probe += (
+        "; from pathlib import Path; import simroad; assert Path(simroad.__file__).resolve().is_relative_to(Path("
+        + repr(str(ROOT))
+        + "))"
+    )
     try:
-        result = subprocess.run([str(python), "-c", probe], cwd=ROOT, capture_output=True, text=True)
+        result = subprocess.run(
+            [str(python), "-c", probe], cwd=ROOT, capture_output=True, text=True, check=False
+        )
         return result.returncode == 0
     except OSError:
         return False
@@ -50,17 +59,29 @@ def bootstrap(tests=False):
     python = env_python(directory)
     execute([python, "-m", "pip", "install", "-e", str(ROOT) + ("[dev]" if tests else "")])
     if not healthy(python, tests):
-        raise RuntimeError("Dependencies could not be imported. Check the install output and try Python 3.12.")
+        raise RuntimeError(
+            "Dependencies could not be imported. Check the install output and try Python 3.12."
+        )
     return python
 
 
 def arguments(argv=None):
     p = argparse.ArgumentParser(description="Set up and run the complete Simroad example workflow.")
-    p.add_argument("--project", default="config/project.yaml", help="Project YAML, relative to the repository")
+    p.add_argument(
+        "--project", default="config/project.yaml", help="Project YAML, relative to the repository"
+    )
     p.add_argument("--fleet", help="Optional fleet YAML, relative to the repository")
-    p.add_argument("--seeds", type=int, nargs="+", help="Comparison seeds; default 1 2 3 4 5, or 1 2 in quick mode")
+    p.add_argument(
+        "--seeds", type=int, nargs="+", help="Comparison seeds; default 1 2 3 4 5, or 1 2 in quick mode"
+    )
     p.add_argument("--workers", type=int, default=2, help="Independent SUMO processes (default 2)")
-    p.add_argument("--quick", action="store_true", help="Run only the first 120 simulated seconds and fewer seeds")
+    p.add_argument(
+        "--quick", action="store_true", help="Run only the first 120 simulated seconds and fewer seeds"
+    )
+    p.add_argument(
+        "--web", action="store_true", help="Start the local live viewer instead of the batch workflow"
+    )
+    p.add_argument("--port", type=int, default=8765, help="Local live viewer port")
     p.add_argument("--gui", action="store_true", help="Watch the first run in SUMO's native viewer")
     p.add_argument("--skip-compare", action="store_true", help="Only build and run one simulation")
     p.add_argument("--tests", action="store_true", help="Also install development dependencies and run tests")
@@ -75,13 +96,14 @@ def pipeline(args):
     project = (ROOT / args.project).resolve()
     if not project.is_file():
         raise ValueError(f"Project file does not exist: {project}")
-    stamp = datetime.now().strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:6]
+    stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:6]
     output = ROOT / "runs" / ("auto-" + stamp)
     output.mkdir(parents=True, exist_ok=False)
     if args.quick:
         config = yaml.safe_load(project.read_text(encoding="utf-8"))
         # Relocated YAML must retain references to the original configuration files.
         from simroad.config import Project
+
         validated = Project.model_validate(config)
         for key in ("city", "zones", "zone_defaults", "fleet", "demand", "infrastructure"):
             config[key] = str((project.parent / getattr(validated, key)).resolve())
@@ -102,13 +124,37 @@ def pipeline(args):
     execute(prefix + ["build", "--output", str(network_dir)])
     network = network_dir / "network.net.xml"
     seeds = args.seeds or ([1, 2] if args.quick else [1, 2, 3, 4, 5])
-    execute(prefix + ["run", "--network", str(network), "--output", str(output / "simulation"),
-                      "--seed", str(seeds[0])] + (["--gui"] if args.gui else []))
+    if args.web:
+        execute(
+            prefix
+            + ["serve", "--network", str(network), "--output", str(output / "live"), "--port", str(args.port)]
+            + (["--no-open"] if args.no_open else [])
+        )
+        return
+    execute(
+        prefix
+        + ["run", "--network", str(network), "--output", str(output / "simulation"), "--seed", str(seeds[0])]
+        + (["--gui"] if args.gui else [])
+    )
     report = output / "simulation/report.html"
     if not args.skip_compare:
-        execute(prefix + ["compare", "--network", str(network), "--output", str(output / "comparison"),
-                          "--strategies", "fixed", "pressure", "--workers", str(args.workers),
-                          "--seeds", *map(str, seeds)])
+        execute(
+            prefix
+            + [
+                "compare",
+                "--network",
+                str(network),
+                "--output",
+                str(output / "comparison"),
+                "--strategies",
+                "fixed",
+                "pressure",
+                "--workers",
+                str(args.workers),
+                "--seeds",
+                *map(str, seeds),
+            ]
+        )
         report = output / "comparison/comparison.html"
     print(f"\nFinished. Report: {report}\nAll output: {output}", flush=True)
     print("Results are uncalibrated. Field calibration requires your observed traffic counts.", flush=True)
@@ -128,11 +174,16 @@ def main(argv=None):
         raise ValueError("--seeds must contain distinct nonnegative integers")
     if args.seeds and not args.skip_compare and len(args.seeds) < 2:
         raise ValueError("A comparison needs at least two seeds")
-    if sys.version_info < (3, 11):
+    if sys.version_info < (3, 11):  # noqa: UP036 - bootstrap runs before package installation
         raise RuntimeError("Python 3.11+ is required; 3.12 is recommended")
     if not args.ready:
         python = bootstrap(args.tests)
-        command = [str(python), str(Path(__file__).resolve()), "--ready", *(sys.argv[1:] if argv is None else argv)]
+        command = [
+            str(python),
+            str(Path(__file__).resolve()),
+            "--ready",
+            *(sys.argv[1:] if argv is None else argv),
+        ]
         return subprocess.run(command, cwd=ROOT, check=False).returncode
     pipeline(args)
     return 0

@@ -20,3 +20,18 @@ Verified on Windows with Python 3.12 and Eclipse SUMO 1.27.1 on 2026-09-12.
 The full artifacts remain locally under `runs/paired-verified` and
 `runs/osm-verified`; generated data is excluded from Git. CI is configured for
 Windows and Linux but the remote CI jobs have not run yet.
+
+
+## Live viewer and launchers (2026-09-13)
+
+- Full suite expanded to 26 passing tests, including real SUMO live coordinates,
+  zone geometry/colors, pause/resume, interrupted-run reports, local HTTP controls,
+  and preservation/reuse of Python environments.
+- Headless Microsoft Edge verified zone selection, visible moving vehicles,
+  pause/resume, Stop/report, and a 390-pixel mobile viewport without horizontal
+  overflow. The desktop screenshot is committed as `docs/images/live-view.png`.
+- The Windows batch launcher completed a quick simulation and paired comparison.
+  The Bash launcher completed a quick simulation using Git Bash on Windows.
+  Native Linux/macOS execution has not been tested locally.
+- Source checks include the shared launcher and viewer server. Browser HTML,
+  CSS and JavaScript are included in the Python package.

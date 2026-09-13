@@ -17,8 +17,8 @@ throughput, stopped time, collisions, and uncertainty in the difference.
 
 ![Simroad workflow: describe the roads and travelers, simulate them in SUMO, and compare repeated experiments with calibration checks.](docs/images/simroad-workflow.png)
 
-**Current form:** a command-line research toolkit with optional native SUMO live
-viewing and HTML/JSON reports. The browser-based live viewer is deferred.
+**Current form:** a Python research toolkit with a local live web viewer,
+automatic launchers, optional native SUMO viewing, and HTML/JSON reports.
 The included examples use illustrative inputs. **Uncalibrated output is not a
 validated prediction of real traffic.**
 
@@ -129,6 +129,104 @@ then evaluate the count fit with GEH, a traffic-model goodness-of-fit statistic.
 A passed count fit does not automatically validate pedestrian behavior, safety,
 or a different time period. See [Calibration](#calibration) for the workflow and
 [model assumptions](docs/model-assumptions.md) for the practical limits.
+
+## Live web viewer
+
+**Windows: double-click [`run_live.bat`](run_live.bat).** The launcher prepares the
+Python environment, builds the network, starts the local server, and opens your
+browser. Click **Start simulation** to begin watching traffic.
+
+```powershell
+.\run_live.bat
+```
+
+On Linux, macOS, or Git Bash:
+
+```bash
+bash run_live.sh
+```
+
+![Simroad live viewer showing actual SUMO vehicles and pedestrians, colored activity zones, playback controls, and live counters.](docs/images/live-view.png)
+
+*Actual local viewer screenshot from the offline example. Vehicle symbols are
+enlarged for visibility. The example uses synthetic roads and illustrative demand.*
+
+The viewer runs at **http://127.0.0.1:8765** by default. Keep the launcher terminal
+open while using it; press **Ctrl+C** in that terminal to shut down the server.
+It listens on your computer only. No cloud service, account, or external map tiles
+are needed for the offline example.
+
+- **Watch real movement:** vehicle and pedestrian positions come from the running
+  SUMO process. Roads and crossing geometry come from the built network.
+- **Identify areas:** offices are blue, schools amber, markets violet, homes teal,
+  hospitals rose, and transit zones blue-green. Names accompany colors. Only zones
+  present in your configuration appear; the default example includes four types.
+- **Inspect a zone:** select its name to view population, affected edges, speed
+  limits, width reduction, and the configured minimum crossing time. The existing
+  hospital service floor can apply more conservatively across the full network.
+- **Control a run:** choose a signal policy and random seed, start, pause, resume,
+  change target playback speed, or stop. Use **Start new run** to repeat an experiment.
+- **Explore the map:** drag to pan, scroll or use +/− to zoom, and use **Fit map**
+  to restore the full network. The zone list provides keyboard-accessible selection.
+- **See results:** counters show vehicles, walkers, completed vehicle trips, and
+  collision episodes. After completion or Stop, **View run report** opens the report.
+  Stopped runs are explicitly marked interrupted and use their actual elapsed time.
+
+A single live run remains an uncalibrated visualization, not a paired policy
+comparison or field validation. Signal dots summarize a junction; they do not
+show individual turning-movement signals. Playback speed is a target and depends
+on available CPU. See [viewer details](docs/live-view.md).
+
+## Automatic launchers
+
+[`run_simroad.bat`](run_simroad.bat) and [`run_simroad.sh`](run_simroad.sh) run the
+full batch workflow: environment setup, configuration validation, network build,
+one simulation, and a five-seed `fixed` versus `pressure` comparison with two
+workers. The final report opens automatically. They share
+[`scripts/run_all.py`](scripts/run_all.py), work from other directories, and keep
+output inside this repository.
+
+```powershell
+.\run_simroad.bat
+.\run_simroad.bat --quick --no-open
+.\run_live.bat --quick --port 8766
+```
+
+```bash
+bash run_simroad.sh
+bash run_simroad.sh --quick --no-open
+bash run_live.sh --project examples/osm/project.yaml
+```
+
+| Option | Effect |
+| --- | --- |
+| `--web` | Open the live web server; already enabled by the `run_live` scripts. |
+| `--quick` | Use the first 120 simulated seconds; batch comparison uses two seeds. |
+| `--port 8766` | Choose a different local live-server port. |
+| `--project PATH` | Use another project YAML, relative to the repository. |
+| `--fleet PATH` | Use another fleet YAML. |
+| `--gui` | Open native SUMO for the initial batch run. |
+| `--skip-compare` | Only build and run one batch simulation. |
+| `--seeds 1 2 3 4 5` | Choose batch comparison seeds; live seeds are selected in the viewer. |
+| `--workers 1` | Limit batch comparison to one SUMO process at a time. |
+| `--tests` | Install development dependencies and run tests before building. |
+| `--no-open` | Keep the server/report available without opening a browser. |
+| `--help` | Show launcher options. |
+
+First-time setup needs internet to download dependencies. Healthy environments
+are reused. Broken or incompatible environments are preserved and a separate
+`.venv-runner*` environment is created. Every launch uses a fresh
+`runs/auto-<timestamp>-<id>/` directory. Quick mode checks execution only; use
+longer windows and enough seeds for a study. Field calibration is not automated
+because it requires your observed counts and provenance.
+
+If you already have an activated environment, the direct viewer command is:
+
+```powershell
+python -m simroad serve
+# Or reuse an existing network:
+python -m simroad serve --network runs/network/network.net.xml --no-open
+```
 
 ## Start here
 
@@ -318,11 +416,12 @@ decorator. [Architecture](docs/architecture.md) describes the extension points.
 Implemented: OSM import, configurable zone demand, two fleet profiles, sublane
 simulation, speed/width zone effects, signal and priority crossings, scheduled
 transit with dwell distributions, parking-obstruction approximation, seeded policy
-comparison, GEH fitting, reports, and native SUMO live viewing.
+comparison, GEH fitting, reports, native SUMO viewing, and a local live web viewer
+with colored zones, real vehicle/pedestrian positions, and playback controls.
 
 Deferred: automatic midblock road splitting with probabilistic jaywalking,
 parking-search circulation, emergency dispatch/preemption, nonresident access
-controls, a browser live viewer, and a general OD estimation/calibration framework.
+controls, and a general OD estimation/calibration framework.
 Setting unsupported probabilistic midblock behavior produces an explicit error.
 Existing/supplied midblock junctions can have unprioritized informal crossings.
 

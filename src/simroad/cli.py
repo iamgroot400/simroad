@@ -24,6 +24,11 @@ def parser():
     schema.add_argument("--output", default="schemas")
     build = sub.add_parser("build", help="Import/build SUMO network and apply zone/infrastructure patches")
     build.add_argument("--output", default="runs/network")
+    live = sub.add_parser("serve", help="Open the local live road and vehicle viewer")
+    live.add_argument("--network", help="Existing SUMO network; omit to build from project configuration")
+    live.add_argument("--output", help="Directory for live runs; defaults to a fresh runs/live-* directory")
+    live.add_argument("--port", type=int, default=8765)
+    live.add_argument("--no-open", action="store_true", help="Do not open a browser automatically")
     for command in ("run", "compare", "calibrate"):
         c = sub.add_parser(command)
         c.add_argument("--network", default="runs/network/network.net.xml")
@@ -72,6 +77,21 @@ def main(argv=None):
             return 0
         if args.command == "build":
             print(prepare_network(bundle, args.output))
+            return 0
+        if args.command == "serve":
+            import uuid
+
+            from .live_view.server import serve
+
+            if not 0 <= args.port <= 65535:
+                raise ValueError("Port must be between 0 and 65535")
+            output = Path(args.output or ("runs/live-" + uuid.uuid4().hex[:10])).resolve()
+            network = (
+                Path(args.network).resolve() if args.network else prepare_network(bundle, output / "network")
+            )
+            if not network.is_file():
+                raise ValueError("Network file does not exist")
+            serve(bundle, network, output, args.port, not args.no_open)
             return 0
         network = Path(args.network).resolve()
         if not network.exists():

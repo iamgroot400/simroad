@@ -120,8 +120,11 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
                 break
             connection.simulationStep()
             for vehicle in connection.simulation.getDepartedIDList():
-                connection.vehicle.subscribe(vehicle, [tc.VAR_ROAD_ID, tc.VAR_SPEED] +
-                    ([tc.VAR_POSITION, tc.VAR_ANGLE, tc.VAR_TYPE] if observer is not None else []))
+                connection.vehicle.subscribe(
+                    vehicle,
+                    [tc.VAR_ROAD_ID, tc.VAR_SPEED]
+                    + ([tc.VAR_POSITION, tc.VAR_ANGLE, tc.VAR_TYPE] if observer is not None else []),
+                )
             policy.step()
             collisions.update(connection.simulation.getCollisions())
             arrived += connection.simulation.getArrivedNumber()
@@ -138,9 +141,16 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
                     waiting_integral += sim.step_length
             previous_edges = current_edges
             if observer is not None:
-                observer.snapshot(connection, {"arrived": arrived, "departed": departed,
-                    "collisions": collisions.count, "pedestrians_arrived": ped_arrived,
-                    "stopped_seconds": waiting_integral})
+                observer.snapshot(
+                    connection,
+                    {
+                        "arrived": arrived,
+                        "departed": departed,
+                        "collisions": collisions.count,
+                        "pedestrians_arrived": ped_arrived,
+                        "stopped_seconds": waiting_integral,
+                    },
+                )
         unfinished = connection.vehicle.getIDCount()
         pedestrians_active = connection.person.getIDCount()
         elapsed = connection.simulation.getTime() - sim.begin
