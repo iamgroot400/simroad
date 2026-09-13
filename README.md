@@ -132,11 +132,18 @@ or a different time period. See [Calibration](#calibration) for the workflow and
 
 ## Start here
 
-Python 3.11+ is required. Run every command from this repository's root.
-The Python dependency `eclipse-sumo` includes the SUMO binaries.
+Python 3.11+ is required; **Python 3.12 is the tested, recommended version**.
+Run every command from this repository's root. The Python dependency
+`eclipse-sumo` includes the SUMO binaries.
+
+**If this checkout already has a working `.venv`, activate it and skip environment
+creation.** Creating a virtual environment over an existing one with a different
+Python version can leave incompatible compiled packages behind.
+
+For a fresh Windows installation, install Python 3.12 first, then:
 
 ```powershell
-python -m venv .venv
+py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -e ".[dev]"
 simroad validate
@@ -144,7 +151,8 @@ simroad build
 simroad run --output runs/first-run --seed 1
 ```
 
-On macOS/Linux, activate with `source .venv/bin/activate`. If PowerShell activation
+On macOS/Linux, create a fresh environment with `python3.12 -m venv .venv`,
+then activate with `source .venv/bin/activate`. If PowerShell activation
 is restricted, use `.\.venv\Scripts\python.exe -m simroad` instead of `simroad`.
 
 The default configuration runs a **synthetic neighborhood**, including a school,
@@ -153,6 +161,42 @@ offline after dependency installation. Open `runs/first-run/report.html` for the
 report, or add `--gui` to a new run to watch the native SUMO visualization.
 
 Run output directories must be new: previous experiments are not overwritten.
+
+## Troubleshooting Python environment errors
+
+If `simroad validate` raises
+`ModuleNotFoundError: No module named 'pydantic_core._pydantic_core'`, check which
+Python is running:
+
+```powershell
+.\.venv\Scripts\python.exe --version
+Get-ChildItem .venv\Lib\site-packages\pydantic_core\*.pyd
+```
+
+For example, a file named `_pydantic_core.cp312-win_amd64.pyd` is built for
+Python 3.12. A Python 3.14 interpreter cannot load that file. Running
+`pip install -e ".[dev]"` alone may leave the problem unchanged because package
+metadata still says the dependencies are installed. NumPy, SciPy, and other
+compiled dependencies can have the same mismatch.
+
+For a mixed or damaged environment, create a fresh one using a single Python
+version. With Python 3.12 installed, run these commands from the repository root:
+
+```powershell
+# Run deactivate only if a virtual environment is currently active.
+deactivate
+# Keep the old environment as a backup; this name must not already exist.
+Rename-Item -LiteralPath .venv -NewName .venv-backup
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -e ".[dev]"
+python -m simroad validate
+```
+
+Use the explicit `.\.venv\Scripts\python.exe -m simroad validate` command if your
+shell still resolves `python` or `simroad` to another environment. The environment
+and its backup are excluded from Git; source files and simulation results remain
+in their existing locations.
 
 ## Compare two policies
 

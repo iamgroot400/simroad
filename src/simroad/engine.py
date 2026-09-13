@@ -29,7 +29,7 @@ class CollisionEvents:
         self.previous = current
 
 
-def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibration=None):
+def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibration=None, observer=None):
     bundle.validate()
     network, output = Path(network).resolve(), Path(output).resolve()
     if seed < 0:
@@ -108,15 +108,20 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
     previous_edges = {}
     arrived, departed, teleports, ped_arrived = 0, 0, 0, 0
     waiting_integral = 0.0
+    interrupted = False
     try:
         traci.start(command, label=label, doSwitch=False, stdout=None)
         connection = traci.getConnection(label)
         sumo_version = connection.getVersion()[1]
         policy = create(strategy, connection, bundle)
         while connection.simulation.getTime() < sim.end:
+            if observer is not None and not observer.before_step(sim.step_length):
+                interrupted = True
+                break
             connection.simulationStep()
             for vehicle in connection.simulation.getDepartedIDList():
-                connection.vehicle.subscribe(vehicle, [tc.VAR_ROAD_ID, tc.VAR_SPEED])
+                connection.vehicle.subscribe(vehicle, [tc.VAR_ROAD_ID, tc.VAR_SPEED] +
+                    ([tc.VAR_POSITION, tc.VAR_ANGLE, tc.VAR_TYPE] if observer is not None else []))
             policy.step()
             collisions.update(connection.simulation.getCollisions())
             arrived += connection.simulation.getArrivedNumber()
@@ -132,8 +137,13 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
                 if values[tc.VAR_SPEED] < 0.1:
                     waiting_integral += sim.step_length
             previous_edges = current_edges
+            if observer is not None:
+                observer.snapshot(connection, {"arrived": arrived, "departed": departed,
+                    "collisions": collisions.count, "pedestrians_arrived": ped_arrived,
+                    "stopped_seconds": waiting_integral})
         unfinished = connection.vehicle.getIDCount()
         pedestrians_active = connection.person.getIDCount()
+        elapsed = connection.simulation.getTime() - sim.begin
     finally:
         if connection is not None:
             connection.close()
@@ -150,7 +160,9 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         "strategy": strategy,
         "sumo_version": sumo_version,
         "fingerprint": fingerprint,
-        "duration_seconds": sim.end - sim.begin,
+        "duration_seconds": elapsed,
+        "planned_duration_seconds": sim.end - sim.begin,
+        "interrupted": interrupted,
         "vehicles_departed": departed,
         "vehicles_arrived": arrived,
         "vehicles_unfinished": unfinished,
@@ -161,7 +173,7 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         "teleports": teleports,
         "mean_completed_time_loss_seconds": mean_loss,
         "total_stopped_vehicle_seconds": waiting_integral,
-        "throughput_vehicles_per_hour": arrived * 3600 / (sim.end - sim.begin),
+        "throughput_vehicles_per_hour": arrived * 3600 / elapsed if elapsed else 0,
         "edge_counts": dict(counts),
         "demand": demand_stats,
         "demand_sha256": hashlib.sha256((output / "demand.rou.xml").read_bytes()).hexdigest(),
@@ -173,7 +185,7 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
     )
     return write_report(
         output / "report",
-        f"{bundle.project.name} · {strategy} · seed {seed}",
+        f"{bundle.project.name} Â· {strategy} Â· seed {seed}",
         result,
         fingerprint,
         sumo_version,
