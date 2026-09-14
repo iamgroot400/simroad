@@ -49,4 +49,25 @@ def test_child_failure_is_returned(monkeypatch):
 def test_invalid_seeds_fail_before_setup(monkeypatch):
     monkeypatch.setattr(launcher, "bootstrap", lambda tests: pytest.fail("Should not bootstrap"))
     with pytest.raises(ValueError, match="at least two"):
-        launcher.main(["--seeds", "1"])
+        launcher.main(["--batch", "--seeds", "1"])
+
+
+def test_default_browser_and_explicit_batch_commands(tmp_path, monkeypatch):
+    project = launcher.ROOT / "config/project.yaml"
+    monkeypatch.setattr(launcher, "ROOT", tmp_path)
+    commands = []
+    opened = []
+    monkeypatch.setattr(launcher, "execute", commands.append)
+    monkeypatch.setattr(launcher.webbrowser, "open", lambda url: opened.append(url))
+    launcher.pipeline(launcher.arguments(["--project", str(project)]))
+    serve = commands[-1]
+    assert "serve" in serve
+    assert "--no-open" not in serve
+    assert not opened  # The serve command opens the browser after binding its socket.
+    commands.clear()
+    launcher.pipeline(launcher.arguments(["--project", str(project), "--no-open"]))
+    assert "serve" in commands[-1] and "--no-open" in commands[-1]
+    commands.clear()
+    launcher.pipeline(launcher.arguments(["--project", str(project), "--batch", "--skip-compare"]))
+    assert "run" in commands[-1]
+    assert len(opened) == 1 and opened[0].endswith("report.html")

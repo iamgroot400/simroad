@@ -16,9 +16,11 @@ from urllib.parse import urlsplit
 import sumolib
 import traci.constants as tc
 
+from ..calibrate import apply_parameters, calibrate
 from ..engine import run
 from ..report import UNCALIBRATED
 from ..zones import map_zones
+from .calibration import CalibrationJob
 from .editor import Layout, compile_layout, from_network
 
 COLORS = {
@@ -36,11 +38,12 @@ def geometry(bundle, network):
     net = sumolib.net.readNet(str(network), withInternal=True)
     mapped = map_zones(bundle, net)
     roads = []
-    for edge in net.getEdges():
+    for edge in net.getEdges(withInternal=True):
         for lane in edge.getLanes():
             roads.append(
                 {
                     "id": lane.getID(),
+                    "edge": edge.getID(),
                     "shape": lane.getShape(),
                     "width": lane.getWidth(),
                     "pedestrian": lane.allows("pedestrian") and not lane.allows("passenger"),
@@ -116,6 +119,11 @@ class LiveSession:
         self.deadline = 0.0
         self.last_frame = 0.0
         self.report = None
+        self.calibration_artifact = None
+        self.current_calibration = None
+        self.calibration_result = None
+        self.calibration_report = None
+        self.calibration_progress = None
         self.state = {
             "status": "ready",
             "time": self.map["begin"],
@@ -130,23 +138,79 @@ class LiveSession:
 
     def read(self):
         with self.condition:
-            return {**self.state, "speed": self.speed, "token": self.token, "revision": self.revision}
+            return {
+                **self.state,
+                "speed": self.speed,
+                "token": self.token,
+                "revision": self.revision,
+                "calibration_result": self.calibration_result,
+                "calibration_progress": self.calibration_progress,
+                "calibration_applied": self.calibration_artifact is not None
+                and self.calibration_report is not None
+                and self.calibration_artifact.parent == self.calibration_report.parent,
+                "current_calibration": self.current_calibration,
+            }
 
     def control(self, data):
         action = data.get("action")
         with self.condition:
             alive = self.worker is not None and self.worker.is_alive()
+            if action in ("start", "build"):
+                seed, strategy = data.get("seed", 1), data.get("strategy", "fixed")
+                if type(seed) is not int or not 0 <= seed <= 2147483647:
+                    raise ValueError("Seed must be an integer between 0 and 2147483647")
+                if strategy not in ("fixed", "pressure"):
+                    raise ValueError("Choose fixed or pressure")
+            if action == "calibrate":
+                if alive:
+                    raise ValueError("Stop the current run before calibrating")
+                job = CalibrationJob.model_validate(data.get("job"))
+                job.validate_counts(self.bundle, sumolib.net.readNet(str(self.network)))
+                self.calibration_progress = None
+                self.state = {
+                    **self.state,
+                    "status": "calibrating",
+                    "error": None,
+                    "vehicles": [],
+                    "people": [],
+                    "signals": {},
+                }
+                self.worker = Thread(target=self._calibrate, args=(job,), daemon=True)
+                self.worker.start()
+                return self.read()
+            if action == "apply_calibration":
+                if alive:
+                    raise ValueError("Wait for the active operation to finish")
+                if not self.calibration_result:
+                    raise ValueError("Run calibration first")
+                if (
+                    self.calibration_artifact
+                    and self.calibration_report
+                    and self.calibration_artifact.parent == self.calibration_report.parent
+                ):
+                    raise ValueError("These fitted parameters are already applied")
+                evidence = self.calibration_result
+                if evidence["base_fingerprint"] != self.bundle.fingerprint(self.network):
+                    raise ValueError(
+                        "Calibration no longer matches this configuration, or is already applied"
+                    )
+                self.bundle = apply_parameters(self.bundle, evidence["parameters"])
+                self.current_calibration = evidence["calibration"]
+                self.calibration_artifact = self.calibration_report.parent / "calibration.json"
+                return self.read()
             if action == "save_layout":
                 layout = Layout.model_validate(data.get("layout"))
                 identifier = uuid.uuid4().hex
-                (self.layouts / (identifier + ".json")).write_text(layout.model_dump_json(indent=2), encoding="utf-8")
+                (self.layouts / (identifier + ".json")).write_text(
+                    layout.model_dump_json(indent=2), encoding="utf-8"
+                )
                 return {**self.read(), "saved": identifier}
             if action == "build":
                 if alive:
                     raise ValueError("Stop the current simulation before building roads")
                 layout = Layout.model_validate(data.get("layout"))
                 self.state = {**self.state, "status": "building", "error": None}
-                self.worker = Thread(target=self._build, args=(layout,), daemon=True)
+                self.worker = Thread(target=self._build, args=(layout, seed, strategy), daemon=True)
                 self.worker.start()
             elif action == "start":
                 if alive:
@@ -177,8 +241,8 @@ class LiveSession:
                     raise ValueError("Speed must be between 0.25 and 100")
                 self.speed, self.deadline = float(speed), 0.0
             elif action in ("pause", "resume", "stop"):
-                if self.state["status"] == "building":
-                    raise ValueError("Wait for the road build to finish")
+                if self.state["status"] in ("building", "calibrating"):
+                    raise ValueError("Wait for the build or calibration batch to finish")
                 if not alive:
                     raise ValueError("There is no active run")
                 if action == "stop":
@@ -193,7 +257,7 @@ class LiveSession:
             self.condition.notify_all()
         return self.read()
 
-    def _build(self, layout):
+    def _build(self, layout, seed, strategy):
         try:
             directory = self.output / ("city-" + uuid.uuid4().hex[:12])
             layout, bundle, network = compile_layout(layout, self.bundle, directory)
@@ -201,12 +265,58 @@ class LiveSession:
             with self.condition:
                 self.layout, self.bundle, self.network, self.map = layout, bundle, network, new_map
                 self.revision += 1
+                self.calibration_artifact = None
+                self.current_calibration = None
+                self.calibration_result = None
+                self.calibration_report = None
+                self.calibration_progress = None
                 self.report = None
                 self.stop_requested, self.paused = False, False
                 self.deadline, self.last_frame = 0.0, 0.0
-                self.state = {"status": "starting", "time": new_map["begin"], "vehicles": [], "people": [], "signals": {}, "metrics": {}, "report": False, "error": None}
-            self._run(1, "fixed")
+                self.state = {
+                    "status": "starting",
+                    "time": new_map["begin"],
+                    "vehicles": [],
+                    "people": [],
+                    "signals": {},
+                    "metrics": {},
+                    "report": False,
+                    "error": None,
+                }
+            self._run(seed, strategy)
         except Exception as error:  # noqa: BLE001 - expose compilation failures without replacing the city
+            with self.condition:
+                self.state = {**self.state, "status": "error", "error": str(error)}
+
+    def _calibrate(self, job):
+        directory = self.output / ("calibration-" + uuid.uuid4().hex[:12])
+        observations = self.output / ("observations-" + uuid.uuid4().hex[:12] + ".csv")
+        try:
+            observations.write_text(job.observations, encoding="utf-8")
+
+            def progress(done, total, phase, seed):
+                with self.condition:
+                    self.calibration_progress = {"done": done, "total": total, "phase": phase, "seed": seed}
+
+            result = calibrate(
+                self.bundle,
+                self.network,
+                directory,
+                observations,
+                job.source,
+                job.kind,
+                job.demand_scales,
+                job.tau_scales,
+                [None],
+                job.fit_seeds,
+                job.validation_seeds,
+                progress=progress,
+            )
+            with self.condition:
+                self.calibration_result = result
+                self.calibration_report = directory / "report.html"
+                self.state = {**self.state, "status": "ready", "error": None}
+        except Exception as error:  # noqa: BLE001 - report batch failure to browser
             with self.condition:
                 self.state = {**self.state, "status": "error", "error": str(error)}
 
@@ -265,7 +375,15 @@ class LiveSession:
     def _run(self, seed, strategy):
         directory = self.output / ("live-" + uuid.uuid4().hex[:12])
         try:
-            result = run(self.bundle, self.network, directory, seed, strategy, observer=self)
+            result = run(
+                self.bundle,
+                self.network,
+                directory,
+                seed,
+                strategy,
+                calibration=self.calibration_artifact,
+                observer=self,
+            )
             with self.condition:
                 self.report = directory / "report.html"
                 self.state = {
@@ -331,10 +449,22 @@ def make_server(session, port=8765):
             path = urlsplit(self.path).path
             if path == "/api/editor":
                 if session.layout is None:
-                    return self.respond(400, {"error": "This imported network cannot be simplified for editing: " + session.editor_error})
+                    return self.respond(
+                        400,
+                        {
+                            "error": "This imported network cannot be simplified for editing: "
+                            + session.editor_error
+                        },
+                    )
                 return self.respond(200, session.layout.model_dump())
             if path == "/api/layouts":
-                return self.respond(200, [{"id": p.stem, "name": json.loads(p.read_text(encoding="utf-8"))["name"]} for p in session.layouts.glob("*.json")])
+                return self.respond(
+                    200,
+                    [
+                        {"id": p.stem, "name": json.loads(p.read_text(encoding="utf-8"))["name"]}
+                        for p in session.layouts.glob("*.json")
+                    ],
+                )
             if path.startswith("/api/layout/"):
                 identifier = path.rsplit("/", 1)[-1]
                 if len(identifier) == 32 and all(c in "0123456789abcdef" for c in identifier):
@@ -346,10 +476,20 @@ def make_server(session, port=8765):
                 return self.respond(200, session.map)
             if path == "/api/state":
                 return self.respond(200, session.read())
+            if path == "/calibration-report" and session.calibration_report:
+                return self.respond(200, session.calibration_report.read_bytes(), "text/html; charset=utf-8")
+            if path == "/calibration.json" and session.calibration_report:
+                return self.respond(
+                    200,
+                    json.loads(
+                        (session.calibration_report.parent / "calibration.json").read_text(encoding="utf-8")
+                    ),
+                )
             if path == "/report" and session.report:
                 return self.respond(200, session.report.read_bytes(), "text/html; charset=utf-8")
             assets = {
                 "/": ("index.html", "text/html; charset=utf-8"),
+                "/calibration.js": ("calibration.js", "text/javascript; charset=utf-8"),
                 "/editor.js": ("editor.js", "text/javascript; charset=utf-8"),
                 "/app.js": ("app.js", "text/javascript; charset=utf-8"),
                 "/style.css": ("style.css", "text/css; charset=utf-8"),
@@ -393,7 +533,11 @@ def serve(bundle, network, output, port=8765, open_browser=True):
     url = f"http://127.0.0.1:{server.server_port}"
     print(f"Live viewer: {url}\nPress Ctrl+C in this terminal to close the server.", flush=True)
     if open_browser:
-        webbrowser.open(url)
+        try:
+            if not webbrowser.open(url, new=2):
+                print(f"Browser did not open automatically. Open {url} manually.", flush=True)
+        except webbrowser.Error:
+            print(f"Browser did not open automatically. Open {url} manually.", flush=True)
     try:
         server.serve_forever(poll_interval=0.2)
     except KeyboardInterrupt:

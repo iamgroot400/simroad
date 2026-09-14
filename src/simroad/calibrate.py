@@ -67,6 +67,7 @@ def calibrate(
     motorcycle_shares,
     fit_seeds,
     validation_seeds,
+    progress=None,
 ):
     if (
         not source.strip()
@@ -97,8 +98,21 @@ def calibrate(
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=False)
 
+    completed = 0
+    total = len(demand_scales) * len(tau_scales) * len(motorcycle_shares) * len(fit_seeds) + len(
+        validation_seeds
+    )
+
     def measure(model, prefix, seeds):
-        runs = [run(model, network, output / f"{prefix}-{seed}", seed) for seed in seeds]
+        nonlocal completed
+        runs = []
+        for seed in seeds:
+            if progress:
+                progress(completed, total, prefix, seed)
+            runs.append(run(model, network, output / f"{prefix}-{seed}", seed))
+            completed += 1
+        if progress:
+            progress(completed, total, prefix, seeds[-1])
         counts = {
             e: statistics.mean(r["edge_counts"].get(e, 0) for r in runs) * 3600 / (sim.end - sim.begin)
             for e in observed

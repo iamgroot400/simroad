@@ -104,3 +104,19 @@ tamper-proof certification system.
 
 The GEH acceptance thresholds are the project specification's criteria. Site
 acceptance standards may require additional measures and independent validation.
+
+## Browser-built scenarios
+
+The visual editor is a SUMO scenario authoring interface. It compiles straight
+segments, splits intersections, inserts explicit crossings, and generates new
+demand from activity zones plus a background hourly flow. Opposing lanes can be
+merged into a two-way editable road; imported curves, custom turn restrictions,
+transit service and original demand are not retained by a rebuild. Original
+configuration and networks are not overwritten. Use the original network via
+the viewer/CLI when those details must be preserved.
+
+A rebuild starts a new run with the selected seed and signal policy. It clears
+active calibration evidence. Browser calibration uses the same fitting code as
+the CLI, with user-supplied edge-entry observations, disjoint fitting/validation
+seeds, provenance, configuration fingerprints and SUMO version checks. Applying
+a fit is explicit; a good synthetic fit does not receive a field-calibrated label.

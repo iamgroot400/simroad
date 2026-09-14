@@ -66,7 +66,9 @@ def bootstrap(tests=False):
 
 
 def arguments(argv=None):
-    p = argparse.ArgumentParser(description="Set up and run the complete Simroad example workflow.")
+    p = argparse.ArgumentParser(
+        description="Set up Simroad and open its browser simulator; use --batch for experiments."
+    )
     p.add_argument(
         "--project", default="config/project.yaml", help="Project YAML, relative to the repository"
     )
@@ -78,14 +80,24 @@ def arguments(argv=None):
     p.add_argument(
         "--quick", action="store_true", help="Run only the first 120 simulated seconds and fewer seeds"
     )
-    p.add_argument(
-        "--web", action="store_true", help="Start the local live viewer instead of the batch workflow"
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument("--web", dest="web", action="store_true", help="Open the browser simulator (default)")
+    mode.add_argument(
+        "--batch",
+        dest="web",
+        action="store_false",
+        help="Run simulations/comparisons and open the final report",
     )
+    p.set_defaults(web=True)
     p.add_argument("--port", type=int, default=8765, help="Local live viewer port")
     p.add_argument("--gui", action="store_true", help="Watch the first run in SUMO's native viewer")
     p.add_argument("--skip-compare", action="store_true", help="Only build and run one simulation")
     p.add_argument("--tests", action="store_true", help="Also install development dependencies and run tests")
-    p.add_argument("--no-open", action="store_true", help="Do not open the completed report in a browser")
+    p.add_argument(
+        "--no-open",
+        action="store_true",
+        help="Do not automatically open the browser simulator or completed report",
+    )
     p.add_argument("--ready", action="store_true", help=argparse.SUPPRESS)
     return p.parse_args(argv)
 
@@ -168,11 +180,13 @@ def pipeline(args):
 
 def main(argv=None):
     args = arguments(argv)
+    if args.gui and args.web:
+        raise ValueError("Use --batch --gui for the native SUMO viewer, or omit --gui for the browser")
     if args.workers < 1:
         raise ValueError("--workers must be positive")
     if args.seeds and (any(s < 0 for s in args.seeds) or len(set(args.seeds)) != len(args.seeds)):
         raise ValueError("--seeds must contain distinct nonnegative integers")
-    if args.seeds and not args.skip_compare and len(args.seeds) < 2:
+    if args.seeds and not args.web and not args.skip_compare and len(args.seeds) < 2:
         raise ValueError("A comparison needs at least two seeds")
     if sys.version_info < (3, 11):  # noqa: UP036 - bootstrap runs before package installation
         raise RuntimeError("Python 3.11+ is required; 3.12 is recommended")

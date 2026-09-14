@@ -41,6 +41,7 @@ def test_zone_geometry_and_colors(live):
     assert school["radius"] == 70
     assert school["parameters"]["speed_kph"] == 25
     assert live.map["roads"]
+    assert any(road["crossing"] for road in live.map["roads"])
 
 
 @pytest.mark.integration
@@ -109,3 +110,60 @@ def test_invalid_controls_are_rejected(live):
         live.control({"action": "start", "seed": -1})
     with pytest.raises(ValueError):
         live.control({"action": "start", "strategy": "unknown"})
+
+
+@pytest.mark.integration
+def test_browser_calibration_and_parameter_application(live):
+    live.bundle.project.simulation.end = live.bundle.project.simulation.begin + 30
+    begin, end = live.bundle.project.simulation.begin, live.bundle.project.simulation.end
+    job = {
+        "observations": f"edge,count,begin,end\nA0B0,0,{begin},{end}\n",
+        "source": "Synthetic test counts",
+        "kind": "synthetic",
+        "demand_scales": [1],
+        "tau_scales": [1],
+        "fit_seeds": [101, 102],
+        "validation_seeds": [201, 202],
+    }
+    live.control({"action": "calibrate", "job": job})
+    with pytest.raises(ValueError, match="already active"):
+        live.control({"action": "start"})
+    wait_for(lambda: live.worker is not None and not live.worker.is_alive(), timeout=45)
+    state = live.read()
+    assert state["error"] is None
+    assert state["calibration_progress"]["done"] == 4
+    assert state["calibration_result"]["fit_seeds"] == [101, 102]
+    assert state["calibration_result"]["calibration"]["calibrated"] is False
+    live.control({"action": "apply_calibration"})
+    assert live.read()["calibration_applied"] is True
+    assert live.calibration_artifact.is_file()
+
+
+@pytest.mark.integration
+def test_build_uses_selected_seed_and_invalidates_calibration(live, monkeypatch):
+    from simroad.live_view.editor import Layout
+
+    city = Layout.model_validate(
+        {
+            "nodes": [
+                {"id": "a", "x": 0, "y": 0},
+                {"id": "b", "x": 150, "y": 0},
+                {"id": "c", "x": 300, "y": 0},
+            ],
+            "roads": [{"id": "ab", "a": "a", "b": "b"}, {"id": "bc", "a": "b", "b": "c"}],
+        }
+    )
+    calls = []
+    monkeypatch.setattr(live, "_run", lambda seed, strategy: calls.append((seed, strategy)))
+    live.calibration_result = {"old": "evidence"}
+    live.control({"action": "build", "layout": city.model_dump(), "seed": 37, "strategy": "pressure"})
+    wait_for(lambda: not live.worker.is_alive())
+    assert calls == [(37, "pressure")]
+    assert live.revision == 1
+    assert live.calibration_result is None
+    previous = live.network
+    live.control({"action": "build", "layout": Layout().model_dump()})
+    wait_for(lambda: not live.worker.is_alive())
+    assert live.network == previous
+    assert live.revision == 1
+    assert live.read()["status"] == "error"

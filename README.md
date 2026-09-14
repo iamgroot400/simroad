@@ -17,8 +17,8 @@ throughput, stopped time, collisions, and uncertainty in the difference.
 
 ![Simroad workflow: describe the roads and travelers, simulate them in SUMO, and compare repeated experiments with calibration checks.](docs/images/simroad-workflow.png)
 
-**Current form:** a Python research toolkit with a local live web viewer,
-automatic launchers, optional native SUMO viewing, and HTML/JSON reports.
+**Current form:** a SUMO research toolkit with a browser road editor, live vehicle
+view, seeded runs, browser calibration, automatic launchers, and HTML/JSON reports.
 The included examples use illustrative inputs. **Uncalibrated output is not a
 validated prediction of real traffic.**
 
@@ -28,6 +28,95 @@ validated prediction of real traffic.**
 [Use real roads](#use-real-roads) ·
 [Configuration](#configuration) ·
 [Current limitations](#version-01-scope)
+
+## Browser road editor and calibration
+
+**SUMO remains the traffic engine.** Draw roads and crossings in your browser,
+then build and run a reproducible simulation. The original Python commands,
+configuration files, calibration tools, and policy comparisons remain available.
+
+Start the browser app from inside `simroad`:
+
+```bat
+run_live.bat
+```
+
+On Linux/macOS or Git Bash:
+
+```bash
+bash run_live.sh
+```
+
+The launcher prepares the Python environment and opens
+[the local browser app](http://127.0.0.1:8765). Keep its terminal open. No Node.js,
+React installation, or external web service is required. If the default port is
+busy, use `run_live.bat --port 8768` or `bash run_live.sh --port 8768`.
+
+### Draw and simulate a neighborhood
+
+1. Stop any active run, then choose **Edit city**. Start from the current map or
+   choose **New empty city**.
+2. Choose **Draw road** and click its start and end. Keep clicking to extend the
+   road; press Escape to end the chain. Intersecting road segments become shared
+   SUMO junctions when built.
+3. Use **Move junction** to drag nodes. Use **Select** to edit lane count, speed,
+   two-way traffic, junction coordinates and traffic signals. Delete a selected
+   road, junction, crossing or zone; Undo and Redo recover draft edits.
+4. Choose **Zebra crossing** or **Signal crossing**, then click a road. Midblock
+   crossings split the road into connected segments. Use **Add zone** to place
+   offices, schools, markets, housing, hospitals or transit areas with distinct
+   colors and editable population/radius.
+5. Set **Random seed** and **Signal policy**, then choose **Build & simulate**.
+   Watch real SUMO vehicles and pedestrians, pause/resume, adjust playback speed,
+   and open the run report. Playback speed changes wall-clock pacing, not demand.
+
+![The actual SUMO browser editor showing a newly drawn road, zebra crossing and office district.](docs/images/city-editor.png)
+
+![Real SUMO traffic on the browser-built neighborhood.](docs/images/custom-city-live.png)
+
+Road geometry changes are applied **between runs**. Building creates a fresh SUMO
+network and standalone project under `runs/live-*/city-*`; it does not mutate a
+running SUMO network. A failed compilation keeps the previous active network.
+Saved layouts go in `scenes/`; export/import JSON to share them. Run outputs and
+source project files remain separate.
+
+**Editor scope:** this first editor builds straight road sections and circular
+zones. Editing an imported map simplifies its geometry and does not retain custom
+turn restrictions, transit routes or its original demand definition. Rebuilding
+uses the drawn zones and background traffic setting to generate demand. Inspect
+these new scenario assumptions before comparing scientific results. The original
+SUMO project remains available unchanged. The live viewer can still run an
+original imported SUMO network without rebuilding it in the editor.
+
+### Fit counts from the browser
+
+1. Stop the simulation and open **Calibration**. Select an available SUMO edge ID
+   and upload/paste a CSV with the exact header `edge,count,begin,end`.
+2. Enter total vehicle **edge-entry counts** for the displayed observation window
+   (seconds since midnight), using unique edge IDs. For example, a demo-window
+   row might be `A0B0,120,27900,29700`; these numbers are illustrative, not a survey.
+3. Describe the survey source, date and counting method. Choose **Measured field
+   counts** only for actual measurements; the default is **Synthetic / example
+   counts**.
+4. Choose demand/headway multipliers and at least two distinct fitting seeds plus
+   two disjoint validation seeds. Choose **Fit & validate**. The batch runs SUMO
+   with fixed signals at full speed and displays completed-run progress.
+5. Review observed and modeled hourly counts, per-edge GEH, provenance and the
+   report. Choose **Apply fitted parameters** to use the fit for subsequent seeded
+   runs; download the calibration JSON to keep the evidence.
+
+![Browser calibration panel with separate fitting and validation seeds and calibration results.](docs/images/browser-calibration.png)
+
+Synthetic observations always remain **uncalibrated**, even if their numerical
+fit passes. A field-count label requires matching configuration/network/SUMO
+version and the existing GEH criteria. Validation seeds are held out; field sites
+and dates are not automatically held out. Count fitting does not validate safety,
+travel times or all driver behavior. **Rebuilding roads clears the active
+calibration evidence**; update edge IDs and recalibrate for the new scenario.
+
+The browser limits a calibration batch to 12 parameter combinations and 2–5
+seeds per set. Batches finish before another run or build can start. Larger
+experiments and motorcycle-share fitting remain available through the CLI below.
 
 ## Who is it for?
 
@@ -179,33 +268,35 @@ on available CPU. See [viewer details](docs/live-view.md).
 
 ## Automatic launchers
 
-[`run_simroad.bat`](run_simroad.bat) and [`run_simroad.sh`](run_simroad.sh) run the
-full batch workflow: environment setup, configuration validation, network build,
-one simulation, and a five-seed `fixed` versus `pressure` comparison with two
-workers. The final report opens automatically. They share
-[`scripts/run_all.py`](scripts/run_all.py), work from other directories, and keep
-output inside this repository.
+[`run_simroad.bat`](run_simroad.bat) and [`run_simroad.sh`](run_simroad.sh)
+prepare the Python environment, build the SUMO network, start the local web server,
+and **open the browser automatically**. The `run_live` launchers do the same.
+Keep the terminal open while using the simulator. Use `--batch` for the original
+automated simulation and policy-comparison workflow.
+
+Windows:
 
 ```powershell
 .\run_simroad.bat
-.\run_simroad.bat --quick --no-open
+.\run_simroad.bat --batch --quick --no-open
 .\run_live.bat --quick --port 8766
 ```
 
 ```bash
 bash run_simroad.sh
-bash run_simroad.sh --quick --no-open
+bash run_simroad.sh --batch --quick --no-open
 bash run_live.sh --project examples/osm/project.yaml
 ```
 
 | Option | Effect |
 | --- | --- |
-| `--web` | Open the live web server; already enabled by the `run_live` scripts. |
+| `--web` | Open the browser simulator automatically (default for all launchers). |
+| `--batch` | Run the batch simulation/comparison workflow and open its final report. |
 | `--quick` | Use the first 120 simulated seconds; batch comparison uses two seeds. |
 | `--port 8766` | Choose a different local live-server port. |
 | `--project PATH` | Use another project YAML, relative to the repository. |
 | `--fleet PATH` | Use another fleet YAML. |
-| `--gui` | Open native SUMO for the initial batch run. |
+| `--gui` | Use with `--batch` to open native SUMO for the initial run. |
 | `--skip-compare` | Only build and run one batch simulation. |
 | `--seeds 1 2 3 4 5` | Choose batch comparison seeds; live seeds are selected in the viewer. |
 | `--workers 1` | Limit batch comparison to one SUMO process at a time. |

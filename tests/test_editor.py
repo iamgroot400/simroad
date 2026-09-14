@@ -7,16 +7,35 @@ from simroad.live_view.editor import Layout, compile_layout, planarize
 
 
 def layout():
-    return Layout.model_validate({
-        "nodes": [{"id": "a", "x": 0, "y": 0}, {"id": "b", "x": 150, "y": 0}, {"id": "c", "x": 300, "y": 0}],
-        "roads": [{"id": "ab", "a": "a", "b": "b", "lanes": 2, "speed": 50}, {"id": "bc", "a": "b", "b": "c"}],
-        "crossings": [{"id": "cross", "node": "b", "road": "ab"}],
-        "traffic_per_hour": 600,
-    })
+    return Layout.model_validate(
+        {
+            "nodes": [
+                {"id": "a", "x": 0, "y": 0},
+                {"id": "b", "x": 150, "y": 0},
+                {"id": "c", "x": 300, "y": 0},
+            ],
+            "roads": [
+                {"id": "ab", "a": "a", "b": "b", "lanes": 2, "speed": 50},
+                {"id": "bc", "a": "b", "b": "c"},
+            ],
+            "crossings": [{"id": "cross", "node": "b", "road": "ab"}],
+            "traffic_per_hour": 600,
+        }
+    )
 
 
 def test_intersections_become_shared_junctions():
-    city = Layout.model_validate({"nodes": [{"id": "a", "x": 0, "y": 100}, {"id": "b", "x": 200, "y": 100}, {"id": "c", "x": 100, "y": 0}, {"id": "d", "x": 100, "y": 200}], "roads": [{"id": "ab", "a": "a", "b": "b"}, {"id": "cd", "a": "c", "b": "d"}]})
+    city = Layout.model_validate(
+        {
+            "nodes": [
+                {"id": "a", "x": 0, "y": 100},
+                {"id": "b", "x": 200, "y": 100},
+                {"id": "c", "x": 100, "y": 0},
+                {"id": "d", "x": 100, "y": 200},
+            ],
+            "roads": [{"id": "ab", "a": "a", "b": "b"}, {"id": "cd", "a": "c", "b": "d"}],
+        }
+    )
     result = planarize(city)
     assert len(result.roads) == 4
     center = next(n for n in result.nodes if n.x == n.y == 100)
@@ -44,7 +63,7 @@ def test_custom_city_crossings_lanes_and_real_traffic(tmp_path, kind):
     _, bundle, network = compile_layout(city, base, tmp_path / "city")
     net = sumolib.net.readNet(str(network), withInternal=True)
     assert sum(l.allows("passenger") for l in net.getEdge("ab_f").getLanes()) == 2
-    assert net.getEdge("ab_f").getSpeed() == pytest.approx(50 / 3.6, abs=.01)
+    assert net.getEdge("ab_f").getSpeed() == pytest.approx(50 / 3.6, abs=0.01)
     assert any(e.getFunction() == "crossing" for e in net.getEdges())
     if kind == "signalized":
         assert net.getNode("b").getType() == "traffic_light"
