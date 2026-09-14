@@ -429,20 +429,3 @@ See [model assumptions and limitations](docs/model-assumptions.md) before using
 results to evaluate an intervention. OpenStreetMap imports require attribution
 to [OpenStreetMap contributors](https://www.openstreetmap.org/copyright).
 
-## Publish on GitHub
-
-All project files live in this `simroad` directory. `.gitignore` excludes the local
-environment, generated networks/runs, caches and secrets. Create an empty GitHub
-repository named `simroad`, then run:
-
-```powershell
-git init -b main
-git add .
-git commit -m "Initial Simroad traffic simulation toolkit"
-git remote add origin https://github.com/YOUR_USERNAME/simroad.git
-git push -u origin main
-```
-
-The project does not require credentials or API keys. A public repository is not
-created automatically. Choose a source-code license before inviting reuse;
-dependency licenses and OSM's data license remain separate.
