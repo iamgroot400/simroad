@@ -28,7 +28,8 @@ HTML/JSON reporting in one project.
 - Import real roads from OpenStreetMap or build a synthetic network.
 - Draw and edit roads, intersections, crossings, and activity zones visually.
 - Simulate cars, motorcycles, buses, and pedestrians with Eclipse SUMO.
-- Compare fixed and queue-responsive signal policies across matching random seeds.
+- Compare fixed, queue-responsive, Adaptive Webster, and Green Wave signals.
+- Click any two map locations and add a user-selected number of passenger cars.
 - Fit demand and behavior parameters against observed traffic counts.
 - Generate reproducible HTML and JSON reports with uncertainty estimates.
 - Run locally without an account, cloud service, React, or Node.js.
@@ -138,11 +139,36 @@ The live interface displays actual vehicle and pedestrian positions from SUMO,
 not a pre-rendered animation.
 
 - Start, pause, resume, stop, and repeat a run.
-- Select fixed or queue-responsive signal control.
+- Select fixed, queue-responsive, Adaptive Webster, or Green Wave control.
+- Pick an origin and destination directly on the map, set the car count and
+  departure window, and inject traffic while a run is active.
 - Change playback speed without changing simulated time steps.
 - Pan and zoom with mouse, keyboard, or touch controls.
 - Inspect zones, live counts, collision episodes, and completed trips.
 - Open the full report after a run finishes or is stopped.
+
+### Signal policies
+
+| Policy | Behaviour |
+| --- | --- |
+| Fixed timing | Runs the signal program exactly as configured. |
+| Queue responsive | Extends or shortens service from observed approach queues. |
+| Adaptive Webster | Recalculates bounded green time from live flow and occupancy. |
+| Green Wave | Offsets coordinated signals for progression near 40 km/h along the network's main axis. |
+
+### High-volume runs
+
+The car-count field has no artificial maximum. Simroad queues additions in
+CPU-sized batches and limits the live canvas to a representative 5,000 vehicle
+symbols while all vehicles remain in the simulation
+and metrics. Large counts should be spread across enough simulated time and road
+capacity to let SUMO insert them.
+
+A 12 GB, 13th-generation Core i5 laptop can process a 100,000-trip experiment,
+but should not be expected to hold 100,000 detailed vehicles moving at the same
+instant in real time. Actual capacity depends on network size and congestion.
+SUMO's microscopic traffic dynamics run on the CPU; an RTX GPU cannot safely
+replace that solver, though the browser/GPU may accelerate drawing.
 
 ![Custom city running in the Simroad live viewer.](docs/images/custom-city-live.png)
 

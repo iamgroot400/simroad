@@ -15,6 +15,7 @@ import sumolib
 from simroad.config import Bundle
 from simroad.live_view.server import serve
 from simroad.osm_import import binary, prepare_network
+from simroad.strategies import available
 
 
 def resource_root():
@@ -53,12 +54,19 @@ def smoke_test(bundle, network):
     net = sumolib.net.readNet(str(network))
     if not net.getEdges():
         raise RuntimeError("The bundled Kathmandu network has no roads")
+    policies = set(available())
+    required = {"fixed", "pressure", "webster", "green_wave"}
+    if missing := required - policies:
+        raise RuntimeError(f"The desktop package is missing signal policies: {', '.join(sorted(missing))}")
     result = subprocess.run(
         [binary("sumo"), "--version"], capture_output=True, text=True, check=False, timeout=30
     )
     if result.returncode:
         raise RuntimeError("The bundled SUMO engine could not start")
-    print(f"Simroad desktop smoke test passed: {len(net.getEdges())} Kathmandu road edges")
+    print(
+        f"Simroad desktop smoke test passed: {len(net.getEdges())} Kathmandu road edges; "
+        f"policies: {', '.join(sorted(policies))}"
+    )
 
 
 def main(argv=None):

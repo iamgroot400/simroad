@@ -19,3 +19,16 @@ for visibility and are not always drawn to physical scale. Signal dots summarize
 junction states; they do not represent individual turning movements. Polling is
 approximately five times per second, so very short events may not be visible.
 The full run metrics and collision output remain the analytical record.
+
+The signal selector exposes fixed timing, queue-responsive control, Adaptive
+Webster and Green Wave coordination. Traffic can also be added during a run by
+selecting an origin and destination on the map. The server snaps those points to
+passenger-car edges, asks SUMO for a route and schedules the requested vehicles
+over the chosen departure window.
+
+For large experiments, vehicle creation is processed in bounded batches and SUMO
+sizes insertion batches from the detected CPU capacity. SUMO advances one
+microscopic run in its stable single-process mode. Only 5,000 moving vehicle
+symbols are sent to the canvas, preventing rendering from dominating the run; this
+does not remove vehicles from SUMO or the recorded metrics. SUMO's microscopic
+solver is CPU-based and does not offload traffic dynamics to an RTX GPU.

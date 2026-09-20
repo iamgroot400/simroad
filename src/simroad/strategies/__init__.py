@@ -13,13 +13,23 @@ def register(name):
     return decorator
 
 
-def create(name, connection, bundle):
-    # Import modules in this package so adding one self-contained file is sufficient.
-    import importlib
-    import pkgutil
+def load_builtins():
+    # Explicit imports are intentional: frozen desktop builds cannot reliably
+    # discover modules through pkgutil at runtime.
+    from . import fixed as _fixed  # noqa: F401
+    from . import green_wave as _green_wave  # noqa: F401
+    from . import pressure as _pressure  # noqa: F401
+    from . import webster as _webster  # noqa: F401
 
-    for module in pkgutil.iter_modules(__path__):
-        importlib.import_module(f"{__name__}.{module.name}")
+
+def available():
+    """Return every built-in policy, including inside a frozen desktop app."""
+    load_builtins()
+    return tuple(sorted(REGISTRY))
+
+
+def create(name, connection, bundle):
+    load_builtins()
     if name not in REGISTRY:
-        raise ValueError(f"Unknown strategy {name!r}; available: {', '.join(REGISTRY)}")
+        raise ValueError(f"Unknown strategy {name!r}; available: {', '.join(sorted(REGISTRY))}")
     return REGISTRY[name](connection, bundle)

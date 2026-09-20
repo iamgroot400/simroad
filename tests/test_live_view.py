@@ -79,8 +79,12 @@ def test_http_assets_control_guard_and_missing_paths(live):
     thread.start()
     base = f"http://127.0.0.1:{server.server_port}"
     try:
-        assert b"Activity zones" in urlopen(base, timeout=5).read()
+        page = urlopen(base, timeout=5).read()
+        assert b"Activity zones" in page
+        assert b"Adaptive Webster" in page
+        assert b"Add cars anywhere" in page
         assert b"canvas" in urlopen(base + "/app.js", timeout=5).read()
+        assert b"spawnOrigin" in urlopen(base + "/traffic.js", timeout=5).read()
         req = Request(
             base + "/api/control",
             data=b'{"action":"speed","value":25}',

@@ -115,15 +115,17 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         sumo_version = connection.getVersion()[1]
         policy = create(strategy, connection, bundle)
         while connection.simulation.getTime() < sim.end:
-            if observer is not None and not observer.before_step(sim.step_length):
+            if observer is not None and not observer.before_step(sim.step_length, connection):
                 interrupted = True
                 break
             connection.simulationStep()
             for vehicle in connection.simulation.getDepartedIDList():
+                tracker = getattr(observer, "track_vehicle", lambda _vehicle: True)
+                visualize = observer is not None and tracker(vehicle)
                 connection.vehicle.subscribe(
                     vehicle,
                     [tc.VAR_ROAD_ID, tc.VAR_SPEED]
-                    + ([tc.VAR_POSITION, tc.VAR_ANGLE, tc.VAR_TYPE] if observer is not None else []),
+                    + ([tc.VAR_POSITION, tc.VAR_ANGLE, tc.VAR_TYPE] if visualize else []),
                 )
             policy.step()
             collisions.update(connection.simulation.getCollisions())
@@ -149,6 +151,7 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
                         "collisions": collisions.count,
                         "pedestrians_arrived": ped_arrived,
                         "stopped_seconds": waiting_integral,
+                        "active": connection.vehicle.getIDCount(),
                     },
                 )
         unfinished = connection.vehicle.getIDCount()
@@ -165,6 +168,7 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         else None
     )
     fingerprint = bundle.fingerprint(network)
+    injected = int(getattr(observer, "injected_added", 0))
     result = {
         "seed": seed,
         "strategy": strategy,
@@ -176,7 +180,8 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         "vehicles_departed": departed,
         "vehicles_arrived": arrived,
         "vehicles_unfinished": unfinished,
-        "vehicles_not_inserted": demand_stats["vehicles_generated"] - departed,
+        "vehicles_not_inserted": demand_stats["vehicles_generated"] + injected - departed,
+        "injected_vehicles": injected,
         "pedestrians_arrived": ped_arrived,
         "pedestrians_active": pedestrians_active,
         "collisions": collisions.count,

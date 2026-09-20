@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import secrets
 import time
 import uuid
@@ -15,6 +16,7 @@ from urllib.parse import urlsplit
 
 import sumolib
 import traci.constants as tc
+from sumolib.geomhelper import distancePointToPolygon
 
 from ..calibrate import apply_parameters, calibrate
 from ..engine import run
@@ -99,6 +101,22 @@ class LiveSession:
     def __init__(self, bundle, network, output, layouts=None):
         self.bundle, self.network = bundle, Path(network).resolve()
         self.output = Path(output).resolve()
+        self.net = sumolib.net.readNet(str(self.network), withInternal=True)
+        cpu_count = os.cpu_count() or 2
+        self.cpu_threads = max(1, cpu_count)
+        self.spawn_batch_size = max(100, min(8, self.cpu_threads - 1) * 50)
+        self.visual_limit = 5000
+        self.visualized = set()
+        self.spawn_queue = []
+        self.injected_added = 0
+        self.spawn = {
+            "queued": 0,
+            "added": 0,
+            "failed": 0,
+            "message": "Click the map to choose an origin and destination.",
+        }
+        passenger_types = [item.id for item in bundle.fleet.types if item.vclass == "passenger"]
+        self.spawn_type = passenger_types[0] if passenger_types else bundle.fleet.types[0].id
         self.output.mkdir(parents=True, exist_ok=True)
         self.map = geometry(bundle, network)
         self.layout = None
@@ -149,18 +167,88 @@ class LiveSession:
                 and self.calibration_report is not None
                 and self.calibration_artifact.parent == self.calibration_report.parent,
                 "current_calibration": self.current_calibration,
+                "spawn": dict(self.spawn),
+                "performance": {
+                    "threads": self.cpu_threads,
+                    "visual_limit": self.visual_limit,
+                },
             }
+
+    def _nearest_vehicle_edge(self, point):
+        x, y = point
+        candidates = []
+        try:
+            radius = 25
+            while not candidates and radius <= 12800:
+                candidates = self.net.getNeighboringEdges(x, y, radius, includeJunctions=False)
+                radius *= 2
+        except (ImportError, RuntimeError):
+            candidates = []
+        allowed = [
+            (edge, distance)
+            for edge, distance in candidates
+            if not edge.getID().startswith(":") and edge.allows("passenger")
+        ]
+        if not allowed:
+            allowed = [
+                (edge, distancePointToPolygon((x, y), edge.getShape()))
+                for edge in self.net.getEdges()
+                if not edge.getID().startswith(":") and edge.allows("passenger")
+            ]
+        if not allowed:
+            raise ValueError("This map has no road that allows passenger cars")
+        return min(allowed, key=lambda item: item[1])[0].getID()
 
     def control(self, data):
         action = data.get("action")
         with self.condition:
             alive = self.worker is not None and self.worker.is_alive()
+            if action == "inject":
+                raw_count = data.get("count")
+                spread = data.get("spread", 300)
+                origin, destination = data.get("origin"), data.get("destination")
+                if type(raw_count) is int:
+                    count = raw_count
+                elif isinstance(raw_count, str) and raw_count.isdecimal():
+                    count = int(raw_count)
+                else:
+                    count = 0
+                if count < 1:
+                    raise ValueError("Car count must be a positive whole number")
+                if type(spread) not in (int, float) or not math.isfinite(spread) or spread < 0:
+                    raise ValueError("Spawn window must be zero or more seconds")
+                if not all(
+                    isinstance(point, list)
+                    and len(point) == 2
+                    and all(type(value) in (int, float) and math.isfinite(value) for value in point)
+                    for point in (origin, destination)
+                ):
+                    raise ValueError("Choose an origin and destination on the map")
+                from_edge = self._nearest_vehicle_edge(origin)
+                to_edge = self._nearest_vehicle_edge(destination)
+                if from_edge == to_edge:
+                    raise ValueError("Choose origin and destination on different road sections")
+                self.spawn_queue.append(
+                    {
+                        "id": uuid.uuid4().hex[:12],
+                        "from": from_edge,
+                        "to": to_edge,
+                        "count": count,
+                        "spread": float(spread),
+                        "index": 0,
+                        "route": None,
+                    }
+                )
+                self.spawn["queued"] += count
+                self.spawn["message"] = f"Queued {count:,} cars from {from_edge} to {to_edge}."
+                self.condition.notify_all()
+                return self.read()
             if action in ("start", "build"):
                 seed, strategy = data.get("seed", 1), data.get("strategy", "fixed")
                 if type(seed) is not int or not 0 <= seed <= 2147483647:
                     raise ValueError("Seed must be an integer between 0 and 2147483647")
-                if strategy not in ("fixed", "pressure"):
-                    raise ValueError("Choose fixed or pressure")
+                if strategy not in ("fixed", "pressure", "webster", "green_wave"):
+                    raise ValueError("Choose fixed, queue responsive, Adaptive Webster, or Green Wave")
             if action == "calibrate":
                 if alive:
                     raise ValueError("Stop the current run before calibrating")
@@ -219,9 +307,16 @@ class LiveSession:
                 strategy = data.get("strategy", "fixed")
                 if type(seed) is not int or not 0 <= seed <= 2147483647:
                     raise ValueError("Seed must be an integer between 0 and 2147483647")
-                if strategy not in ("fixed", "pressure"):
-                    raise ValueError("Choose fixed or pressure")
+                if strategy not in ("fixed", "pressure", "webster", "green_wave"):
+                    raise ValueError("Choose fixed, queue responsive, Adaptive Webster, or Green Wave")
                 self.stop_requested, self.paused = False, False
+                self.visualized.clear()
+                self.injected_added = 0
+                self.spawn["added"] = 0
+                self.spawn["failed"] = 0
+                if not self.spawn_queue:
+                    self.spawn["queued"] = 0
+                    self.spawn["message"] = "Click the map to choose an origin and destination."
                 self.deadline, self.last_frame, self.report = 0.0, 0.0, None
                 self.state = {
                     "status": "starting",
@@ -264,6 +359,10 @@ class LiveSession:
             new_map = geometry(bundle, network)
             with self.condition:
                 self.layout, self.bundle, self.network, self.map = layout, bundle, network, new_map
+                self.net = sumolib.net.readNet(str(network), withInternal=True)
+                self.visualized.clear()
+                self.spawn_queue.clear()
+                self.injected_added = 0
                 self.revision += 1
                 self.calibration_artifact = None
                 self.current_calibration = None
@@ -320,7 +419,59 @@ class LiveSession:
             with self.condition:
                 self.state = {**self.state, "status": "error", "error": str(error)}
 
-    def before_step(self, step):
+    def track_vehicle(self, vehicle):
+        if len(self.visualized) >= self.visual_limit:
+            return False
+        self.visualized.add(vehicle)
+        return True
+
+    def _inject_batch(self, connection):
+        budget = self.spawn_batch_size
+        while budget and self.spawn_queue:
+            job = self.spawn_queue[0]
+            try:
+                if job["route"] is None:
+                    route = connection.simulation.findRoute(
+                        job["from"], job["to"], vType=self.spawn_type
+                    ).edges
+                    if not route:
+                        raise ValueError("No passenger-car route connects the selected points")
+                    job["route"] = f"injected_route_{job['id']}"
+                    connection.route.add(job["route"], route)
+                amount = min(budget, job["count"] - job["index"])
+                now = connection.simulation.getTime()
+                available = max(0, self.map["end"] - now - self.bundle.project.simulation.step_length)
+                spread = min(job["spread"], available)
+                for _ in range(amount):
+                    index = job["index"]
+                    fraction = index / max(1, job["count"] - 1)
+                    depart = now + spread * fraction
+                    connection.vehicle.add(
+                        f"injected_{job['id']}_{index}",
+                        job["route"],
+                        typeID=self.spawn_type,
+                        depart=f"{depart:.3f}",
+                        departLane="best",
+                        departSpeed="0",
+                    )
+                    job["index"] += 1
+                budget -= amount
+                self.injected_added += amount
+                self.spawn["queued"] -= amount
+                self.spawn["added"] += amount
+                self.spawn["message"] = (
+                    f"Added {self.spawn['added']:,} cars; {self.spawn['queued']:,} still queued."
+                )
+                if job["index"] == job["count"]:
+                    self.spawn_queue.pop(0)
+            except Exception as error:  # noqa: BLE001 - keep the active simulation alive
+                failed = job["count"] - job["index"]
+                self.spawn["queued"] -= failed
+                self.spawn["failed"] += failed
+                self.spawn["message"] = str(error)
+                self.spawn_queue.pop(0)
+
+    def before_step(self, step, connection):
         with self.condition:
             while True:
                 while self.paused and not self.stop_requested:
@@ -336,6 +487,7 @@ class LiveSession:
                         return False
                     remaining = self.deadline - time.monotonic()
                     if remaining <= 0:
+                        self._inject_batch(connection)
                         return True
                     self.condition.wait(min(remaining, 0.2))
 
@@ -344,6 +496,7 @@ class LiveSession:
         if now - self.last_frame < 0.1:
             return
         self.last_frame = now
+        self.visualized.intersection_update(connection.vehicle.getIDList())
         vehicles = [
             {
                 "id": identifier,
@@ -353,6 +506,7 @@ class LiveSession:
                 "speed": values[tc.VAR_SPEED],
             }
             for identifier, values in connection.vehicle.getAllSubscriptionResults().items()
+            if tc.VAR_POSITION in values
         ]
         people = [
             {"id": p, "position": connection.person.getPosition(p)} for p in connection.person.getIDList()
@@ -492,6 +646,7 @@ def make_server(session, port=8765):
                 "/calibration.js": ("calibration.js", "text/javascript; charset=utf-8"),
                 "/editor.js": ("editor.js", "text/javascript; charset=utf-8"),
                 "/app.js": ("app.js", "text/javascript; charset=utf-8"),
+                "/traffic.js": ("traffic.js", "text/javascript; charset=utf-8"),
                 "/style.css": ("style.css", "text/css; charset=utf-8"),
             }
             if path in assets:
