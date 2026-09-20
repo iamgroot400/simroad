@@ -1,22 +1,19 @@
-# Simroad
+# Simroad v2.0
 
 <p align="center">
-  <strong>Build, run, and compare reproducible urban traffic simulations with Eclipse SUMO.</strong>
+  <strong>Road Traffic Simulation for Kathmandu — Build, run, and compare reproducible urban traffic simulations with Eclipse SUMO.</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/iamgroot400/simroad/actions/workflows/test.yml"><img alt="Tests" src="https://github.com/iamgroot400/simroad/actions/workflows/test.yml/badge.svg"></a>
-  <a href="https://github.com/iamgroot400/simroad/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/iamgroot400/simroad"></a>
+  <a href="https://github.com/iamgroot400/simroad/releases/tag/v2.0"><img alt="Latest release" src="https://img.shields.io/badge/release-v2.0-blue"></a>
   <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white">
   <img alt="Eclipse SUMO" src="https://img.shields.io/badge/Engine-Eclipse%20SUMO-0B6E4F">
 </p>
 
 ![Simroad live viewer showing a SUMO traffic simulation, activity zones, playback controls, and live counters.](docs/images/live-view.png)
 
-Simroad is a local-first toolkit for exploring how roads, traffic signals,
-vehicles, pedestrians, and activity zones interact. It combines a visual city
-builder, live simulation viewer, repeatable experiments, calibration tools, and
-HTML/JSON reporting in one project.
+**Version 2.0** — Now focused on Kathmandu road network simulation. Simroad is a local-first toolkit for exploring how roads, traffic signals, vehicles, pedestrians, and activity zones interact in Kathmandu. It combines a visual city builder, live simulation viewer, repeatable experiments, calibration tools, and HTML/JSON reporting in one project.
 
 > [!IMPORTANT]
 > Simroad is an experimental research toolkit. Results are not predictions of
