@@ -22,6 +22,23 @@ view, seeded runs, browser calibration, automatic launchers, and HTML/JSON repor
 The included examples use illustrative inputs. **Uncalibrated output is not a
 validated prediction of real traffic.**
 
+## Download and launch
+
+Download the portable build for Windows, macOS, or Linux from
+[GitHub Releases](https://github.com/iamgroot400/simroad/releases). Extract the
+archive and launch `Simroad.exe` on Windows or `./Simroad` on macOS/Linux. Python,
+SUMO, and the Kathmandu trunk/primary/secondary road map are included.
+
+The desktop download runs entirely on your computer. Its interface opens in your
+default browser through `127.0.0.1` only; it is not hosted on the internet and is
+not reachable from other devices. Keep the launcher terminal open and press
+**Ctrl+C** to stop it. Output is saved in your per-user Simroad data directory.
+
+These are unsigned community builds, so Windows SmartScreen or macOS Gatekeeper
+may show a first-launch warning. Only use downloads from the repository above.
+Mobile phones and tablets cannot run the bundled SUMO engine; use a Windows,
+macOS, or Linux computer.
+
 [How it works](#how-it-works--the-detailed-version) ·
 [Install and run](#start-here) ·
 [Compare policies](#compare-two-policies) ·
@@ -497,7 +514,7 @@ python -m ruff check --config pyproject.toml src tests
 The tested Python 3.12 dependency snapshot is in `requirements-lock.txt`; install it with
 `python -m pip install -r requirements-lock.txt` before the editable install when reproducing this environment.
 
-Tests include SUMO integration. For pure Python checks only, use
+Tests include SUMO integration and release builds cover Windows, macOS, and Linux. For pure Python checks only, use
 `python -m pytest -m "not integration"`. CI runs the full suite on Windows and Linux.
 Add a strategy as a module under `src/simroad/strategies/` using the `@register`
 decorator. [Architecture](docs/architecture.md) describes the extension points.

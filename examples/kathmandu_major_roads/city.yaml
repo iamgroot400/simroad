@@ -1,6 +1,7 @@
 # Major Kathmandu road hierarchy from OpenStreetMap, covering the Ring Road and city core.
 source: osm
 bbox: [85.268, 27.635, 85.392, 27.750]
+osm_file: source.osm.xml
 highway_classes:
   - trunk
   - primary

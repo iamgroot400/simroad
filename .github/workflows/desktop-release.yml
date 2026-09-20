@@ -1,0 +1,79 @@
+name: Desktop downloads
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+          - os: ubuntu-latest
+            platform: linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install build dependencies
+        run: python -m pip install -e ".[desktop]"
+      - name: Build bundled Kathmandu network
+        run: >-
+          python -m simroad
+          --project examples/kathmandu_major_roads/project.yaml
+          build --output build/desktop-network
+      - name: Build portable application
+        run: python -m PyInstaller Simroad.spec --noconfirm --clean
+      - name: Verify packaged map and SUMO engine
+        run: ./dist/Simroad/Simroad --smoke-test
+        if: runner.os != 'Windows'
+      - name: Verify packaged map and SUMO engine (Windows)
+        run: .\dist\Simroad\Simroad.exe --smoke-test
+        if: runner.os == 'Windows'
+      - name: Add download instructions
+        shell: bash
+        run: cp packaging/README-DOWNLOAD.txt dist/Simroad/README-DOWNLOAD.txt
+      - name: Create Windows archive
+        shell: pwsh
+        if: runner.os == 'Windows'
+        run: Compress-Archive -Path dist/Simroad -DestinationPath "Simroad-windows-${{ runner.arch }}.zip"
+      - name: Create macOS/Linux archive
+        shell: bash
+        if: runner.os != 'Windows'
+        run: tar -C dist -czf "Simroad-${{ matrix.platform }}-${{ runner.arch }}.tar.gz" Simroad
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Simroad-${{ matrix.platform }}-${{ runner.arch }}
+          path: |
+            Simroad-*.zip
+            Simroad-*.tar.gz
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release
+          merge-multiple: true
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "${{ github.ref_name }}"
+          release/*

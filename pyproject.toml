@@ -12,6 +12,7 @@ dependencies = ["eclipse-sumo>=1.24,<2", "traci>=1.24,<2", "sumolib>=1.24,<2", "
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.9"]
+desktop = ["pyinstaller>=6.11,<7"]
 
 [project.scripts]
 simroad = "simroad.cli:main"
