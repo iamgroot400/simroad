@@ -1,15 +1,1 @@
-.venv/
-.venv-*/
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-.ruff_cache/
-build/
-dist/
-runs/
-data/cache/
-.env
-.env.*
-!.env.example
-.DS_Store
+Nothing to output - the modified file is just README.md which is a source/config file and no build artifacts, dependencies, or temp files are present in the changes.
