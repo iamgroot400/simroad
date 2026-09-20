@@ -19,6 +19,19 @@ class City(Model):
     source: Literal["demo", "osm", "network"] = "demo"
     bbox: tuple[float, float, float, float] | None = None  # west, south, east, north
     place: str | None = None
+    highway_classes: list[
+        Literal[
+            "motorway",
+            "trunk",
+            "primary",
+            "secondary",
+            "tertiary",
+            "unclassified",
+            "residential",
+            "living_street",
+            "service",
+        ]
+    ] = Field(default_factory=list)
     osm_file: str | None = None
     network_file: str | None = None
     left_hand: bool = False

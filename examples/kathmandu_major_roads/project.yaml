@@ -1,0 +1,12 @@
+name: Kathmandu trunk-primary-secondary road map
+city: city.yaml
+zones: zones.yaml
+zone_defaults: ../../config/zone_defaults.yaml
+fleet: ../../config/fleet_profiles/mixed_motorcycle.yaml
+demand: ../../config/demand.yaml
+infrastructure: infrastructure.yaml
+simulation:
+  begin: 27900
+  end: 29700
+  step_length: 0.2
+  lateral_resolution: 0.4

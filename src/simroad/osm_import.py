@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import xml.etree.ElementTree as ET
@@ -52,9 +53,14 @@ def fetch_osm(city, target):
         raise ValueError(
             "Area too large for the interactive Overpass importer; supply a local OSM/PBF extract"
         )
+    selector = 'way["highway"]'
+    if city.highway_classes:
+        road_pattern = "|".join(re.escape(kind) for kind in city.highway_classes)
+        # Connector links are required to keep interchanges routable.
+        selector = f'way["highway"~"^({road_pattern})(_link)?$"]'
     response = requests.post(
         city.overpass_url,
-        data={"data": f'[out:xml][timeout:90];(way["highway"]({s},{w},{n},{e});>;);out body;'},
+        data={"data": f"[out:xml][timeout:90];({selector}({s},{w},{n},{e});>;);out body;"},
         headers={"User-Agent": "Simroad/0.1"},
         timeout=120,
     )
@@ -107,6 +113,18 @@ def prepare_network(bundle, output):
             converted = output / "source.osm.xml"
             run_tool(["osmium", "cat", osm, "-o", converted, "--overwrite"], output / "pbf.log")
             osm = converted
+        filtered_network_options = []
+        if city.highway_classes:
+            filtered_network_options = [
+                "--remove-edges.isolated",
+                "true",
+                "--roundabouts.guess",
+                "true",
+                "--ramps.guess",
+                "true",
+                "--junctions.join",
+                "true",
+            ]
         run_tool(
             [
                 binary("netconvert"),
@@ -117,6 +135,7 @@ def prepare_network(bundle, output):
                 "--tls.guess",
                 "true",
                 *common,
+                *filtered_network_options,
                 "-o",
                 raw,
             ],

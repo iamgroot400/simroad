@@ -1,0 +1,4 @@
+# Imported OSM junctions/signals are retained; no infrastructure is invented here.
+crossings: []
+stops: []
+transit_routes: []

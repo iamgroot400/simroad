@@ -51,6 +51,24 @@
       "default": null,
       "title": "Place"
     },
+    "highway_classes": {
+      "items": {
+        "enum": [
+          "motorway",
+          "trunk",
+          "primary",
+          "secondary",
+          "tertiary",
+          "unclassified",
+          "residential",
+          "living_street",
+          "service"
+        ],
+        "type": "string"
+      },
+      "title": "Highway Classes",
+      "type": "array"
+    },
     "osm_file": {
       "anyOf": [
         {
