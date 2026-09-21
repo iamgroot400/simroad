@@ -68,6 +68,11 @@ def test_real_positions_pause_resume_stop_and_report(live):
         assert report["interrupted"]
         assert report["duration_seconds"] < 600
         assert not report["calibration"]["calibrated"]
+        assert "mean_completed_waiting_time_seconds" in report
+        assert "mean_completed_depart_delay_seconds" in report
+        metrics = live.report.parent / "metrics.csv"
+        assert metrics.is_file()
+        assert "total_stopped_vehicle_seconds" in metrics.read_text(encoding="utf-8")
     finally:
         live.close()
 
@@ -82,9 +87,9 @@ def test_http_assets_control_guard_and_missing_paths(live):
         page = urlopen(base, timeout=5).read()
         assert b"Activity zones" in page
         assert b"Adaptive Webster" in page
-        assert b"Add cars anywhere" in page
+        assert b"Paint traffic areas" in page
         assert b"canvas" in urlopen(base + "/app.js", timeout=5).read()
-        assert b"spawnOrigin" in urlopen(base + "/traffic.js", timeout=5).read()
+        assert b"trafficAreas" in urlopen(base + "/traffic.js", timeout=5).read()
         req = Request(
             base + "/api/control",
             data=b'{"action":"speed","value":25}',

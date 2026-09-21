@@ -3,7 +3,8 @@ description: Illustrative sublane-filtering prior, to be fitted to local observa
 types:
   - id: motorcycle
     vclass: motorcycle
-    share: 0.65
+    # Kathmandu starting prior: 30 motorcycles : 6 cars : 2 buses.
+    share: 0.7894736842105263
     length: 2.0
     width: 0.7
     max_speed: 16.7
@@ -22,7 +23,7 @@ types:
     jm_ignore_foe_probability: 0
   - id: car
     vclass: passenger
-    share: 0.30
+    share: 0.15789473684210525
     length: 4.5
     width: 1.8
     max_speed: 16.7
@@ -41,7 +42,7 @@ types:
     jm_ignore_foe_probability: 0
   - id: bus
     vclass: bus
-    share: 0.05
+    share: 0.05263157894736842
     length: 8.0
     width: 2.4
     max_speed: 13.9

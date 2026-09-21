@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import random
 import secrets
 import time
 import uuid
@@ -113,10 +114,12 @@ class LiveSession:
             "queued": 0,
             "added": 0,
             "failed": 0,
+            "parking_stops": 0,
+            "type_counts": {},
             "message": "Click the map to choose an origin and destination.",
         }
-        passenger_types = [item.id for item in bundle.fleet.types if item.vclass == "passenger"]
-        self.spawn_type = passenger_types[0] if passenger_types else bundle.fleet.types[0].id
+        self.spawn_types = [item for item in bundle.fleet.types if item.share > 0]
+        self.spawn_rng = random.Random(1)
         self.output.mkdir(parents=True, exist_ok=True)
         self.map = geometry(bundle, network)
         self.layout = None
@@ -199,6 +202,38 @@ class LiveSession:
             raise ValueError("This map has no road that allows passenger cars")
         return min(allowed, key=lambda item: item[1])[0].getID()
 
+    @staticmethod
+    def _valid_points(points):
+        return (
+            isinstance(points, list)
+            and 0 < len(points) <= 500
+            and all(
+                isinstance(point, list)
+                and len(point) == 2
+                and all(type(value) in (int, float) and math.isfinite(value) for value in point)
+                for point in points
+            )
+        )
+
+    def _edges_in_brush(self, points, radius):
+        identifiers = set()
+        vehicle_classes = {item.vclass for item in self.spawn_types}
+        for x, y in points:
+            try:
+                candidates = self.net.getNeighboringEdges(x, y, radius, includeJunctions=False)
+            except (ImportError, RuntimeError):
+                candidates = []
+            for edge, _distance in candidates:
+                if not edge.getID().startswith(":") and any(
+                    edge.allows(vclass) for vclass in vehicle_classes
+                ):
+                    identifiers.add(edge.getID())
+            if not candidates:
+                identifiers.add(self._nearest_vehicle_edge([x, y]))
+        if not identifiers:
+            raise ValueError("The painted area does not touch a road used by this fleet")
+        return sorted(identifiers)
+
     def control(self, data):
         action = data.get("action")
         with self.condition:
@@ -206,7 +241,14 @@ class LiveSession:
             if action == "inject":
                 raw_count = data.get("count")
                 spread = data.get("spread", 300)
-                origin, destination = data.get("origin"), data.get("destination")
+                radius = data.get("radius", 80)
+                origin_points = data.get("origin_points")
+                destination_points = data.get("destination_points")
+                parking_points = data.get("parking_points", [])
+                if origin_points is None and data.get("origin") is not None:
+                    origin_points = [data["origin"]]
+                if destination_points is None and data.get("destination") is not None:
+                    destination_points = [data["destination"]]
                 if type(raw_count) is int:
                     count = raw_count
                 elif isinstance(raw_count, str) and raw_count.isdecimal():
@@ -217,30 +259,41 @@ class LiveSession:
                     raise ValueError("Car count must be a positive whole number")
                 if type(spread) not in (int, float) or not math.isfinite(spread) or spread < 0:
                     raise ValueError("Spawn window must be zero or more seconds")
-                if not all(
-                    isinstance(point, list)
-                    and len(point) == 2
-                    and all(type(value) in (int, float) and math.isfinite(value) for value in point)
-                    for point in (origin, destination)
-                ):
-                    raise ValueError("Choose an origin and destination on the map")
-                from_edge = self._nearest_vehicle_edge(origin)
-                to_edge = self._nearest_vehicle_edge(destination)
-                if from_edge == to_edge:
-                    raise ValueError("Choose origin and destination on different road sections")
+                if type(radius) not in (int, float) or not math.isfinite(radius) or not 10 <= radius <= 2000:
+                    raise ValueError("Brush radius must be between 10 and 2,000 meters")
+                if not self._valid_points(origin_points) or not self._valid_points(destination_points):
+                    raise ValueError("Paint at least one origin and destination point")
+                if parking_points and not self._valid_points(parking_points):
+                    raise ValueError("Parking brush points are invalid")
+                parking_probability = data.get("parking_probability", 0)
+                parking_duration = data.get("parking_duration", 60)
+                if type(parking_probability) not in (int, float) or not 0 <= parking_probability <= 1:
+                    raise ValueError("Parking probability must be between 0 and 1")
+                if type(parking_duration) not in (int, float) or not 0 <= parking_duration <= 3600:
+                    raise ValueError("Parking duration must be between 0 and 3,600 seconds")
+                from_edges = self._edges_in_brush(origin_points, radius)
+                to_edges = self._edges_in_brush(destination_points, radius)
+                parking_edges = self._edges_in_brush(parking_points, radius) if parking_points else []
                 self.spawn_queue.append(
                     {
                         "id": uuid.uuid4().hex[:12],
-                        "from": from_edge,
-                        "to": to_edge,
+                        "from": from_edges,
+                        "to": to_edges,
+                        "parking": set(parking_edges),
+                        "parking_probability": float(parking_probability),
+                        "parking_duration": float(parking_duration),
                         "count": count,
                         "spread": float(spread),
                         "index": 0,
-                        "route": None,
+                        "routes": {},
+                        "departures": None,
                     }
                 )
                 self.spawn["queued"] += count
-                self.spawn["message"] = f"Queued {count:,} cars from {from_edge} to {to_edge}."
+                self.spawn["message"] = (
+                    f"Queued {count:,} mixed vehicles across {len(from_edges)} origins "
+                    f"and {len(to_edges)} destinations."
+                )
                 self.condition.notify_all()
                 return self.read()
             if action in ("start", "build"):
@@ -314,6 +367,8 @@ class LiveSession:
                 self.injected_added = 0
                 self.spawn["added"] = 0
                 self.spawn["failed"] = 0
+                self.spawn["parking_stops"] = 0
+                self.spawn["type_counts"] = {}
                 if not self.spawn_queue:
                     self.spawn["queued"] = 0
                     self.spawn["message"] = "Click the map to choose an origin and destination."
@@ -430,37 +485,81 @@ class LiveSession:
         while budget and self.spawn_queue:
             job = self.spawn_queue[0]
             try:
-                if job["route"] is None:
-                    route = connection.simulation.findRoute(
-                        job["from"], job["to"], vType=self.spawn_type
-                    ).edges
-                    if not route:
-                        raise ValueError("No passenger-car route connects the selected points")
-                    job["route"] = f"injected_route_{job['id']}"
-                    connection.route.add(job["route"], route)
+                if job["departures"] is None:
+                    job["departures"] = sorted(
+                        self.spawn_rng.uniform(0, job["spread"]) for _ in range(job["count"])
+                    )
                 amount = min(budget, job["count"] - job["index"])
                 now = connection.simulation.getTime()
                 available = max(0, self.map["end"] - now - self.bundle.project.simulation.step_length)
-                spread = min(job["spread"], available)
                 for _ in range(amount):
                     index = job["index"]
-                    fraction = index / max(1, job["count"] - 1)
-                    depart = now + spread * fraction
+                    vehicle_type = self.spawn_rng.choices(
+                        self.spawn_types, weights=[item.share for item in self.spawn_types]
+                    )[0]
+                    compatible_from = [
+                        edge for edge in job["from"] if self.net.getEdge(edge).allows(vehicle_type.vclass)
+                    ]
+                    compatible_to = [
+                        edge for edge in job["to"] if self.net.getEdge(edge).allows(vehicle_type.vclass)
+                    ]
+                    route = ()
+                    route_id = None
+                    for _attempt in range(60):
+                        start = self.spawn_rng.choice(compatible_from)
+                        destination = self.spawn_rng.choice(compatible_to)
+                        if start == destination:
+                            continue
+                        key = (start, destination, vehicle_type.id)
+                        route_id = job["routes"].get(key)
+                        if route_id:
+                            route = connection.route.getEdges(route_id)
+                        else:
+                            route = connection.simulation.findRoute(
+                                start, destination, vType=vehicle_type.id
+                            ).edges
+                            if route:
+                                route_id = f"injected_route_{job['id']}_{len(job['routes'])}"
+                                connection.route.add(route_id, route)
+                                job["routes"][key] = route_id
+                        if route:
+                            break
+                    if not route or not route_id:
+                        raise ValueError("No route connects the painted areas for the selected fleet")
+                    depart = now + min(job["departures"][index], available)
+                    vehicle_id = f"injected_{job['id']}_{index}"
                     connection.vehicle.add(
-                        f"injected_{job['id']}_{index}",
-                        job["route"],
-                        typeID=self.spawn_type,
+                        vehicle_id,
+                        route_id,
+                        typeID=vehicle_type.id,
                         depart=f"{depart:.3f}",
                         departLane="best",
                         departSpeed="0",
                     )
+                    parking_options = [edge for edge in route if edge in job["parking"]]
+                    if parking_options and self.spawn_rng.random() < job["parking_probability"]:
+                        parking_edge = self.spawn_rng.choice(parking_options)
+                        edge = self.net.getEdge(parking_edge)
+                        lanes = [lane for lane in edge.getLanes() if lane.allows(vehicle_type.vclass)]
+                        lane = lanes[-1]
+                        connection.vehicle.setStop(
+                            vehicle_id,
+                            parking_edge,
+                            pos=max(1, lane.getLength() - 5),
+                            laneIndex=lane.getIndex(),
+                            duration=job["parking_duration"],
+                            flags=0,
+                        )
+                        self.spawn["parking_stops"] += 1
+                    counts = self.spawn["type_counts"]
+                    counts[vehicle_type.id] = counts.get(vehicle_type.id, 0) + 1
                     job["index"] += 1
                 budget -= amount
                 self.injected_added += amount
                 self.spawn["queued"] -= amount
                 self.spawn["added"] += amount
                 self.spawn["message"] = (
-                    f"Added {self.spawn['added']:,} cars; {self.spawn['queued']:,} still queued."
+                    f"Added {self.spawn['added']:,} mixed vehicles; {self.spawn['queued']:,} still queued."
                 )
                 if job["index"] == job["count"]:
                     self.spawn_queue.pop(0)
@@ -504,6 +603,9 @@ class LiveSession:
                 "angle": values[tc.VAR_ANGLE],
                 "type": values[tc.VAR_TYPE],
                 "speed": values[tc.VAR_SPEED],
+                "route": values[tc.VAR_EDGES],
+                "destination": values[tc.VAR_EDGES][-1] if values[tc.VAR_EDGES] else None,
+                "waiting": values[tc.VAR_WAITING_TIME],
             }
             for identifier, values in connection.vehicle.getAllSubscriptionResults().items()
             if tc.VAR_POSITION in values
@@ -529,6 +631,7 @@ class LiveSession:
     def _run(self, seed, strategy):
         directory = self.output / ("live-" + uuid.uuid4().hex[:12])
         try:
+            self.spawn_rng = random.Random(seed)
             result = run(
                 self.bundle,
                 self.network,
@@ -551,6 +654,9 @@ class LiveSession:
                         "collisions": result["collisions"],
                         "pedestrians_arrived": result["pedestrians_arrived"],
                         "stopped_seconds": result["total_stopped_vehicle_seconds"],
+                        "mean_waiting": result["mean_completed_waiting_time_seconds"],
+                        "mean_delay": result["mean_completed_time_loss_seconds"],
+                        "mean_depart_delay": result["mean_completed_depart_delay_seconds"],
                     },
                 }
         except Exception as error:  # noqa: BLE001 - report worker failures to the browser
@@ -641,6 +747,16 @@ def make_server(session, port=8765):
                 )
             if path == "/report" and session.report:
                 return self.respond(200, session.report.read_bytes(), "text/html; charset=utf-8")
+            if path == "/report.json" and session.report:
+                return self.respond(
+                    200, json.loads(session.report.with_suffix(".json").read_text(encoding="utf-8"))
+                )
+            if path == "/report.csv" and session.report:
+                return self.respond(
+                    200,
+                    (session.report.parent / "metrics.csv").read_bytes(),
+                    "text/csv; charset=utf-8",
+                )
             assets = {
                 "/": ("index.html", "text/html; charset=utf-8"),
                 "/calibration.js": ("calibration.js", "text/javascript; charset=utf-8"),

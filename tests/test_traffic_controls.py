@@ -83,3 +83,39 @@ def test_car_count_has_no_application_cap(traffic_network):
         assert state["spawn"]["queued"] == 100000
     finally:
         session.close()
+
+
+def test_kathmandu_mix_is_30_bikes_6_cars_2_buses():
+    bundle = Bundle("config/project.yaml")
+    shares = {item.id: item.share for item in bundle.fleet.types}
+    assert shares["motorcycle"] == pytest.approx(30 / 38)
+    assert shares["car"] == pytest.approx(6 / 38)
+    assert shares["bus"] == pytest.approx(2 / 38)
+
+
+@pytest.mark.integration
+def test_brush_areas_map_to_multiple_random_endpoints(traffic_network):
+    bundle, network, root = traffic_network
+    session = LiveSession(bundle, network, root / "painted")
+    net = sumolib.net.readNet(str(network))
+    try:
+        state = session.control(
+            {
+                "action": "inject",
+                "count": "38",
+                "spread": 120,
+                "radius": 220,
+                "origin_points": [list(net.getEdge("A0B0").getShape()[0]), [180, 180]],
+                "destination_points": [list(net.getEdge("C3D3").getShape()[-1]), [360, 360]],
+                "parking_points": [[360, 360]],
+                "parking_probability": 0.25,
+                "parking_duration": 60,
+            }
+        )
+        job = session.spawn_queue[0]
+        assert state["spawn"]["queued"] == 38
+        assert len(job["from"]) > 1
+        assert len(job["to"]) > 1
+        assert job["parking"]
+    finally:
+        session.close()

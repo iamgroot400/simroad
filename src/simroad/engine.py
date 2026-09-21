@@ -1,5 +1,6 @@
 """One isolated SUMO process per run. SUMO remains the only physics engine."""
 
+import csv
 import hashlib
 import json
 import uuid
@@ -125,7 +126,17 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
                 connection.vehicle.subscribe(
                     vehicle,
                     [tc.VAR_ROAD_ID, tc.VAR_SPEED]
-                    + ([tc.VAR_POSITION, tc.VAR_ANGLE, tc.VAR_TYPE] if visualize else []),
+                    + (
+                        [
+                            tc.VAR_POSITION,
+                            tc.VAR_ANGLE,
+                            tc.VAR_TYPE,
+                            tc.VAR_EDGES,
+                            tc.VAR_WAITING_TIME,
+                        ]
+                        if visualize
+                        else []
+                    ),
                 )
             policy.step()
             collisions.update(connection.simulation.getCollisions())
@@ -167,6 +178,10 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         if finished_trips
         else None
     )
+    total_waiting = sum(float(t.get("waitingTime", 0)) for t in finished_trips)
+    total_loss = sum(float(t.get("timeLoss", 0)) for t in finished_trips)
+    total_depart_delay = sum(float(t.get("departDelay", 0)) for t in finished_trips)
+    completed = len(finished_trips)
     fingerprint = bundle.fingerprint(network)
     injected = int(getattr(observer, "injected_added", 0))
     result = {
@@ -187,6 +202,11 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         "collisions": collisions.count,
         "teleports": teleports,
         "mean_completed_time_loss_seconds": mean_loss,
+        "mean_completed_waiting_time_seconds": total_waiting / completed if completed else None,
+        "mean_completed_depart_delay_seconds": total_depart_delay / completed if completed else None,
+        "total_completed_waiting_time_seconds": total_waiting,
+        "total_completed_time_loss_seconds": total_loss,
+        "total_completed_depart_delay_seconds": total_depart_delay,
         "total_stopped_vehicle_seconds": waiting_integral,
         "throughput_vehicles_per_hour": arrived * 3600 / elapsed if elapsed else 0,
         "edge_counts": dict(counts),
@@ -198,7 +218,7 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         json.dumps({"command": command, "fingerprint": fingerprint, "sumo_version": sumo_version}, indent=2),
         encoding="utf-8",
     )
-    return write_report(
+    payload = write_report(
         output / "report",
         f"{bundle.project.name} Â· {strategy} Â· seed {seed}",
         result,
@@ -206,3 +226,28 @@ def run(bundle, network, output, seed=1, strategy="fixed", gui=False, calibratio
         sumo_version,
         calibration,
     )
+    metric_keys = (
+        "vehicles_departed",
+        "vehicles_arrived",
+        "vehicles_unfinished",
+        "total_stopped_vehicle_seconds",
+        "mean_completed_waiting_time_seconds",
+        "mean_completed_time_loss_seconds",
+        "mean_completed_depart_delay_seconds",
+        "throughput_vehicles_per_hour",
+        "collisions",
+        "teleports",
+    )
+    with (output / "metrics.csv").open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.writer(stream)
+        writer.writerow(("metric", "value", "unit"))
+        for key in metric_keys:
+            unit = (
+                "seconds"
+                if "seconds" in key
+                else "vehicles/hour"
+                if key == "throughput_vehicles_per_hour"
+                else "count"
+            )
+            writer.writerow((key, payload.get(key), unit))
+    return payload

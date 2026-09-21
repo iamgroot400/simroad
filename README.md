@@ -26,9 +26,11 @@
 - Draw and edit roads, intersections, crossings, and activity zones visually.
 - Simulate cars, motorcycles, buses, and pedestrians with Eclipse SUMO.
 - Compare fixed, queue-responsive, Adaptive Webster, and Green Wave signals.
-- Click any two map locations and add a user-selected number of passenger cars.
+- Paint multiple origin and destination areas, then add a seeded mix of motorcycles,
+  cars, and buses across all of them.
+- Paint roadside obstructions to study how improper parking creates queues.
 - Fit demand and behavior parameters against observed traffic counts.
-- Generate reproducible HTML and JSON reports with uncertainty estimates.
+- Generate reproducible HTML, JSON, and CSV results with queue and delay metrics.
 - Run locally without an account, cloud service, React, or Node.js.
 - Download portable builds with Python, SUMO, and the Kathmandu map included.
 
@@ -98,6 +100,13 @@ is geometry-first and deliberately avoids invented traffic counts. Add surveyed
 zones, origin/destination demand, and calibration observations before using its
 outputs for real-world decisions.
 
+To make a first Kathmandu experiment, open the project with the command above,
+paint several **Origin** areas on residential or gateway roads and several
+**Destination** areas near offices, markets, or the city core. Paint **Parking**
+only where you want stopped vehicles to obstruct a lane. Choose a seed, queue the
+vehicles, and start the run. Reusing the same seed and painted areas reproduces
+the same randomized vehicle choices and departure pattern.
+
 ## Visual city builder
 
 ![Simroad city editor with roads, junctions, crossings, and zones.](docs/images/city-editor.png)
@@ -135,14 +144,42 @@ editor model.
 The live interface displays actual vehicle and pedestrian positions from SUMO,
 not a pre-rendered animation.
 
+![Painted origin, destination, and improper-parking areas in the Simroad live viewer.](docs/images/traffic-areas.png)
+
 - Start, pause, resume, stop, and repeat a run.
 - Select fixed, queue-responsive, Adaptive Webster, or Green Wave control.
-- Pick an origin and destination directly on the map, set the car count and
-  departure window, and inject traffic while a run is active.
+- Paint one or more coral origin areas and teal destination areas with an
+  adjustable brush. Each inserted vehicle independently receives a seeded random
+  valid origin and destination from those areas.
+- Use the default Kathmandu-oriented vehicle weights of 30 motorcycles, 6 cars,
+  and 2 buses. These are random weights, so a small batch will usually not contain
+  the exact ratio.
+- Paint amber parking areas and set a probability and duration. Selected vehicles
+  stop in-lane on routes that cross the painted area, representing improper
+  parking and its downstream queues.
+- Click a moving vehicle to reveal its private destination edge and draw its route.
+  Destinations and routes remain hidden for unselected vehicles.
 - Change playback speed without changing simulated time steps.
 - Pan and zoom with mouse, keyboard, or touch controls.
 - Inspect zones, live counts, collision episodes, and completed trips.
-- Open the full report after a run finishes or is stopped.
+- Open the full report or download `report.json` and `metrics.csv` after a run
+  finishes or is stopped.
+
+### Painted traffic workflow
+
+1. Select **Origin brush** and paint across every area that may generate traffic.
+2. Select **Destination brush** and paint across every destination area.
+3. Optionally select **Parking brush** and mark roads where illegal stopping may
+   occur.
+4. Set the vehicle count, departure window, parking probability, duration, and
+   random seed.
+5. Choose **Queue mixed vehicles**, then start the simulation.
+6. Click individual vehicles to inspect their destination. Stop the run to export
+   the final metrics.
+
+The brush selects compatible SUMO edges inside its radius. When several origins
+and destinations are painted, traffic is distributed across them rather than
+entering from one point.
 
 ### Signal policies
 
@@ -164,8 +201,14 @@ capacity to let SUMO insert them.
 A 12 GB, 13th-generation Core i5 laptop can process a 100,000-trip experiment,
 but should not be expected to hold 100,000 detailed vehicles moving at the same
 instant in real time. Actual capacity depends on network size and congestion.
-SUMO's microscopic traffic dynamics run on the CPU; an RTX GPU cannot safely
-replace that solver, though the browser/GPU may accelerate drawing.
+SUMO's microscopic traffic dynamics run on the CPU. Rewriting its vehicle solver
+for GPU threads is technically possible as a research project, but it is not a
+practical Simroad optimization: the interactions are branch-heavy and each step
+depends on neighboring vehicles, while a rewrite would require extensive
+validation against SUMO. The supported path is to use SUMO's CPU `--threads`
+option where applicable, run independent seeds in parallel, and use `libsumo`
+instead of socket-based TraCI when profiling shows protocol overhead. The GPU can
+still accelerate browser canvas rendering.
 
 ![Custom city running in the Simroad live viewer.](docs/images/custom-city-live.png)
 
@@ -250,13 +293,18 @@ scenario.
 ## Reports and reproducibility
 
 Each run records configuration snapshots, generated demand, SUMO logs, raw XML,
-JSON results, and a browser-readable report. Policy comparisons report paired
-differences, 95% confidence intervals, and significance flags.
+JSON results, a machine-readable `metrics.csv`, and a browser-readable report.
+The live viewer also exposes direct JSON and CSV download links after completion.
+Policy comparisons report paired differences, 95% confidence intervals, and
+significance flags.
 
 | Metric | Interpretation |
 | --- | --- |
 | Throughput | Completed vehicle trips per simulated hour |
-| Stopped vehicle time | Accumulated queueing time |
+| Total stopped vehicle seconds | Accumulated queueing time sampled during the run |
+| Total completed waiting time | SUMO waiting time summed over completed trips |
+| Average delay | Mean SUMO `timeLoss` over completed trips |
+| Average departure delay | Mean difference between requested and actual departure |
 | Unfinished/not-inserted | Demand not completed within the simulation window |
 | Collision episodes | Distinct SUMO collision episodes requiring investigation |
 | Paired confidence interval | Uncertainty in candidate-minus-baseline differences |
