@@ -1,29 +1,35 @@
-SIMROAD PORTABLE DESKTOP APP
-============================
+SIMROAD PORTABLE DESKTOP EDITIONS
+=================================
 
-No installation, Python setup, map download, account, or web hosting is needed.
-The Kathmandu road map and SUMO simulation engine are included in this folder.
+No installation, Python setup, account, map download, or web hosting is needed.
+The SUMO simulation engine and required road network are included in each folder.
 
-Windows
-  Double-click Simroad.exe.
+SIMROAD STUDIO
+  Starts with an editable demonstration city. Draw roads, intersections, zebra
+  crossings, and colored activity zones, then paint origin, destination, and
+  improper-parking areas.
 
-macOS / Linux
-  Open a terminal in this folder and run ./Simroad.
-  If needed once, run: chmod +x Simroad
+  Windows: double-click Simroad-Studio.exe
+  macOS / Linux: run ./Simroad-Studio
 
-The app opens its interface in your default browser. It listens only on
-127.0.0.1 (this computer); it is not published to the internet or local network.
-Keep the Simroad terminal open while using the app and press Ctrl+C to stop it.
-Simulation outputs are saved under your per-user Simroad data directory.
+SIMROAD KATHMANDU
+  Starts with the embedded Kathmandu Valley trunk, primary, and secondary road
+  network. Paint any origin, destination, and improper-parking areas you want.
 
-This unsigned community build may trigger Windows SmartScreen or macOS Gatekeeper.
-Only download it from the iamgroot400/simroad GitHub Releases page. On macOS,
-Control-click the app and choose Open if Gatekeeper blocks the first launch.
+  Windows: double-click Simroad-Kathmandu.exe
+  macOS / Linux: run ./Simroad-Kathmandu
 
-The included map contains OpenStreetMap data for Kathmandu's trunk, primary, and
-secondary roads and their connector links. Copyright OpenStreetMap contributors;
-data is available under the Open Database License (ODbL):
-https://www.openstreetmap.org/copyright
+On macOS or Linux, run chmod +x on the executable once if required.
+
+The app opens its interface in your default browser and listens only on 127.0.0.1.
+Keep the launcher terminal open while using it and press Ctrl+C to stop it.
+Simulation outputs are stored under your per-user Simroad data directory.
+
+These unsigned community builds may trigger Windows SmartScreen or macOS
+Gatekeeper. Only download them from the iamgroot400/simroad GitHub Releases page.
+
+Kathmandu road geometry is copyright OpenStreetMap contributors and is available
+under the Open Database License: https://www.openstreetmap.org/copyright
 
 SUMO is distributed under EPL-2.0 or GPL-2.0-or-later. Its license and notices
-are included with the packaged Python distribution metadata.
+are included with the packaged distribution metadata.

@@ -7,7 +7,14 @@ root = Path(SPEC).resolve().parent
 datas = [
     (str(root / "config"), "config"),
     (str(root / "examples" / "kathmandu_major_roads"), "examples/kathmandu_major_roads"),
-    (str(root / "build" / "desktop-network" / "network.net.xml"), "network"),
+    (
+        str(root / "build" / "desktop-studio-network" / "network.net.xml"),
+        "network/studio",
+    ),
+    (
+        str(root / "build" / "desktop-kathmandu-network" / "network.net.xml"),
+        "network/kathmandu",
+    ),
     (str(root / "packaging" / "README-DOWNLOAD.txt"), "."),
 ]
 binaries = []
@@ -36,24 +43,45 @@ analysis = Analysis(
     noarchive=False,
 )
 archive = PYZ(analysis.pure)
-executable = EXE(
+studio_executable = EXE(
     archive,
     analysis.scripts,
     [],
     exclude_binaries=True,
-    name="Simroad",
+    name="Simroad-Studio",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     console=True,
 )
-bundle = COLLECT(
-    executable,
+studio_bundle = COLLECT(
+    studio_executable,
     analysis.binaries,
     analysis.datas,
     strip=False,
     upx=True,
     upx_exclude=[],
-    name="Simroad",
+    name="Simroad-Studio",
+)
+kathmandu_executable = EXE(
+    archive,
+    analysis.scripts,
+    [],
+    exclude_binaries=True,
+    name="Simroad-Kathmandu",
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=True,
+)
+kathmandu_bundle = COLLECT(
+    kathmandu_executable,
+    analysis.binaries,
+    analysis.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name="Simroad-Kathmandu",
 )

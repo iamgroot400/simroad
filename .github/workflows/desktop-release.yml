@@ -30,33 +30,48 @@ jobs:
           cache: pip
       - name: Install build dependencies
         run: python -m pip install -e ".[desktop]"
+      - name: Build bundled Studio network
+        run: >-
+          python -m simroad
+          --project config/project.yaml
+          build --output build/desktop-studio-network
       - name: Build bundled Kathmandu network
         run: >-
           python -m simroad
           --project examples/kathmandu_major_roads/project.yaml
-          build --output build/desktop-network
-      - name: Build portable application
+          build --output build/desktop-kathmandu-network
+      - name: Build portable applications
         run: python -m PyInstaller Simroad.spec --noconfirm --clean
-      - name: Verify packaged map and SUMO engine
-        run: ./dist/Simroad/Simroad --smoke-test
+      - name: Verify packaged maps and SUMO engine
+        run: |
+          ./dist/Simroad-Studio/Simroad-Studio --smoke-test
+          ./dist/Simroad-Kathmandu/Simroad-Kathmandu --smoke-test
         if: runner.os != 'Windows'
-      - name: Verify packaged map and SUMO engine (Windows)
-        run: .\dist\Simroad\Simroad.exe --smoke-test
+      - name: Verify packaged maps and SUMO engine (Windows)
+        run: |
+          .\dist\Simroad-Studio\Simroad-Studio.exe --smoke-test
+          .\dist\Simroad-Kathmandu\Simroad-Kathmandu.exe --smoke-test
         if: runner.os == 'Windows'
       - name: Add download instructions
         shell: bash
-        run: cp packaging/README-DOWNLOAD.txt dist/Simroad/README-DOWNLOAD.txt
+        run: |
+          cp packaging/README-DOWNLOAD.txt dist/Simroad-Studio/README-DOWNLOAD.txt
+          cp packaging/README-DOWNLOAD.txt dist/Simroad-Kathmandu/README-DOWNLOAD.txt
       - name: Create Windows archive
         shell: pwsh
         if: runner.os == 'Windows'
-        run: Compress-Archive -Path dist/Simroad -DestinationPath "Simroad-windows-${{ runner.arch }}.zip"
+        run: |
+          Compress-Archive -Path dist/Simroad-Studio -DestinationPath "Simroad-Studio-windows-${{ runner.arch }}.zip"
+          Compress-Archive -Path dist/Simroad-Kathmandu -DestinationPath "Simroad-Kathmandu-windows-${{ runner.arch }}.zip"
       - name: Create macOS/Linux archive
         shell: bash
         if: runner.os != 'Windows'
-        run: tar -C dist -czf "Simroad-${{ matrix.platform }}-${{ runner.arch }}.tar.gz" Simroad
+        run: |
+          tar -C dist -czf "Simroad-Studio-${{ matrix.platform }}-${{ runner.arch }}.tar.gz" Simroad-Studio
+          tar -C dist -czf "Simroad-Kathmandu-${{ matrix.platform }}-${{ runner.arch }}.tar.gz" Simroad-Kathmandu
       - uses: actions/upload-artifact@v4
         with:
-          name: Simroad-${{ matrix.platform }}-${{ runner.arch }}
+          name: Simroad-editions-${{ matrix.platform }}-${{ runner.arch }}
           path: |
             Simroad-*.zip
             Simroad-*.tar.gz

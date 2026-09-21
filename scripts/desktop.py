@@ -1,4 +1,4 @@
-"""Entry point for the self-contained Simroad desktop downloads."""
+"""Entry point shared by the self-contained Simroad desktop editions."""
 
 from __future__ import annotations
 
@@ -34,26 +34,46 @@ def user_data_root():
     return Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share")) / "simroad"
 
 
-def arguments(argv=None):
-    parser = argparse.ArgumentParser(description="Launch the local Kathmandu Simroad desktop app")
+def edition_from_executable(executable=None):
+    """Select the packaged edition from its executable name."""
+    name = Path(executable or sys.executable).stem.lower()
+    return "studio" if "studio" in name else "kathmandu"
+
+
+def arguments(argv=None, executable=None):
+    default_edition = edition_from_executable(executable)
+    parser = argparse.ArgumentParser(description="Launch a local Simroad desktop edition")
     parser.add_argument("--port", type=int, default=8765, help="Local-only viewer port")
     parser.add_argument("--no-open", action="store_true", help="Do not open the browser automatically")
+    parser.add_argument(
+        "--edition",
+        choices=("studio", "kathmandu"),
+        default=default_edition,
+        help=argparse.SUPPRESS,
+    )
     parser.add_argument("--smoke-test", action="store_true", help=argparse.SUPPRESS)
     return parser.parse_args(argv)
 
 
-def bundled_network(root, bundle, output):
-    packaged = root / "network" / "network.net.xml"
+def project_path(root, edition):
+    if edition == "studio":
+        return root / "config" / "project.yaml"
+    return root / "examples" / "kathmandu_major_roads" / "project.yaml"
+
+
+def bundled_network(root, bundle, output, edition):
+    packaged = root / "network" / edition / "network.net.xml"
     if packaged.is_file():
         return packaged
-    print("Preparing the included Kathmandu road map for first launch...", flush=True)
+    label = "editable starter city" if edition == "studio" else "Kathmandu Valley road map"
+    print(f"Preparing the included {label} for first launch...", flush=True)
     return prepare_network(bundle, output / "network")
 
 
-def smoke_test(bundle, network):
+def smoke_test(bundle, network, edition):
     net = sumolib.net.readNet(str(network))
     if not net.getEdges():
-        raise RuntimeError("The bundled Kathmandu network has no roads")
+        raise RuntimeError(f"The bundled {edition} network has no roads")
     policies = set(available())
     required = {"fixed", "pressure", "webster", "green_wave"}
     if missing := required - policies:
@@ -64,28 +84,30 @@ def smoke_test(bundle, network):
     if result.returncode:
         raise RuntimeError("The bundled SUMO engine could not start")
     print(
-        f"Simroad desktop smoke test passed: {len(net.getEdges())} Kathmandu road edges; "
+        f"Simroad {edition.title()} smoke test passed: {len(net.getEdges())} road edges; "
         f"policies: {', '.join(sorted(policies))}"
     )
 
 
-def main(argv=None):
-    args = arguments(argv)
+def main(argv=None, executable=None):
+    args = arguments(argv, executable)
     if not 0 <= args.port <= 65535:
         raise ValueError("Port must be between 0 and 65535")
     root = resource_root()
-    project = root / "examples" / "kathmandu_major_roads" / "project.yaml"
+    project = project_path(root, args.edition)
     if not project.is_file():
-        raise RuntimeError(f"Bundled Kathmandu project is missing: {project}")
+        raise RuntimeError(f"Bundled {args.edition} project is missing: {project}")
     bundle = Bundle(project)
     stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:6]
-    output = user_data_root() / "runs" / ("desktop-" + stamp)
+    output = user_data_root() / args.edition / "runs" / ("desktop-" + stamp)
     output.mkdir(parents=True, exist_ok=False)
-    network = bundled_network(root, bundle, output)
+    network = bundled_network(root, bundle, output, args.edition)
     if args.smoke_test:
-        smoke_test(bundle, network)
+        smoke_test(bundle, network, args.edition)
         return 0
-    print("Simroad runs entirely on this computer and is not exposed to the network.", flush=True)
+    label = "Studio" if args.edition == "studio" else "Kathmandu"
+    print(f"Simroad {label} runs entirely on this computer.", flush=True)
+    print("The viewer is available only on 127.0.0.1 and is not exposed to the network.", flush=True)
     print(f"Run files: {output}", flush=True)
     serve(bundle, network, output, port=args.port, open_browser=not args.no_open)
     return 0

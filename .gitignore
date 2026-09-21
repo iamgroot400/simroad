@@ -7,7 +7,8 @@ __pycache__/
 .ruff_cache/
 build/
 dist/
-Simroad-windows-*.zip
+Simroad-*.zip
+Simroad-*.tar.gz
 runs/
 data/cache/
 .env

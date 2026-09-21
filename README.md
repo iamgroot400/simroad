@@ -1,19 +1,24 @@
-# Simroad v2.0
+# Simroad
 
 <p align="center">
-  <strong>Road Traffic Simulation for Kathmandu — Build, run, and compare reproducible urban traffic simulations with Eclipse SUMO.</strong>
+  <strong>Create editable cities or explore Kathmandu traffic with Eclipse SUMO.</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/iamgroot400/simroad/actions/workflows/test.yml"><img alt="Tests" src="https://github.com/iamgroot400/simroad/actions/workflows/test.yml/badge.svg"></a>
-  <a href="https://github.com/iamgroot400/simroad/releases/tag/v2.0"><img alt="Latest release" src="https://img.shields.io/badge/release-v2.0-blue"></a>
+  <a href="https://github.com/iamgroot400/simroad/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/iamgroot400/simroad"></a>
   <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white">
   <img alt="Eclipse SUMO" src="https://img.shields.io/badge/Engine-Eclipse%20SUMO-0B6E4F">
 </p>
 
 ![Simroad live viewer showing a SUMO traffic simulation, activity zones, playback controls, and live counters.](docs/images/live-view.png)
 
-**Version 2.0** — Now focused on Kathmandu road network simulation. Simroad is a local-first toolkit for exploring how roads, traffic signals, vehicles, pedestrians, and activity zones interact in Kathmandu. It combines a visual city builder, live simulation viewer, repeatable experiments, calibration tools, and HTML/JSON reporting in one project.
+Simroad is a local-first toolkit for exploring how roads, traffic signals,
+vehicles, pedestrians, and activity zones interact. It is distributed in two
+desktop editions: **Simroad Studio** for building a city yourself and **Simroad
+Kathmandu** for experimenting on an embedded Kathmandu Valley road network. Both
+editions include the visual editor, painted traffic areas, repeatable experiments,
+calibration tools, and HTML/JSON/CSV reporting.
 
 > [!IMPORTANT]
 > Simroad is an experimental research toolkit. Results are not predictions of
@@ -32,18 +37,36 @@
 - Fit demand and behavior parameters against observed traffic counts.
 - Generate reproducible HTML, JSON, and CSV results with queue and delay metrics.
 - Run locally without an account, cloud service, React, or Node.js.
-- Download portable builds with Python, SUMO, and the Kathmandu map included.
+- Choose an editable Studio edition or an embedded Kathmandu edition.
 
 ## Download
 
-Portable release builds run entirely on your computer and include the Kathmandu
-`trunk`, `primary`, and `secondary` road network.
+Portable release builds run entirely on your computer. Each download includes
+Python, SUMO, the browser interface, and its starting road network.
+
+### Simroad Studio
+
+Starts with the editable demonstration city. Draw and modify roads, intersections,
+zebra crossings, signals, and colored zones, then paint origin, destination, and
+improper-parking areas.
 
 | Platform | Download | Launch |
 | --- | --- | --- |
-| Windows x64 | [Simroad-windows-X64.zip](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-windows-X64.zip) | Extract, then double-click `Simroad.exe` |
-| macOS Apple Silicon | [Simroad-macos-ARM64.tar.gz](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-macos-ARM64.tar.gz) | Extract, then run `./Simroad` in Terminal |
-| Linux x64 | [Simroad-linux-X64.tar.gz](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-linux-X64.tar.gz) | Extract, then run `./Simroad` |
+| Windows x64 | [Simroad-Studio-windows-X64.zip](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-Studio-windows-X64.zip) | Extract, then double-click `Simroad-Studio.exe` |
+| macOS Apple Silicon | [Simroad-Studio-macos-ARM64.tar.gz](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-Studio-macos-ARM64.tar.gz) | Extract, then run `./Simroad-Studio` |
+| Linux x64 | [Simroad-Studio-linux-X64.tar.gz](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-Studio-linux-X64.tar.gz) | Extract, then run `./Simroad-Studio` |
+
+### Simroad Kathmandu
+
+Starts with the embedded Kathmandu Valley `trunk`, `primary`, and `secondary`
+road network. Choose any painted origin, destination, and parking areas without
+having to import or build the base map first.
+
+| Platform | Download | Launch |
+| --- | --- | --- |
+| Windows x64 | [Simroad-Kathmandu-windows-X64.zip](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-Kathmandu-windows-X64.zip) | Extract, then double-click `Simroad-Kathmandu.exe` |
+| macOS Apple Silicon | [Simroad-Kathmandu-macos-ARM64.tar.gz](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-Kathmandu-macos-ARM64.tar.gz) | Extract, then run `./Simroad-Kathmandu` |
+| Linux x64 | [Simroad-Kathmandu-linux-X64.tar.gz](https://github.com/iamgroot400/simroad/releases/latest/download/Simroad-Kathmandu-linux-X64.tar.gz) | Extract, then run `./Simroad-Kathmandu` |
 
 [View all releases](https://github.com/iamgroot400/simroad/releases)
 
@@ -82,8 +105,8 @@ bash run_live.sh
 ```
 
 The launcher creates or reuses a project-local virtual environment, installs the
-required packages, builds the network, and opens the application. Generated files
-are written under `runs/` and are never silently overwritten.
+required packages, builds the editable Studio network, and opens the application.
+Generated files are written under `runs/` and are never silently overwritten.
 
 ## Kathmandu major-road map
 
@@ -337,8 +360,8 @@ python -m ruff check --config pyproject.toml src scripts tests
 ```
 
 The full test suite launches SUMO and runs on Windows and Linux. Tagged releases
-also build and smoke-test portable Windows, macOS, and Linux packages. For Python-
-only tests:
+build and smoke-test both desktop editions on Windows, macOS, and Linux. For
+Python-only tests:
 
 ```bash
 python -m pytest -m "not integration"
