@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<routes>
+  <vType id="motorcycle" vClass="motorcycle" length="2.0" width="0.7" maxSpeed="16.7" accel="2.6" decel="4.5" tau="0.6" sigma="0.5" speedDev="0.15" minGap="1.0" minGapLat="0.15" lcAssertive="1.5" lcPushy="0.7" lcSpeedGain="2.0" jmDriveAfterYellowTime="0.5" jmDriveAfterRedTime="0.0" jmIgnoreFoeProb="0.0" laneChangeModel="SL2015" carFollowModel="Krauss" />
+  <vType id="car" vClass="passenger" length="4.5" width="1.8" maxSpeed="16.7" accel="2.0" decel="4.5" tau="1.0" sigma="0.5" speedDev="0.1" minGap="2.5" minGapLat="0.4" lcAssertive="1.1" lcPushy="0.1" lcSpeedGain="1.0" jmDriveAfterYellowTime="0.0" jmDriveAfterRedTime="0.0" jmIgnoreFoeProb="0.0" laneChangeModel="SL2015" carFollowModel="Krauss" />
+  <vType id="bus" vClass="bus" length="8.0" width="2.4" maxSpeed="13.9" accel="1.2" decel="4.0" tau="1.2" sigma="0.5" speedDev="0.05" minGap="2.5" minGapLat="0.4" lcAssertive="1.0" lcPushy="0.0" lcSpeedGain="1.0" jmDriveAfterYellowTime="0.0" jmDriveAfterRedTime="0.0" jmIgnoreFoeProb="0.0" laneChangeModel="SL2015" carFollowModel="Krauss" />
+</routes>

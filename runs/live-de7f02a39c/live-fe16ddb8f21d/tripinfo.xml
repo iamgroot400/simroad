@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-09-13T13:00:08.215057+05:45 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="E:\simroad\runs\live-de7f02a39c\city-929964eb5b21\network\network.net.xml"/>
+        <route-files value="E:\simroad\runs\live-de7f02a39c\live-fe16ddb8f21d\demand.rou.xml"/>
+        <additional-files value="E:\simroad\runs\live-de7f02a39c\live-fe16ddb8f21d\stops.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="E:\simroad\runs\live-de7f02a39c\live-fe16ddb8f21d\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <collision-output value="E:\simroad\runs\live-de7f02a39c\live-fe16ddb8f21d\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="27900.0"/>
+        <end value="29700.0"/>
+        <step-length value="0.2"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.4"/>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <collision.mingap-factor value="0"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="E:\simroad\runs\live-de7f02a39c\live-fe16ddb8f21d\sumo.log"/>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="24568"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="1"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="v90" depart="27934.20" departLane="r5c0ff779c96b494a_r_1" departPos="4.60" departPosLat="0.00" departSpeed="0.00" departDelay="0.16" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="1.20" routeLength="1.08" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="0.91" rerouteNo="0" devices="tripinfo_v90" vType="car" speedFactor="1.02" vaporized="end"/>
+</tripinfos>

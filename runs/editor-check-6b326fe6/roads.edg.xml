@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<edges>
+  <edge from="a" to="b" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="ab_f" />
+  <edge from="b" to="a" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="ab_r" />
+  <edge from="b" to="c" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="bc_f" />
+  <edge from="c" to="b" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="bc_r" />
+</edges>

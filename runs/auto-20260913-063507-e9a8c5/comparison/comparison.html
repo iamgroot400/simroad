@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Simroad · paired scenario comparison</title><style>
+body{background:#f6f4ed;color:#26352f;font:16px/1.5 Georgia,serif;max-width:1100px;margin:40px auto;padding:0 24px}
+h1{font-size:38px}aside{padding:18px;border:2px solid #ad642c;background:#fff1d8}
+table{border-collapse:collapse;width:100%;margin-top:24px}th,td{text-align:left;vertical-align:top;padding:14px;border-bottom:1px solid #c8cec7}
+th{width:26%}pre{font:13px/1.5 Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+</style><h1>Simroad · paired scenario comparison</h1><aside>UNCALIBRATED — exploratory scenario comparison; not a validated real-world prediction.</aside>
+<table><tr><th>baseline</th><td><pre>fixed</pre></td></tr><tr><th>seeds</th><td><pre>[
+  1,
+  2
+]</pre></td></tr><tr><th>comparisons</th><td><pre>{
+  &quot;pressure&quot;: {
+    &quot;throughput_vehicles_per_hour&quot;: {
+      &quot;n_pairs&quot;: 2,
+      &quot;mean_candidate_minus_baseline&quot;: 15.0,
+      &quot;ci95&quot;: [
+        -175.59307104262038,
+        205.59307104262038
+      ],
+      &quot;significant_95&quot;: false,
+      &quot;paired_differences&quot;: [
+        0.0,
+        30.0
+      ],
+      &quot;method&quot;: &quot;Two-sided paired Student t interval; no multiplicity correction&quot;
+    },
+    &quot;total_stopped_vehicle_seconds&quot;: {
+      &quot;n_pairs&quot;: 2,
+      &quot;mean_candidate_minus_baseline&quot;: -8.799999999999969,
+      &quot;ci95&quot;: [
+        -120.61460167833688,
+        103.01460167833694
+      ],
+      &quot;significant_95&quot;: false,
+      &quot;paired_differences&quot;: [
+        0.0,
+        -17.599999999999937
+      ],
+      &quot;method&quot;: &quot;Two-sided paired Student t interval; no multiplicity correction&quot;
+    },
+    &quot;collisions&quot;: {
+      &quot;n_pairs&quot;: 2,
+      &quot;mean_candidate_minus_baseline&quot;: 0,
+      &quot;ci95&quot;: [
+        0.0,
+        0.0
+      ],
+      &quot;significant_95&quot;: false,
+      &quot;paired_differences&quot;: [
+        0,
+        0
+      ],
+      &quot;method&quot;: &quot;Two-sided paired Student t interval; no multiplicity correction&quot;
+    },
+    &quot;vehicles_unfinished&quot;: {
+      &quot;n_pairs&quot;: 2,
+      &quot;mean_candidate_minus_baseline&quot;: -0.5,
+      &quot;ci95&quot;: [
+        -6.853102368087347,
+        5.853102368087347
+      ],
+      &quot;significant_95&quot;: false,
+      &quot;paired_differences&quot;: [
+        0,
+        -1
+      ],
+      &quot;method&quot;: &quot;Two-sided paired Student t interval; no multiplicity correction&quot;
+    }
+  }
+}</pre></td></tr><tr><th>runs</th><td><pre>[
+  {
+    &quot;seed&quot;: 1,
+    &quot;strategy&quot;: &quot;fixed&quot;,
+    &quot;sumo_version&quot;: &quot;SUMO 1.27.1&quot;,
+    &quot;fingerprint&quot;: &quot;0d97dc0cb34966232af228991b16d51f9bc17ee0d125e6c910e16538ba328200&quot;,
+    &quot;duration_seconds&quot;: 120.0,
+    &quot;planned_duration_seconds&quot;: 120.0,
+    &quot;interrupted&quot;: false,
+    &quot;vehicles_departed&quot;: 11,
+    &quot;vehicles_arrived&quot;: 1,
+    &quot;vehicles_unfinished&quot;: 10,
+    &quot;vehicles_not_inserted&quot;: 0,
+    &quot;pedestrians_arrived&quot;: 0,
+    &quot;pedestrians_active&quot;: 12,
+    &quot;collisions&quot;: 0,
+    &quot;teleports&quot;: 0,
+    &quot;mean_completed_time_loss_seconds&quot;: 7.16,
+    &quot;total_stopped_vehicle_seconds&quot;: 18.799999999999965,
+    &quot;throughput_vehicles_per_hour&quot;: 30.0,
+    &quot;edge_counts&quot;: {
+      &quot;C1C0&quot;: 1,
+      &quot;D2D1&quot;: 1,
+      &quot;A0A1&quot;: 1,
+      &quot;C3D3&quot;: 2,
+      &quot;D1D2&quot;: 1,
+      &quot;C0C1&quot;: 1,
+      &quot;A1B1&quot;: 1,
+      &quot;A2B2&quot;: 1,
+      &quot;D3D2&quot;: 1,
+      &quot;B2C2&quot;: 4,
+      &quot;B3B2&quot;: 1,
+      &quot;D2C2&quot;: 2,
+      &quot;C1B1&quot;: 3,
+      &quot;C2C1&quot;: 4,
+      &quot;B1B2&quot;: 1,
+      &quot;C3C2&quot;: 2,
+      &quot;C2C3&quot;: 1,
+      &quot;C2D2&quot;: 1,
+      &quot;A0B0&quot;: 1,
+      &quot;C2B2&quot;: 1,
+      &quot;B0B1&quot;: 1
+    },
+    &quot;demand&quot;: {
+      &quot;vehicles_requested&quot;: 11,
+      &quot;pedestrians_requested&quot;: 12,
+      &quot;vehicles_generated&quot;: 11,
+      &quot;pedestrians_generated&quot;: 12,
+      &quot;unroutable&quot;: 0,
+      &quot;parking_stops&quot;: 0,
+      &quot;transit_vehicles&quot;: 0
+    },
+    &quot;demand_sha256&quot;: &quot;9acc49ce95e0cb045677a563220e11e38610cf729bf7f0763ad018a3dd8ee3e7&quot;,
+    &quot;scope&quot;: &quot;Counts include edge entries and vehicles inserted on that edge during the configured window.&quot;,
+    &quot;calibration&quot;: {
+      &quot;calibrated&quot;: false,
+      &quot;label&quot;: &quot;UNCALIBRATED — exploratory scenario comparison; not a validated real-world prediction.&quot;
+    }
+  },
+  {
+    &quot;seed&quot;: 2,
+    &quot;strategy&quot;: &quot;fixed&quot;,
+    &quot;sumo_version&quot;: &quot;SUMO 1.27.1&quot;,
+    &quot;fingerprint&quot;: &quot;0d97dc0cb34966232af228991b16d51f9bc17ee0d125e6c910e16538ba328200&quot;,
+    &quot;duration_seconds&quot;: 120.0,
+    &quot;planned_duration_seconds&quot;: 120.0,
+    &quot;interrupted&quot;: false,
+    &quot;vehicles_departed&quot;: 9,
+    &quot;vehicles_arrived&quot;: 0,
+    &quot;vehicles_unfinished&quot;: 9,
+    &quot;vehicles_not_inserted&quot;: 0,
+    &quot;pedestrians_arrived&quot;: 0,
+    &quot;pedestrians_active&quot;: 6,
+    &quot;collisions&quot;: 0,
+    &quot;teleports&quot;: 0,
+    &quot;mean_completed_time_loss_seconds&quot;: null,
+    &quot;total_stopped_vehicle_seconds&quot;: 30.199999999999925,
+    &quot;throughput_vehicles_per_hour&quot;: 0.0,
+    &quot;edge_counts&quot;: {
+      &quot;B0C0&quot;: 1,
+      &quot;C0B0&quot;: 1,
+      &quot;D0C0&quot;: 1,
+      &quot;B0B1&quot;: 1,
+      &quot;B3C3&quot;: 1,
+      &quot;C0C1&quot;: 1,
+      &quot;B2B1&quot;: 1,
+      &quot;C3C2&quot;: 1,
+      &quot;C1D1&quot;: 1,
+      &quot;B2A2&quot;: 1,
+      &quot;C2D2&quot;: 1,
+      &quot;C1C2&quot;: 1,
+      &quot;C0D0&quot;: 1,
+      &quot;B1B2&quot;: 2,
+      &quot;A2B2&quot;: 2,
+      &quot;D2D3&quot;: 1,
+      &quot;D1C1&quot;: 1,
+      &quot;D2C2&quot;: 1
+    },
+    &quot;demand&quot;: {
+      &quot;vehicles_requested&quot;: 9,
+      &quot;pedestrians_requested&quot;: 6,
+      &quot;vehicles_generated&quot;: 9,
+      &quot;pedestrians_generated&quot;: 6,
+      &quot;unroutable&quot;: 0,
+      &quot;parking_stops&quot;: 0,
+      &quot;transit_vehicles&quot;: 0
+    },
+    &quot;demand_sha256&quot;: &quot;3078f1986447f5a13b01d06edb42e124ab3d355860c4675a50b2cfe621ff43c9&quot;,
+    &quot;scope&quot;: &quot;Counts include edge entries and vehicles inserted on that edge during the configured window.&quot;,
+    &quot;calibration&quot;: {
+      &quot;calibrated&quot;: false,
+      &quot;label&quot;: &quot;UNCALIBRATED — exploratory scenario comparison; not a validated real-world prediction.&quot;
+    }
+  },
+  {
+    &quot;seed&quot;: 1,
+    &quot;strategy&quot;: &quot;pressure&quot;,
+    &quot;sumo_version&quot;: &quot;SUMO 1.27.1&quot;,
+    &quot;fingerprint&quot;: &quot;0d97dc0cb34966232af228991b16d51f9bc17ee0d125e6c910e16538ba328200&quot;,
+    &quot;duration_seconds&quot;: 120.0,
+    &quot;planned_duration_seconds&quot;: 120.0,
+    &quot;interrupted&quot;: false,
+    &quot;vehicles_departed&quot;: 11,
+    &quot;vehicles_arrived&quot;: 1,
+    &quot;vehicles_unfinished&quot;: 10,
+    &quot;vehicles_not_inserted&quot;: 0,
+    &quot;pedestrians_arrived&quot;: 0,
+    &quot;pedestrians_active&quot;: 12,
+    &quot;collisions&quot;: 0,
+    &quot;teleports&quot;: 0,
+    &quot;mean_completed_time_loss_seconds&quot;: 7.16,
+    &quot;total_stopped_vehicle_seconds&quot;: 18.799999999999965,
+    &quot;throughput_vehicles_per_hour&quot;: 30.0,
+    &quot;edge_counts&quot;: {
+      &quot;C1C0&quot;: 1,
+      &quot;D2D1&quot;: 1,
+      &quot;A0A1&quot;: 1,
+      &quot;C3D3&quot;: 2,
+      &quot;D1D2&quot;: 1,
+      &quot;C0C1&quot;: 1,
+      &quot;A1B1&quot;: 1,
+      &quot;A2B2&quot;: 1,
+      &quot;D3D2&quot;: 1,
+      &quot;B2C2&quot;: 4,
+      &quot;B3B2&quot;: 1,
+      &quot;D2C2&quot;: 2,
+      &quot;C1B1&quot;: 3,
+      &quot;C2C1&quot;: 4,
+      &quot;B1B2&quot;: 1,
+      &quot;C3C2&quot;: 2,
+      &quot;C2C3&quot;: 1,
+      &quot;C2D2&quot;: 1,
+      &quot;A0B0&quot;: 1,
+      &quot;C2B2&quot;: 1,
+      &quot;B0B1&quot;: 1
+    },
+    &quot;demand&quot;: {
+      &quot;vehicles_requested&quot;: 11,
+      &quot;pedestrians_requested&quot;: 12,
+      &quot;vehicles_generated&quot;: 11,
+      &quot;pedestrians_generated&quot;: 12,
+      &quot;unroutable&quot;: 0,
+      &quot;parking_stops&quot;: 0,
+      &quot;transit_vehicles&quot;: 0
+    },
+    &quot;demand_sha256&quot;: &quot;9acc49ce95e0cb045677a563220e11e38610cf729bf7f0763ad018a3dd8ee3e7&quot;,
+    &quot;scope&quot;: &quot;Counts include edge entries and vehicles inserted on that edge during the configured window.&quot;,
+    &quot;calibration&quot;: {
+      &quot;calibrated&quot;: false,
+      &quot;label&quot;: &quot;UNCALIBRATED — exploratory scenario comparison; not a validated real-world prediction.&quot;
+    }
+  },
+  {
+    &quot;seed&quot;: 2,
+    &quot;strategy&quot;: &quot;pressure&quot;,
+    &quot;sumo_version&quot;: &quot;SUMO 1.27.1&quot;,
+    &quot;fingerprint&quot;: &quot;0d97dc0cb34966232af228991b16d51f9bc17ee0d125e6c910e16538ba328200&quot;,
+    &quot;duration_seconds&quot;: 120.0,
+    &quot;planned_duration_seconds&quot;: 120.0,
+    &quot;interrupted&quot;: false,
+    &quot;vehicles_departed&quot;: 9,
+    &quot;vehicles_arrived&quot;: 1,
+    &quot;vehicles_unfinished&quot;: 8,
+    &quot;vehicles_not_inserted&quot;: 0,
+    &quot;pedestrians_arrived&quot;: 0,
+    &quot;pedestrians_active&quot;: 6,
+    &quot;collisions&quot;: 0,
+    &quot;teleports&quot;: 0,
+    &quot;mean_completed_time_loss_seconds&quot;: 19.25,
+    &quot;total_stopped_vehicle_seconds&quot;: 12.599999999999987,
+    &quot;throughput_vehicles_per_hour&quot;: 30.0,
+    &quot;edge_counts&quot;: {
+      &quot;B0C0&quot;: 1,
+      &quot;C0B0&quot;: 1,
+      &quot;D0C0&quot;: 1,
+      &quot;B0B1&quot;: 1,
+      &quot;B3C3&quot;: 1,
+      &quot;C0C1&quot;: 1,
+      &quot;B2B1&quot;: 1,
+      &quot;C3C2&quot;: 1,
+      &quot;C1D1&quot;: 1,
+      &quot;B2A2&quot;: 1,
+      &quot;B1B2&quot;: 2,
+      &quot;C2D2&quot;: 1,
+      &quot;C1C2&quot;: 1,
+      &quot;C0D0&quot;: 1,
+      &quot;A2B2&quot;: 2,
+      &quot;D2D3&quot;: 1,
+      &quot;D1C1&quot;: 1,
+      &quot;D2C2&quot;: 1
+    },
+    &quot;demand&quot;: {
+      &quot;vehicles_requested&quot;: 9,
+      &quot;pedestrians_requested&quot;: 6,
+      &quot;vehicles_generated&quot;: 9,
+      &quot;pedestrians_generated&quot;: 6,
+      &quot;unroutable&quot;: 0,
+      &quot;parking_stops&quot;: 0,
+      &quot;transit_vehicles&quot;: 0
+    },
+    &quot;demand_sha256&quot;: &quot;3078f1986447f5a13b01d06edb42e124ab3d355860c4675a50b2cfe621ff43c9&quot;,
+    &quot;scope&quot;: &quot;Counts include edge entries and vehicles inserted on that edge during the configured window.&quot;,
+    &quot;calibration&quot;: {
+      &quot;calibrated&quot;: false,
+      &quot;label&quot;: &quot;UNCALIBRATED — exploratory scenario comparison; not a validated real-world prediction.&quot;
+    }
+  }
+]</pre></td></tr><tr><th>interpretation</th><td><pre>Positive differences mean more of the metric; significance is not practical importance. Prefer &gt;=10 seeds. Multiple endpoints are exploratory.</pre></td></tr></table><p>Simroad · Eclipse SUMO · Treat collisions, teleports and unfinished trips as model-health signals.</p></html>

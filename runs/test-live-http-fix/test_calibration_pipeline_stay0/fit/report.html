@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Simroad · calibration</title><style>
+body{background:#f6f4ed;color:#26352f;font:16px/1.5 Georgia,serif;max-width:1100px;margin:40px auto;padding:0 24px}
+h1{font-size:38px}aside{padding:18px;border:2px solid #ad642c;background:#fff1d8}
+table{border-collapse:collapse;width:100%;margin-top:24px}th,td{text-align:left;vertical-align:top;padding:14px;border-bottom:1px solid #c8cec7}
+th{width:26%}pre{font:13px/1.5 Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+</style><h1>Simroad · calibration</h1><aside>UNCALIBRATED — exploratory scenario comparison; not a validated real-world prediction.</aside>
+<table><tr><th>fingerprint</th><td><pre>4311d328c387cf0f08ce98fc0f9fe498249b55bf786a6df6f1e16fc8be4f7fcd</pre></td></tr><tr><th>sumo version</th><td><pre>SUMO 1.27.1</pre></td></tr><tr><th>base fingerprint</th><td><pre>4311d328c387cf0f08ce98fc0f9fe498249b55bf786a6df6f1e16fc8be4f7fcd</pre></td></tr><tr><th>parameters</th><td><pre>{
+  &quot;demand_scale&quot;: 1,
+  &quot;tau_scale&quot;: 1,
+  &quot;motorcycle_share&quot;: null
+}</pre></td></tr><tr><th>observations kind</th><td><pre>synthetic</pre></td></tr><tr><th>observation source</th><td><pre>Synthetic regression fixture</pre></td></tr><tr><th>observation sha256</th><td><pre>13414640869339bf6aaaa127f1a1c79a073e3a30379e7356eabaf924d9593026</pre></td></tr><tr><th>fit seeds</th><td><pre>[
+  101,
+  102
+]</pre></td></tr><tr><th>validation seeds</th><td><pre>[
+  201,
+  202
+]</pre></td></tr><tr><th>validation</th><td><pre>{
+  &quot;modeled_hourly&quot;: {
+    &quot;A1B1&quot;: 0.0
+  },
+  &quot;observed_hourly&quot;: {
+    &quot;A1B1&quot;: 60.0
+  },
+  &quot;geh&quot;: {
+    &quot;A1B1&quot;: 10.954451150103322
+  },
+  &quot;fraction_below_5&quot;: 0.0,
+  &quot;passed&quot;: false
+}</pre></td></tr><tr><th>candidates</th><td><pre>[
+  {
+    &quot;parameters&quot;: {
+      &quot;demand_scale&quot;: 1,
+      &quot;tau_scale&quot;: 1,
+      &quot;motorcycle_share&quot;: null
+    },
+    &quot;score&quot;: 4.47213595499958,
+    &quot;fit&quot;: {
+      &quot;geh&quot;: {
+        &quot;A1B1&quot;: 4.47213595499958
+      },
+      &quot;fraction_below_5&quot;: 1.0,
+      &quot;passed&quot;: true
+    }
+  }
+]</pre></td></tr><tr><th>scope</th><td><pre>Fits hourly edge-entry counts, not safety or travel times. Validation seeds are held out; observations are not held-out sites.</pre></td></tr></table><p>Simroad · Eclipse SUMO · Treat collisions, teleports and unfinished trips as model-health signals.</p></html>

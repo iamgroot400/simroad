@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-09-13T12:25:35.271081+05:45 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="E:\simroad\runs\test-live-final\test_calibration_pipeline_stay0\network\network.net.xml"/>
+        <route-files value="E:\simroad\runs\test-live-final\test_calibration_pipeline_stay0\fit\validation-201\demand.rou.xml"/>
+        <additional-files value="E:\simroad\runs\test-live-final\test_calibration_pipeline_stay0\fit\validation-201\stops.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="E:\simroad\runs\test-live-final\test_calibration_pipeline_stay0\fit\validation-201\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <collision-output value="E:\simroad\runs\test-live-final\test_calibration_pipeline_stay0\fit\validation-201\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="27900.0"/>
+        <end value="27960.0"/>
+        <step-length value="0.2"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.4"/>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <collision.mingap-factor value="0"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="E:\simroad\runs\test-live-final\test_calibration_pipeline_stay0\fit\validation-201\sumo.log"/>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="46050"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="201"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="v4" depart="27902.00" departLane="A2A1_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.18" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="58.00" routeLength="448.87" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="4.84" rerouteNo="0" devices="tripinfo_v4" vType="motorcycle" speedFactor="0.85" vaporized="end"/>
+    <tripinfo id="v8" depart="27906.60" departLane="B2B3_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.17" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="53.40" routeLength="418.79" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.96" rerouteNo="0" devices="tripinfo_v8" vType="motorcycle" speedFactor="1.07" vaporized="end"/>
+    <tripinfo id="v2" depart="27913.80" departLane="B2B3_1" departPos="4.60" departPosLat="0.00" departSpeed="0.00" departDelay="0.02" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="46.20" routeLength="364.64" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="4.28" rerouteNo="0" devices="tripinfo_v2" vType="car" speedFactor="1.08" vaporized="end"/>
+    <tripinfo id="v3" depart="27914.40" departLane="B2A2_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.02" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="45.60" routeLength="344.23" waitingTime="0.40" waitingCount="1" stopTime="0.00" timeLoss="6.91" rerouteNo="0" devices="tripinfo_v3" vType="motorcycle" speedFactor="1.10" vaporized="end"/>
+    <tripinfo id="v7" depart="27915.00" departLane="B2C2_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.08" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="45.00" routeLength="418.71" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="4.38" rerouteNo="0" devices="tripinfo_v7" vType="motorcycle" speedFactor="1.07" vaporized=""/>
+    <tripinfo id="v0" depart="27928.20" departLane="C3C2_1" departPos="4.60" departPosLat="0.00" departSpeed="0.00" departDelay="0.01" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="31.80" routeLength="257.17" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.60" rerouteNo="0" devices="tripinfo_v0" vType="car" speedFactor="0.92" vaporized="end"/>
+    <tripinfo id="v1" depart="27936.80" departLane="D2D1_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.20" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="23.20" routeLength="204.95" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.37" rerouteNo="0" devices="tripinfo_v1" vType="motorcycle" speedFactor="1.02" vaporized="end"/>
+    <personinfo id="p5" depart="27933.60" type="ped_school" speedFactor="0.91" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27933.60" departPos="0.00" arrival="-1" arrivalPos="-1" duration="26.40" routeLength="-1" timeLoss="0.00" maxSpeed="1.00" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p6" depart="27933.80" type="ped_offices" speedFactor="0.96" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27933.80" departPos="0.00" arrival="-1" arrivalPos="-1" duration="26.20" routeLength="-1" timeLoss="0.00" maxSpeed="1.16" waitingTime="0.00"/>
+    </personinfo>
+</tripinfos>

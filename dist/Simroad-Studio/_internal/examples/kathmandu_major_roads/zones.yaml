@@ -1,0 +1,2 @@
+# Geometry-only project. Add surveyed activity zones before generating demand.
+zones: []

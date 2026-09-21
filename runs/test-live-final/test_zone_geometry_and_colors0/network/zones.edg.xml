@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<edges>
+  <edge id="A1B1">
+    <lane index="1" speed="6.944444444444445" width="3.2" />
+  </edge>
+  <edge id="B0B1">
+    <lane index="1" speed="6.944444444444445" width="3.2" />
+  </edge>
+  <edge id="B1A1">
+    <lane index="1" speed="6.944444444444445" width="3.2" />
+  </edge>
+  <edge id="B1B0">
+    <lane index="1" speed="6.944444444444445" width="3.2" />
+  </edge>
+  <edge id="B1B2">
+    <lane index="1" speed="6.944444444444445" width="3.2" />
+  </edge>
+  <edge id="B1C1">
+    <lane index="1" speed="6.944444444444445" width="2.72" />
+  </edge>
+  <edge id="B2B1">
+    <lane index="1" speed="6.944444444444445" width="3.2" />
+  </edge>
+  <edge id="C1B1">
+    <lane index="1" speed="6.944444444444445" width="2.72" />
+  </edge>
+  <edge id="B2C2">
+    <lane index="1" speed="8.333333333333334" width="3.2" />
+  </edge>
+  <edge id="C1C2">
+    <lane index="1" speed="8.333333333333334" width="2.72" />
+  </edge>
+  <edge id="C2B2">
+    <lane index="1" speed="8.333333333333334" width="3.2" />
+  </edge>
+  <edge id="C2C1">
+    <lane index="1" speed="8.333333333333334" width="2.72" />
+  </edge>
+  <edge id="C2C3">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+  <edge id="C2D2">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+  <edge id="C3C2">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+  <edge id="D2C2">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+  <edge id="C0C1">
+    <lane index="1" speed="8.333333333333334" width="2.72" />
+  </edge>
+  <edge id="C1C0">
+    <lane index="1" speed="8.333333333333334" width="2.72" />
+  </edge>
+  <edge id="C1D1">
+    <lane index="1" speed="8.333333333333334" width="2.72" />
+  </edge>
+  <edge id="D1C1">
+    <lane index="1" speed="8.333333333333334" width="2.72" />
+  </edge>
+  <edge id="A2B2">
+    <lane index="1" speed="8.333333333333334" width="3.2" />
+  </edge>
+  <edge id="B2A2">
+    <lane index="1" speed="8.333333333333334" width="3.2" />
+  </edge>
+  <edge id="B2B3">
+    <lane index="1" speed="8.333333333333334" width="3.2" />
+  </edge>
+  <edge id="B3B2">
+    <lane index="1" speed="8.333333333333334" width="3.2" />
+  </edge>
+</edges>

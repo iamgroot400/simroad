@@ -1,0 +1,1 @@
+{"fingerprint": "abc", "sumo_version": "SUMO", "observations_kind": "synthetic", "observation_source": "Unit test provenance", "fit_seeds": [1, 2], "validation_seeds": [3, 4], "validation": {"modeled_hourly": {"x": 100}, "observed_hourly": {"x": 100}}}

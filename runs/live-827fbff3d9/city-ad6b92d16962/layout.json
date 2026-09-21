@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "name": "My neighborhood",
+  "nodes": [
+    {
+      "id": "n245177547eda4bd4",
+      "x": 0.0,
+      "y": 100.0,
+      "signal": false
+    },
+    {
+      "id": "n8331f1d7c0914800",
+      "x": 180.0,
+      "y": 100.0,
+      "signal": false
+    },
+    {
+      "id": "ncf1e0c3bd14748ad",
+      "x": 360.0,
+      "y": 100.0,
+      "signal": false
+    },
+    {
+      "id": "nee2ed0b2e39b40f2",
+      "x": 90.0,
+      "y": 100.0,
+      "signal": false
+    }
+  ],
+  "roads": [
+    {
+      "id": "r181432c781094e18",
+      "a": "n245177547eda4bd4",
+      "b": "nee2ed0b2e39b40f2",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rb854d43980594eef",
+      "a": "n8331f1d7c0914800",
+      "b": "ncf1e0c3bd14748ad",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r484d3157eee64f84",
+      "a": "nee2ed0b2e39b40f2",
+      "b": "n8331f1d7c0914800",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    }
+  ],
+  "crossings": [
+    {
+      "id": "c2a202015f3da4cb5",
+      "node": "nee2ed0b2e39b40f2",
+      "road": "r181432c781094e18",
+      "kind": "zebra",
+      "walk_seconds": 15.0
+    }
+  ],
+  "zones": [
+    {
+      "id": "zaccd14585be0406b",
+      "type": "office",
+      "x": 180.0,
+      "y": 140.0,
+      "radius": 70.0,
+      "population": 200,
+      "parameters": {}
+    }
+  ],
+  "traffic_per_hour": 300.0
+}

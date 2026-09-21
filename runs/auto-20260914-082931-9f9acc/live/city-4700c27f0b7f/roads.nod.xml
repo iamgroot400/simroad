@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nodes>
+  <node id="n41cce1d5c2c94b40" x="-1490.0" y="1040.0" type="priority" />
+  <node id="n2a8cf9392a9a4bd6" x="4540.0" y="-40.0" type="priority" />
+  <node id="ne57d16a52fbe4a44" x="5470.0" y="460.0" type="priority" />
+  <node id="n9afad77ec4a348b9" x="5560.0" y="810.0" type="priority" />
+  <node id="nfaf1191f9b9547bd" x="4880.0" y="1060.0" type="priority" />
+  <node id="n10bb212a02ee498b" x="3970.0" y="1160.0" type="priority" />
+  <node id="n87f359f322d3462e" x="2730.0" y="1420.0" type="traffic_light" />
+  <node id="n648b5b971ac0411a" x="1940.0" y="1540.0" type="priority" />
+  <node id="nb5f4e82a4fee4e81" x="650.0" y="1680.0" type="priority" />
+  <node id="n0e2704de98f94fb1" x="-110.0" y="1580.0" type="priority" />
+  <node id="n5dbb641991534c91" x="350.0" y="1220.0" type="priority" />
+  <node id="nc3617dddd3334465" x="1350.0" y="1070.0" type="priority" />
+  <node id="n23f4de7c41b840ef" x="1860.0" y="1030.0" type="priority" />
+  <node id="n22f1f616de994ae4" x="2720.0" y="870.0" type="priority" />
+  <node id="n14b4a9c8d5274b8a" x="2370.0" y="640.0" type="traffic_light" />
+  <node id="ndf309222a8724520" x="2130.0" y="-340.0" type="priority" />
+  <node id="n9786d4080ded4411" x="1000.0" y="-230.0" type="priority" />
+  <node id="n8d09e089b7ae4f22" x="-960.0" y="440.0" type="priority" />
+  <node id="nfb94d09e9bb94153" x="-1720.0" y="900.0" type="priority" />
+  <node id="nc71efb9681464c7a" x="-1670.0" y="1450.0" type="priority" />
+  <node id="nc021069fc7dc4cef" x="-880.0" y="1670.0" type="priority" />
+  <node id="nfdff5d26a3b549df" x="1123.8387708796508" y="571.8497723797641" type="traffic_light" />
+  <node id="n42a8a561d7fe473f" x="2642.9406212802924" y="299.7718290244253" type="traffic_light" />
+  <node id="nb48c5856193d4895" x="5063.240284516536" y="241.3119809228691" type="traffic_light" />
+  <node id="n41108374b253445c" x="1650.99361188377" y="1571.3650343692032" type="traffic_light" />
+  <node id="n6854efd563aa4fde" x="2264.5221368883026" y="209.2987256272358" type="traffic_light" />
+  <node id="n166ca5ebe3504c9f" x="1343.1614335635818" y="532.5681014512988" type="traffic_light" />
+  <node id="n33ac41ecc7e44f8c" x="18.222448416949646" y="769.8706062536808" type="traffic_light" />
+  <node id="junction_28" x="2301.648672308141" y="360.8987452582434" type="priority" />
+</nodes>

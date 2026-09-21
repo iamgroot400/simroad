@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<connections>
+  <crossing node="b" edges="ab_f ab_r" discard="true" />
+  <crossing node="b" edges="ab_f ab_r" priority="true" width="4" />
+</connections>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<connections>
+  <crossing node="nfdff5d26a3b549df" edges="r745b36136bf4429d_f r745b36136bf4429d_r" discard="true" />
+  <crossing node="nfdff5d26a3b549df" edges="r745b36136bf4429d_f r745b36136bf4429d_r" priority="true" width="4" />
+  <crossing node="n42a8a561d7fe473f" edges="rd663678efd3c4add_part1_f rd663678efd3c4add_part1_r" discard="true" />
+  <crossing node="n42a8a561d7fe473f" edges="rd663678efd3c4add_part1_f rd663678efd3c4add_part1_r" priority="true" width="4" />
+  <crossing node="nb48c5856193d4895" edges="rc163d7eb8182486a_f rc163d7eb8182486a_r" discard="true" />
+  <crossing node="nb48c5856193d4895" edges="rc163d7eb8182486a_f rc163d7eb8182486a_r" priority="true" width="4" />
+  <crossing node="n87f359f322d3462e" edges="rfe73f9cb4fa64d30_f rfe73f9cb4fa64d30_r" discard="true" />
+  <crossing node="n87f359f322d3462e" edges="rfe73f9cb4fa64d30_f rfe73f9cb4fa64d30_r" priority="true" width="4" />
+  <crossing node="n41108374b253445c" edges="r0d57d281616c40d2_f r0d57d281616c40d2_r" discard="true" />
+  <crossing node="n41108374b253445c" edges="r0d57d281616c40d2_f r0d57d281616c40d2_r" priority="true" width="4" />
+  <crossing node="n14b4a9c8d5274b8a" edges="rad8ef2c184384a66_f rad8ef2c184384a66_r" discard="true" />
+  <crossing node="n14b4a9c8d5274b8a" edges="rad8ef2c184384a66_f rad8ef2c184384a66_r" priority="true" width="4" />
+  <crossing node="n6854efd563aa4fde" edges="r2319331c6c9c4b43_part1_f r2319331c6c9c4b43_part1_r" discard="true" />
+  <crossing node="n6854efd563aa4fde" edges="r2319331c6c9c4b43_part1_f r2319331c6c9c4b43_part1_r" priority="true" width="4" />
+  <crossing node="n166ca5ebe3504c9f" edges="rfc44e60cf76b4671_f rfc44e60cf76b4671_r" discard="true" />
+  <crossing node="n166ca5ebe3504c9f" edges="rfc44e60cf76b4671_f rfc44e60cf76b4671_r" priority="true" width="4" />
+  <crossing node="n33ac41ecc7e44f8c" edges="r6fcc9460e11c4001_f r6fcc9460e11c4001_r" discard="true" />
+  <crossing node="n33ac41ecc7e44f8c" edges="r6fcc9460e11c4001_f r6fcc9460e11c4001_r" priority="true" width="4" />
+</connections>

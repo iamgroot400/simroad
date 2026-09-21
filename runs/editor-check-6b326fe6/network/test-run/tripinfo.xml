@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-09-13T12:58:10.634411+05:45 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="E:\simroad\runs\editor-check-6b326fe6\network\network.net.xml"/>
+        <route-files value="E:\simroad\runs\editor-check-6b326fe6\network\test-run\demand.rou.xml"/>
+        <additional-files value="E:\simroad\runs\editor-check-6b326fe6\network\test-run\stops.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="E:\simroad\runs\editor-check-6b326fe6\network\test-run\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <collision-output value="E:\simroad\runs\editor-check-6b326fe6\network\test-run\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="27900.0"/>
+        <end value="27960.0"/>
+        <step-length value="0.2"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.4"/>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <collision.mingap-factor value="0"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="E:\simroad\runs\editor-check-6b326fe6\network\test-run\sumo.log"/>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="50357"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="1"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="v2" depart="27900.20" departLane="ab_f_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.07" arrival="27946.60" arrivalLane="bc_r_1" arrivalPos="148.00" arrivalPosLat="0.00" arrivalSpeed="11.17" duration="46.40" routeLength="450.57" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="5.95" rerouteNo="0" devices="tripinfo_v2" vType="motorcycle" speedFactor="1.02" vaporized=""/>
+    <tripinfo id="v5" depart="27901.80" departLane="ab_f_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.06" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="58.20" routeLength="514.24" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="6.49" rerouteNo="0" devices="tripinfo_v5" vType="motorcycle" speedFactor="0.91" vaporized=""/>
+    <tripinfo id="v1" depart="27926.00" departLane="ab_f_1" departPos="4.60" departPosLat="0.00" departSpeed="0.00" departDelay="0.03" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="34.00" routeLength="295.40" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="4.88" rerouteNo="0" devices="tripinfo_v1" vType="car" speedFactor="0.92" vaporized="end"/>
+    <tripinfo id="v0" depart="27946.00" departLane="ab_f_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.17" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="14.00" routeLength="105.33" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="2.24" rerouteNo="0" devices="tripinfo_v0" vType="motorcycle" speedFactor="0.82" vaporized="end"/>
+    <tripinfo id="v3" depart="27954.20" departLane="bc_f_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.11" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="5.80" routeLength="31.50" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="2.15" rerouteNo="0" devices="tripinfo_v3" vType="motorcycle" speedFactor="0.82" vaporized="end"/>
+    <tripinfo id="v4" depart="27956.40" departLane="ab_r_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.05" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="3.60" routeLength="13.37" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="2.17" rerouteNo="0" devices="tripinfo_v4" vType="motorcycle" speedFactor="0.98" vaporized="end"/>
+</tripinfos>

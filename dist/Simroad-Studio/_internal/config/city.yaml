@@ -1,0 +1,5 @@
+# Synthetic geometry for offline verification. Use examples/osm/project.yaml for real roads.
+source: demo
+grid_size: 4
+grid_length_m: 180
+left_hand: false

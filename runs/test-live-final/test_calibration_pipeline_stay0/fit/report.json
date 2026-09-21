@@ -1,0 +1,57 @@
+{
+  "fingerprint": "6e6d65f5dc51fc269a619a801774e3da6aa00f3bd18aad16e332bcf95a144905",
+  "sumo_version": "SUMO 1.27.1",
+  "base_fingerprint": "6e6d65f5dc51fc269a619a801774e3da6aa00f3bd18aad16e332bcf95a144905",
+  "parameters": {
+    "demand_scale": 1,
+    "tau_scale": 1,
+    "motorcycle_share": null
+  },
+  "observations_kind": "synthetic",
+  "observation_source": "Synthetic regression fixture",
+  "observation_sha256": "13414640869339bf6aaaa127f1a1c79a073e3a30379e7356eabaf924d9593026",
+  "fit_seeds": [
+    101,
+    102
+  ],
+  "validation_seeds": [
+    201,
+    202
+  ],
+  "validation": {
+    "modeled_hourly": {
+      "A1B1": 0.0
+    },
+    "observed_hourly": {
+      "A1B1": 60.0
+    },
+    "geh": {
+      "A1B1": 10.954451150103322
+    },
+    "fraction_below_5": 0.0,
+    "passed": false
+  },
+  "candidates": [
+    {
+      "parameters": {
+        "demand_scale": 1,
+        "tau_scale": 1,
+        "motorcycle_share": null
+      },
+      "score": 4.47213595499958,
+      "fit": {
+        "geh": {
+          "A1B1": 4.47213595499958
+        },
+        "fraction_below_5": 1.0,
+        "passed": true
+      }
+    }
+  ],
+  "scope": "Fits hourly edge-entry counts, not safety or travel times. Validation seeds are held out; observations are not held-out sites.",
+  "calibration": {
+    "calibrated": false,
+    "label": "UNCALIBRATED \u2014 exploratory scenario comparison; not a validated real-world prediction.",
+    "artifact": "E:\\simroad\\runs\\test-live-final\\test_calibration_pipeline_stay0\\fit\\calibration.json"
+  }
+}

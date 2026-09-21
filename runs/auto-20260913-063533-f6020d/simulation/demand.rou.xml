@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<routes>
+  <vType id="motorcycle" vClass="motorcycle" length="2.0" width="0.7" maxSpeed="16.7" accel="2.6" decel="4.5" tau="0.6" sigma="0.5" speedDev="0.15" minGap="1.0" minGapLat="0.15" lcAssertive="1.5" lcPushy="0.7" lcSpeedGain="2.0" jmDriveAfterYellowTime="0.5" jmDriveAfterRedTime="0.0" jmIgnoreFoeProb="0.0" laneChangeModel="SL2015" carFollowModel="Krauss" />
+  <vType id="car" vClass="passenger" length="4.5" width="1.8" maxSpeed="16.7" accel="2.0" decel="4.5" tau="1.0" sigma="0.5" speedDev="0.1" minGap="2.5" minGapLat="0.4" lcAssertive="1.1" lcPushy="0.1" lcSpeedGain="1.0" jmDriveAfterYellowTime="0.0" jmDriveAfterRedTime="0.0" jmIgnoreFoeProb="0.0" laneChangeModel="SL2015" carFollowModel="Krauss" />
+  <vType id="bus" vClass="bus" length="8.0" width="2.4" maxSpeed="13.9" accel="1.2" decel="4.0" tau="1.2" sigma="0.5" speedDev="0.05" minGap="2.5" minGapLat="0.4" lcAssertive="1.0" lcPushy="0.0" lcSpeedGain="1.0" jmDriveAfterYellowTime="0.0" jmDriveAfterRedTime="0.0" jmIgnoreFoeProb="0.0" laneChangeModel="SL2015" carFollowModel="Krauss" />
+  <vType id="ped_school" vClass="pedestrian" maxSpeed="1.1" speedDev="0.1" />
+  <vType id="ped_offices" vClass="pedestrian" maxSpeed="1.2" speedDev="0.1" />
+  <vType id="ped_market" vClass="pedestrian" maxSpeed="1.2" speedDev="0.1" />
+  <vType id="ped_homes" vClass="pedestrian" maxSpeed="1.2" speedDev="0.1" />
+  <person id="p10" type="ped_school" depart="27910.376">
+    <walk edges="A2B2 B2B1 B1A1" />
+  </person>
+  <vehicle id="v2" type="car" depart="27927.451" departLane="best" departSpeed="0">
+    <route edges="C1C0 C0C1 C1B1 B1A1 A1B1" />
+  </vehicle>
+  <vehicle id="v14" type="motorcycle" depart="27927.861" departLane="best" departSpeed="0">
+    <route edges="D2D1 D1D2 D2C2 C2D2" />
+  </vehicle>
+  <person id="p22" type="ped_homes" depart="27932.237">
+    <walk edges="B2C2 C2C1 C1C0 C0B0 B0C0" />
+  </person>
+  <vehicle id="v15" type="motorcycle" depart="27932.314" departLane="best" departSpeed="0">
+    <route edges="A0A1 A1B1 B1B2 B2C2 C2C3 C3C2" />
+  </vehicle>
+  <person id="p7" type="ped_school" depart="27936.404">
+    <walk edges="D0D1 D1D2 D2C2 C2B2 B2B1" />
+  </person>
+  <vehicle id="v5" type="car" depart="27941.484" departLane="best" departSpeed="0">
+    <route edges="C3D3 D3D2 D2C2 C2C1 C1B1 B1B2" />
+  </vehicle>
+  <person id="p9" type="ped_school" depart="27949.718">
+    <walk edges="D2C2 C2B2 B2B1 B1C1" />
+  </person>
+  <person id="p21" type="ped_homes" depart="27954.360">
+    <walk edges="B2B1 B1C1 C1C0 C0B0" />
+  </person>
+  <person id="p12" type="ped_school" depart="27956.318">
+    <walk edges="D3D2 D2C2 C2B2 B2B1" />
+  </person>
+  <vehicle id="v17" type="motorcycle" depart="27958.191" departLane="best" departSpeed="0">
+    <route edges="A2B2 B2C2 C2C1 C1C2" />
+  </vehicle>
+  <person id="p11" type="ped_school" depart="27962.513">
+    <walk edges="D0D1 D1C1 C1B1 B1A1 A1B1" />
+  </person>
+  <vehicle id="v18" type="motorcycle" depart="27964.617" departLane="best" departSpeed="0">
+    <route edges="B2C2 C2C3 C3D3 D3D2" />
+  </vehicle>
+  <vehicle id="v16" type="motorcycle" depart="27968.400" departLane="best" departSpeed="0">
+    <route edges="B3B2 B2C2 C2C1 C1D1 D1C1" />
+  </vehicle>
+  <person id="p8" type="ped_school" depart="27970.680">
+    <walk edges="B3B2 B2B1" />
+  </person>
+  <person id="p13" type="ped_school" depart="27977.659">
+    <walk edges="B3A3 A3A2 A2A1 A1B1" />
+  </person>
+  <vehicle id="v3" type="motorcycle" depart="27977.946" departLane="best" departSpeed="0">
+    <route edges="C2C1 C1B1 B1B0" />
+  </vehicle>
+  <vehicle id="v4" type="motorcycle" depart="27987.102" departLane="best" departSpeed="0">
+    <route edges="C3C2 C2C1 C1B1" />
+  </vehicle>
+  <vehicle id="v1" type="motorcycle" depart="27991.474" departLane="best" departSpeed="0">
+    <route edges="C3C2 C2B2 B2B1 B1B2" />
+  </vehicle>
+  <vehicle id="v0" type="motorcycle" depart="27994.647" departLane="best" departSpeed="0">
+    <route edges="A0B0 B0B1 B1B2 B2B1" />
+  </vehicle>
+  <person id="p20" type="ped_homes" depart="28001.009">
+    <walk edges="A2B2 B2A2 A2A1" />
+  </person>
+  <person id="p19" type="ped_homes" depart="28003.321">
+    <walk edges="A2B2 B2B3 B3C3" />
+  </person>
+  <person id="p6" type="ped_school" depart="28016.790">
+    <walk edges="C3B3 B3B2 B2B1 B1B0" />
+  </person>
+</routes>

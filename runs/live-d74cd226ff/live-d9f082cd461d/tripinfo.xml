@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-09-21T12:44:26.052653+05:45 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="E:\simroad\runs\live-d74cd226ff\network\network.net.xml"/>
+        <route-files value="E:\simroad\runs\live-d74cd226ff\live-d9f082cd461d\demand.rou.xml"/>
+        <additional-files value="E:\simroad\runs\live-d74cd226ff\live-d9f082cd461d\stops.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="E:\simroad\runs\live-d74cd226ff\live-d9f082cd461d\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <collision-output value="E:\simroad\runs\live-d74cd226ff\live-d9f082cd461d\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="27900.0"/>
+        <end value="29700.0"/>
+        <step-length value="0.2"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.4"/>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <collision.mingap-factor value="0"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="E:\simroad\runs\live-d74cd226ff\live-d9f082cd461d\sumo.log"/>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="16870"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="19"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="injected_e312af2949f5_0" depart="27900.40" departLane="-1247717002_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.12" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="7.20" routeLength="51.44" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.92" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_0" vType="motorcycle" speedFactor="0.87" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_1" depart="27900.80" departLane="25512472_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.16" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="6.80" routeLength="44.24" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.95" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_1" vType="motorcycle" speedFactor="1.22" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_2" depart="27902.40" departLane="25512472_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="1.37" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="5.20" routeLength="27.08" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.38" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_2" vType="motorcycle" speedFactor="0.85" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_3" depart="27902.00" departLane="-30475471_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.19" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="5.60" routeLength="31.16" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.53" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_3" vType="motorcycle" speedFactor="0.91" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_4" depart="27904.00" departLane="25512472_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="1.34" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="3.60" routeLength="12.41" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="2.66" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_4" vType="motorcycle" speedFactor="0.82" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_5" depart="27903.00" departLane="184872594_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.17" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="4.60" routeLength="20.63" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.17" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_5" vType="motorcycle" speedFactor="1.05" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_6" depart="27903.60" departLane="-229075032_1" departPos="8.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.20" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="4.00" routeLength="7.40" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.19" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_6" vType="bus" speedFactor="1.08" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_7" depart="27904.00" departLane="-1247717002_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.03" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="3.60" routeLength="12.36" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="2.66" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_7" vType="motorcycle" speedFactor="0.94" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_8" depart="27905.60" departLane="25512472_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="1.55" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="2.00" routeLength="3.79" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="1.57" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_8" vType="motorcycle" speedFactor="1.32" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_9" depart="27906.00" departLane="-229075032_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="1.81" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="1.60" routeLength="2.60" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="1.17" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_9" vType="motorcycle" speedFactor="1.01" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_10" depart="27904.60" departLane="184872594_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.29" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="3.00" routeLength="8.94" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="2.27" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_10" vType="motorcycle" speedFactor="0.86" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_12" depart="27907.20" departLane="25512472_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="2.41" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="0.40" routeLength="0.10" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="0.19" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_12" vType="motorcycle" speedFactor="1.00" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_13" depart="27905.20" departLane="-27705654_0" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.07" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="2.40" routeLength="5.37" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="1.88" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_13" vType="motorcycle" speedFactor="1.34" vaporized="end"/>
+    <tripinfo id="injected_e312af2949f5_16" depart="27907.00" departLane="-1247717002_0" departPos="4.60" departPosLat="0.00" departSpeed="0.00" departDelay="0.15" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="0.60" routeLength="0.22" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="0.39" rerouteNo="0" devices="tripinfo_injected_e312af2949f5_16" vType="car" speedFactor="0.87" vaporized="end"/>
+</tripinfos>

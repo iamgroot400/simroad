@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "name": "My neighborhood",
+  "nodes": [
+    {
+      "id": "a",
+      "x": 0.0,
+      "y": 0.0,
+      "signal": false
+    },
+    {
+      "id": "b",
+      "x": 150.0,
+      "y": 0.0,
+      "signal": false
+    },
+    {
+      "id": "c",
+      "x": 300.0,
+      "y": 0.0,
+      "signal": false
+    }
+  ],
+  "roads": [
+    {
+      "id": "ab",
+      "a": "a",
+      "b": "b",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "bc",
+      "a": "b",
+      "b": "c",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    }
+  ],
+  "crossings": [
+    {
+      "id": "cross",
+      "node": "b",
+      "road": "ab",
+      "kind": "zebra",
+      "walk_seconds": 15.0
+    }
+  ],
+  "zones": [],
+  "traffic_per_hour": 300.0
+}

@@ -1,0 +1,52 @@
+{
+  "fingerprint": "3544947a240a0ecb6d3524f448bcf4464296b31fef6e3e7f9aabb039ddb2644e",
+  "sumo_version": "SUMO 1.27.1",
+  "base_fingerprint": "3544947a240a0ecb6d3524f448bcf4464296b31fef6e3e7f9aabb039ddb2644e",
+  "parameters": {
+    "demand_scale": 1.0,
+    "tau_scale": 1.0,
+    "motorcycle_share": null
+  },
+  "observations_kind": "synthetic",
+  "observation_source": "Synthetic browser regression data, not a field survey",
+  "observation_sha256": "f46fa7a53a541cecb55254c42de8a36c823aead134ec8da606b6ad761c83beea",
+  "fit_seeds": [
+    101,
+    102
+  ],
+  "validation_seeds": [
+    201,
+    202
+  ],
+  "validation": {
+    "modeled_hourly": {
+      "r181432c781094e18_f": 295.0
+    },
+    "observed_hourly": {
+      "r181432c781094e18_f": 20.0
+    },
+    "geh": {
+      "r181432c781094e18_f": 21.912524504463885
+    },
+    "fraction_below_5": 0.0,
+    "passed": false
+  },
+  "candidates": [
+    {
+      "parameters": {
+        "demand_scale": 1.0,
+        "tau_scale": 1.0,
+        "motorcycle_share": null
+      },
+      "score": 21.73222006762135,
+      "fit": {
+        "geh": {
+          "r181432c781094e18_f": 21.73222006762135
+        },
+        "fraction_below_5": 0.0,
+        "passed": false
+      }
+    }
+  ],
+  "scope": "Fits hourly edge-entry counts, not safety or travel times. Validation seeds are held out; observations are not held-out sites."
+}

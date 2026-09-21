@@ -1,0 +1,9 @@
+{
+  "vehicles_requested": 8,
+  "pedestrians_requested": 7,
+  "vehicles_generated": 8,
+  "pedestrians_generated": 7,
+  "unroutable": 0,
+  "parking_stops": 0,
+  "transit_vehicles": 0
+}

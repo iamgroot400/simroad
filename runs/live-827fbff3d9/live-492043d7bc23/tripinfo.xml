@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-09-14T13:44:58.772215+05:45 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="E:\simroad\runs\live-827fbff3d9\city-ad6b92d16962\network\network.net.xml"/>
+        <route-files value="E:\simroad\runs\live-827fbff3d9\live-492043d7bc23\demand.rou.xml"/>
+        <additional-files value="E:\simroad\runs\live-827fbff3d9\live-492043d7bc23\stops.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="E:\simroad\runs\live-827fbff3d9\live-492043d7bc23\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <collision-output value="E:\simroad\runs\live-827fbff3d9\live-492043d7bc23\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="27900.0"/>
+        <end value="29700.0"/>
+        <step-length value="0.2"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.4"/>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <collision.mingap-factor value="0"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="E:\simroad\runs\live-827fbff3d9\live-492043d7bc23\sumo.log"/>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="17144"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="37"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="v160" depart="27900.40" departLane="rb854d43980594eef_f_1" departPos="4.60" departPosLat="0.00" departSpeed="0.00" departDelay="0.01" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="2.40" routeLength="4.29" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="1.68" rerouteNo="0" devices="tripinfo_v160" vType="car" speedFactor="0.74" vaporized="end"/>
+    <personinfo id="p3" depart="-1" type="ped_zaccd14585be0406b" speedFactor="1.02" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.22" waitingTime="0.00"/>
+    </personinfo>
+</tripinfos>

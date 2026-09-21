@@ -1,0 +1,3 @@
+source: network
+network_file: base.net.xml
+left_hand: false

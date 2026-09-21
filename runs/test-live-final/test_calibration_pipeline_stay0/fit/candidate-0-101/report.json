@@ -1,0 +1,39 @@
+{
+  "seed": 101,
+  "strategy": "fixed",
+  "sumo_version": "SUMO 1.27.1",
+  "fingerprint": "6e6d65f5dc51fc269a619a801774e3da6aa00f3bd18aad16e332bcf95a144905",
+  "duration_seconds": 60.0,
+  "planned_duration_seconds": 60.0,
+  "interrupted": false,
+  "vehicles_departed": 2,
+  "vehicles_arrived": 0,
+  "vehicles_unfinished": 2,
+  "vehicles_not_inserted": 0,
+  "pedestrians_arrived": 0,
+  "pedestrians_active": 10,
+  "collisions": 0,
+  "teleports": 0,
+  "mean_completed_time_loss_seconds": null,
+  "total_stopped_vehicle_seconds": 0.4,
+  "throughput_vehicles_per_hour": 0.0,
+  "edge_counts": {
+    "B2C2": 1,
+    "D1C1": 1
+  },
+  "demand": {
+    "vehicles_requested": 2,
+    "pedestrians_requested": 10,
+    "vehicles_generated": 2,
+    "pedestrians_generated": 10,
+    "unroutable": 0,
+    "parking_stops": 0,
+    "transit_vehicles": 0
+  },
+  "demand_sha256": "ace505721bc202c6d9ba97dca8d48f8509c72bf10ddb3f54d2d01fd7ff1f1d63",
+  "scope": "Counts include edge entries and vehicles inserted on that edge during the configured window.",
+  "calibration": {
+    "calibrated": false,
+    "label": "UNCALIBRATED \u2014 exploratory scenario comparison; not a validated real-world prediction."
+  }
+}

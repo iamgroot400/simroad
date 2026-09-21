@@ -1,0 +1,14 @@
+name: My neighborhood
+city: city.yaml
+zones: zones.yaml
+zone_defaults: zone_defaults.yaml
+fleet: fleet.yaml
+demand: demand.yaml
+infrastructure: infrastructure.yaml
+simulation:
+  begin: 27900.0
+  end: 27960.0
+  step_length: 0.2
+  lateral_resolution: 0.4
+  min_green: 10.0
+  max_green: 60.0

@@ -1,0 +1,208 @@
+{
+  "project": {
+    "name": "My neighborhood",
+    "city": "city.yaml",
+    "zones": "zones.yaml",
+    "zone_defaults": "zone_defaults.yaml",
+    "fleet": "fleet.yaml",
+    "demand": "demand.yaml",
+    "infrastructure": "infrastructure.yaml",
+    "simulation": {
+      "begin": 27900.0,
+      "end": 27960.0,
+      "step_length": 0.2,
+      "lateral_resolution": 0.4,
+      "min_green": 10.0,
+      "max_green": 60.0
+    }
+  },
+  "city": {
+    "source": "network",
+    "bbox": null,
+    "place": null,
+    "osm_file": null,
+    "network_file": "base.net.xml",
+    "left_hand": false,
+    "grid_size": 4,
+    "grid_length_m": 180,
+    "overpass_url": "https://overpass-api.de/api/interpreter"
+  },
+  "zones": [],
+  "parameters": {},
+  "fleet": {
+    "name": "Motorcycle-dominant mixed traffic",
+    "description": "Illustrative sublane-filtering prior, to be fitted to local observations.",
+    "types": [
+      {
+        "id": "motorcycle",
+        "vclass": "motorcycle",
+        "share": 0.65,
+        "length": 2.0,
+        "width": 0.7,
+        "max_speed": 16.7,
+        "accel": 2.6,
+        "decel": 4.5,
+        "tau": 0.6,
+        "sigma": 0.5,
+        "speed_deviation": 0.15,
+        "min_gap": 1.0,
+        "min_gap_lat": 0.15,
+        "lc_assertive": 1.5,
+        "lc_pushy": 0.7,
+        "lc_speed_gain": 2.0,
+        "jm_drive_after_yellow": 0.5,
+        "jm_drive_after_red": 0.0,
+        "jm_ignore_foe_probability": 0.0
+      },
+      {
+        "id": "car",
+        "vclass": "passenger",
+        "share": 0.3,
+        "length": 4.5,
+        "width": 1.8,
+        "max_speed": 16.7,
+        "accel": 2.0,
+        "decel": 4.5,
+        "tau": 1.0,
+        "sigma": 0.5,
+        "speed_deviation": 0.1,
+        "min_gap": 2.5,
+        "min_gap_lat": 0.4,
+        "lc_assertive": 1.1,
+        "lc_pushy": 0.1,
+        "lc_speed_gain": 1.0,
+        "jm_drive_after_yellow": 0.0,
+        "jm_drive_after_red": 0.0,
+        "jm_ignore_foe_probability": 0.0
+      },
+      {
+        "id": "bus",
+        "vclass": "bus",
+        "share": 0.05,
+        "length": 8.0,
+        "width": 2.4,
+        "max_speed": 13.9,
+        "accel": 1.2,
+        "decel": 4.0,
+        "tau": 1.2,
+        "sigma": 0.5,
+        "speed_deviation": 0.05,
+        "min_gap": 2.5,
+        "min_gap_lat": 0.4,
+        "lc_assertive": 1.0,
+        "lc_pushy": 0.0,
+        "lc_speed_gain": 1.0,
+        "jm_drive_after_yellow": 0.0,
+        "jm_drive_after_red": 0.0,
+        "jm_ignore_foe_probability": 0.0
+      }
+    ]
+  },
+  "demand": {
+    "derive_from_zones": false,
+    "scale": 1.0,
+    "bin_minutes": 5.0,
+    "gateways": [
+      {
+        "edge": "ab_f",
+        "to_edge": "bc_f",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "bc_r",
+        "to_edge": "ab_f",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "bc_f",
+        "to_edge": "bc_r",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "ab_r",
+        "to_edge": "bc_r",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "bc_r",
+        "to_edge": "ab_r",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "ab_f",
+        "to_edge": "bc_r",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "ab_r",
+        "to_edge": "ab_f",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "bc_f",
+        "to_edge": "ab_r",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "ab_r",
+        "to_edge": "bc_f",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "ab_f",
+        "to_edge": "ab_r",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "bc_r",
+        "to_edge": "bc_f",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      },
+      {
+        "edge": "bc_f",
+        "to_edge": "ab_f",
+        "vehicles_per_hour": 25.0,
+        "begin_hour": 7.75,
+        "end_hour": 7.766666666666667
+      }
+    ]
+  },
+  "infrastructure": {
+    "crossings": [
+      {
+        "node": "b",
+        "edges": [
+          "ab_f",
+          "ab_r"
+        ],
+        "kind": "zebra",
+        "width_m": 4,
+        "min_walk_seconds": 15.0
+      }
+    ],
+    "stops": [],
+    "transit_routes": []
+  }
+}

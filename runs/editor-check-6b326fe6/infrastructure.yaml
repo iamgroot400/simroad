@@ -1,0 +1,9 @@
+crossings:
+- node: b
+  edges:
+  - ab_f
+  - ab_r
+  kind: zebra
+  min_walk_seconds: 15.0
+stops: []
+transit_routes: []

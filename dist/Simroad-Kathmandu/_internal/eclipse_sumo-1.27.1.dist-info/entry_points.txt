@@ -1,0 +1,18 @@
+[console_scripts]
+activitygen = sumo:activitygen
+dfrouter = sumo:dfrouter
+duarouter = sumo:duarouter
+emissionsDrivingCycle = sumo:emissionsDrivingCycle
+emissionsMap = sumo:emissionsMap
+jtrrouter = sumo:jtrrouter
+marouter = sumo:marouter
+netconvert = sumo:netconvert
+netgenerate = sumo:netgenerate
+od2trips = sumo:od2trips
+polyconvert = sumo:polyconvert
+sumo = sumo:sumo
+
+[gui_scripts]
+netedit = sumo:netedit
+sumo-gui = sumo:sumo_gui
+

@@ -1,0 +1,9 @@
+crossings:
+- node: nb6b41c5ae01d491b
+  edges:
+  - rfcc7afed98dc4315_f
+  - rfcc7afed98dc4315_r
+  kind: zebra
+  min_walk_seconds: 15.0
+stops: []
+transit_routes: []

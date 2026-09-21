@@ -1,0 +1,11 @@
+metric,value,unit
+vehicles_departed,201,count
+vehicles_arrived,196,count
+vehicles_unfinished,5,count
+total_stopped_vehicle_seconds,3659.7999999988624,seconds
+mean_completed_waiting_time_seconds,14.004081632653062,seconds
+mean_completed_time_loss_seconds,28.16704081632653,seconds
+mean_completed_depart_delay_seconds,0.5783163265306123,seconds
+throughput_vehicles_per_hour,392.0,vehicles/hour
+collisions,0,count
+teleports,0,count

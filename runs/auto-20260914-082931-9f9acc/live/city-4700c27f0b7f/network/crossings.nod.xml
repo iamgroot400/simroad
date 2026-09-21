@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nodes>
+  <node id="nfdff5d26a3b549df" type="traffic_light" />
+  <node id="n42a8a561d7fe473f" type="traffic_light" />
+  <node id="nb48c5856193d4895" type="traffic_light" />
+  <node id="n87f359f322d3462e" type="traffic_light" />
+  <node id="n41108374b253445c" type="traffic_light" />
+  <node id="n14b4a9c8d5274b8a" type="traffic_light" />
+  <node id="n6854efd563aa4fde" type="traffic_light" />
+  <node id="n166ca5ebe3504c9f" type="traffic_light" />
+  <node id="n33ac41ecc7e44f8c" type="traffic_light" />
+</nodes>

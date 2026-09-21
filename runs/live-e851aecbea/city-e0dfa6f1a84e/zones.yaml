@@ -1,0 +1,28 @@
+zones:
+- id: z5abfd7ca527f4478
+  type: office
+  population: 200
+  coordinates: xy
+  center:
+  - 180.0
+  - 140.0
+  radius_m: 70.0
+  parameters:
+    vehicle_trips_per_person: 1.2
+    pedestrian_trips_per_person: 0.4
+    speed_kph: null
+    encroachment_fraction: 0
+    min_walk_seconds: 10
+    pedestrian_speed: 1.2
+    informal_crossing_probability: 0
+    parking_search_probability: 0.1
+    parking_search_seconds: 30.0
+    pulses:
+    - hour: 8.5
+      sigma_minutes: 35.0
+      weight: 1.0
+      direction: in
+    - hour: 17.5
+      sigma_minutes: 40.0
+      weight: 1.0
+      direction: out

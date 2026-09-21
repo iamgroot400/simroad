@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-09-13T13:00:07.534199+05:45 by Eclipse SUMO netconvert 1.27.1
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="E:\simroad\runs\live-de7f02a39c\city-929964eb5b21\network\base.net.xml"/>
+        <node-files value="E:\simroad\runs\live-de7f02a39c\city-929964eb5b21\network\crossings.nod.xml"/>
+        <edge-files value="E:\simroad\runs\live-de7f02a39c\city-929964eb5b21\network\zones.edg.xml"/>
+        <connection-files value="E:\simroad\runs\live-de7f02a39c\city-929964eb5b21\network\crossings.con.xml"/>
+    </input>
+
+    <output>
+        <output-file value="E:\simroad\runs\live-de7f02a39c\city-929964eb5b21\network\network.net.xml"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.avoid-overlap value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="true"/>
+    </pedestrian>
+
+</netconvertConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" walkingareas="true" limitTurnSpeed="5.50" avoidOverlap="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="0.00,100.00,360.00,100.00" origBoundary="0.00,100.00,360.00,100.00" projParameter="!"/>
+
+    <edge id=":n1ca72eb5a38c4819_0" function="internal">
+        <lane id=":n1ca72eb5a38c4819_0_0" index="0" disallow="pedestrian" speed="3.65" length="4.67" width="3.20" shape="360.00,98.40 361.20,99.20 361.60,100.00 361.20,100.80 360.00,101.60"/>
+    </edge>
+    <edge id=":n1ca72eb5a38c4819_w0" function="walkingarea">
+        <lane id=":n1ca72eb5a38c4819_w0_0" index="0" allow="pedestrian" speed="2.78" length="8.40" width="2.00" shape="360.00,103.20 360.00,105.20 360.00,94.80 360.00,96.80"/>
+    </edge>
+    <edge id=":n5c410a027cff4775_0" function="internal">
+        <lane id=":n5c410a027cff4775_0_0" index="0" disallow="pedestrian" speed="11.11" length="4.00" width="3.20" shape="182.00,101.60 178.00,101.60"/>
+    </edge>
+    <edge id=":n5c410a027cff4775_1" function="internal">
+        <lane id=":n5c410a027cff4775_1_0" index="0" disallow="pedestrian" speed="11.11" length="4.00" width="3.20" shape="178.00,98.40 182.00,98.40"/>
+    </edge>
+    <edge id=":n5c410a027cff4775_c0" function="crossing" crossingEdges="r92af3689084d4aef_f r92af3689084d4aef_r">
+        <lane id=":n5c410a027cff4775_c0_0" index="0" allow="pedestrian" speed="2.78" length="6.40" width="4.00" shape="180.00,96.80 180.00,103.20" outlineShape="182.00,96.70 182.00,103.30 178.00,104.20 178.00,105.20 182.00,105.20 182.00,103.20 178.00,103.20 178.00,96.80"/>
+    </edge>
+    <edge id=":n5c410a027cff4775_w0" function="walkingarea">
+        <lane id=":n5c410a027cff4775_w0_0" index="0" allow="pedestrian" speed="2.78" length="2.82" width="4.00" shape="178.00,103.20 178.00,105.20 182.00,105.20 182.00,103.20 178.00,103.20"/>
+    </edge>
+    <edge id=":n5c410a027cff4775_w1" function="walkingarea">
+        <lane id=":n5c410a027cff4775_w1_0" index="0" allow="pedestrian" speed="2.78" length="2.82" width="4.00" shape="178.00,96.80 182.00,96.80 182.00,94.80 178.00,94.80 178.00,96.80"/>
+    </edge>
+    <edge id=":n67cf3010a6d943c8_0" function="internal">
+        <lane id=":n67cf3010a6d943c8_0_0" index="0" disallow="pedestrian" speed="3.65" length="4.67" width="3.20" shape="0.00,101.60 -1.20,100.80 -1.60,100.00 -1.20,99.20 0.00,98.40"/>
+    </edge>
+    <edge id=":n67cf3010a6d943c8_w0" function="walkingarea">
+        <lane id=":n67cf3010a6d943c8_w0_0" index="0" allow="pedestrian" speed="2.78" length="8.40" width="2.00" shape="0.00,96.80 0.00,94.80 0.00,105.20 0.00,103.20"/>
+    </edge>
+    <edge id=":nb6b41c5ae01d491b_0" function="internal">
+        <lane id=":nb6b41c5ae01d491b_0_0" index="0" disallow="pedestrian" speed="11.11" length="4.00" width="3.20" shape="92.00,101.60 88.00,101.60"/>
+    </edge>
+    <edge id=":nb6b41c5ae01d491b_1" function="internal">
+        <lane id=":nb6b41c5ae01d491b_1_0" index="0" disallow="pedestrian" speed="11.11" length="4.00" width="3.20" shape="88.00,98.40 92.00,98.40"/>
+    </edge>
+    <edge id=":nb6b41c5ae01d491b_c0" function="crossing" crossingEdges="rfcc7afed98dc4315_r rfcc7afed98dc4315_f">
+        <lane id=":nb6b41c5ae01d491b_c0_0" index="0" allow="pedestrian" speed="2.78" length="6.40" width="4.00" shape="90.00,103.20 90.00,96.80" outlineShape="88.00,103.30 88.00,96.70 92.00,95.80 92.00,94.80 88.00,94.80 88.00,96.80 92.00,96.80 92.00,103.20"/>
+    </edge>
+    <edge id=":nb6b41c5ae01d491b_w0" function="walkingarea">
+        <lane id=":nb6b41c5ae01d491b_w0_0" index="0" allow="pedestrian" speed="2.78" length="2.82" width="4.00" shape="92.00,103.20 88.00,103.20 88.00,105.20 92.00,105.20 92.00,103.20"/>
+    </edge>
+    <edge id=":nb6b41c5ae01d491b_w1" function="walkingarea">
+        <lane id=":nb6b41c5ae01d491b_w1_0" index="0" allow="pedestrian" speed="2.78" length="2.82" width="4.00" shape="92.00,96.80 92.00,94.80 88.00,94.80 88.00,96.80 92.00,96.80"/>
+    </edge>
+
+    <edge id="r5c0ff779c96b494a_f" from="nb6b41c5ae01d491b" to="n5c410a027cff4775" priority="-1">
+        <lane id="r5c0ff779c96b494a_f_0" index="0" allow="pedestrian" speed="11.11" length="86.00" width="2.00" shape="92.00,95.80 178.00,95.80"/>
+        <lane id="r5c0ff779c96b494a_f_1" index="1" disallow="pedestrian" speed="11.11" length="86.00" width="3.20" shape="92.00,98.40 178.00,98.40"/>
+    </edge>
+    <edge id="r5c0ff779c96b494a_r" from="n5c410a027cff4775" to="nb6b41c5ae01d491b" priority="-1">
+        <lane id="r5c0ff779c96b494a_r_0" index="0" allow="pedestrian" speed="11.11" length="86.00" width="2.00" shape="178.00,104.20 92.00,104.20"/>
+        <lane id="r5c0ff779c96b494a_r_1" index="1" disallow="pedestrian" speed="11.11" length="86.00" width="3.20" shape="178.00,101.60 92.00,101.60"/>
+    </edge>
+    <edge id="r92af3689084d4aef_f" from="n5c410a027cff4775" to="n1ca72eb5a38c4819" priority="-1">
+        <lane id="r92af3689084d4aef_f_0" index="0" allow="pedestrian" speed="11.11" length="178.00" width="2.00" shape="182.00,95.80 360.00,95.80"/>
+        <lane id="r92af3689084d4aef_f_1" index="1" disallow="pedestrian" speed="11.11" length="178.00" width="3.20" shape="182.00,98.40 360.00,98.40"/>
+    </edge>
+    <edge id="r92af3689084d4aef_r" from="n1ca72eb5a38c4819" to="n5c410a027cff4775" priority="-1">
+        <lane id="r92af3689084d4aef_r_0" index="0" allow="pedestrian" speed="11.11" length="178.00" width="2.00" shape="360.00,104.20 182.00,104.20"/>
+        <lane id="r92af3689084d4aef_r_1" index="1" disallow="pedestrian" speed="11.11" length="178.00" width="3.20" shape="360.00,101.60 182.00,101.60"/>
+    </edge>
+    <edge id="rfcc7afed98dc4315_f" from="n67cf3010a6d943c8" to="nb6b41c5ae01d491b" priority="-1">
+        <lane id="rfcc7afed98dc4315_f_0" index="0" allow="pedestrian" speed="11.11" length="88.00" width="2.00" shape="0.00,95.80 88.00,95.80"/>
+        <lane id="rfcc7afed98dc4315_f_1" index="1" disallow="pedestrian" speed="11.11" length="88.00" width="3.20" shape="0.00,98.40 88.00,98.40"/>
+    </edge>
+    <edge id="rfcc7afed98dc4315_r" from="nb6b41c5ae01d491b" to="n67cf3010a6d943c8" priority="-1">
+        <lane id="rfcc7afed98dc4315_r_0" index="0" allow="pedestrian" speed="11.11" length="88.00" width="2.00" shape="88.00,104.20 0.00,104.20"/>
+        <lane id="rfcc7afed98dc4315_r_1" index="1" disallow="pedestrian" speed="11.11" length="88.00" width="3.20" shape="88.00,101.60 0.00,101.60"/>
+    </edge>
+
+    <junction id="n1ca72eb5a38c4819" type="priority" x="360.00" y="100.00" incLanes="r92af3689084d4aef_f_0 r92af3689084d4aef_f_1" intLanes=":n1ca72eb5a38c4819_0_0" shape="360.00,100.00 360.00,94.80 360.00,100.00">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+    <junction id="n5c410a027cff4775" type="priority" x="180.00" y="100.00" incLanes="r92af3689084d4aef_r_0 r92af3689084d4aef_r_1 r5c0ff779c96b494a_f_0 r5c0ff779c96b494a_f_1 :n5c410a027cff4775_w1_0" intLanes=":n5c410a027cff4775_0_0 :n5c410a027cff4775_1_0 :n5c410a027cff4775_c0_0" shape="182.00,105.20 182.00,94.80 178.00,94.80 178.00,105.20">
+        <request index="0" response="000" foes="100" cont="0"/>
+        <request index="1" response="000" foes="100" cont="0"/>
+        <request index="2" response="011" foes="011" cont="0"/>
+    </junction>
+    <junction id="n67cf3010a6d943c8" type="priority" x="0.00" y="100.00" incLanes="rfcc7afed98dc4315_r_0 rfcc7afed98dc4315_r_1" intLanes=":n67cf3010a6d943c8_0_0" shape="0.00,100.00 0.00,105.20 0.00,100.00">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+    <junction id="nb6b41c5ae01d491b" type="priority" x="90.00" y="100.00" incLanes="r5c0ff779c96b494a_r_0 r5c0ff779c96b494a_r_1 rfcc7afed98dc4315_f_0 rfcc7afed98dc4315_f_1 :nb6b41c5ae01d491b_w0_0" intLanes=":nb6b41c5ae01d491b_0_0 :nb6b41c5ae01d491b_1_0 :nb6b41c5ae01d491b_c0_0" shape="92.00,105.20 92.00,94.80 88.00,94.80 88.00,105.20">
+        <request index="0" response="100" foes="100" cont="0"/>
+        <request index="1" response="100" foes="100" cont="0"/>
+        <request index="2" response="000" foes="011" cont="0"/>
+    </junction>
+
+    <connection from="r5c0ff779c96b494a_f" to="r92af3689084d4aef_f" fromLane="1" toLane="1" via=":n5c410a027cff4775_1_0" dir="s" state="M"/>
+    <connection from="r5c0ff779c96b494a_r" to="rfcc7afed98dc4315_r" fromLane="1" toLane="1" via=":nb6b41c5ae01d491b_0_0" dir="s" state="m"/>
+    <connection from="r92af3689084d4aef_f" to="r92af3689084d4aef_r" fromLane="1" toLane="1" via=":n1ca72eb5a38c4819_0_0" dir="t" state="M"/>
+    <connection from="r92af3689084d4aef_r" to="r5c0ff779c96b494a_r" fromLane="1" toLane="1" via=":n5c410a027cff4775_0_0" dir="s" state="M"/>
+    <connection from="rfcc7afed98dc4315_f" to="r5c0ff779c96b494a_f" fromLane="1" toLane="1" via=":nb6b41c5ae01d491b_1_0" dir="s" state="m"/>
+    <connection from="rfcc7afed98dc4315_r" to="rfcc7afed98dc4315_f" fromLane="1" toLane="1" via=":n67cf3010a6d943c8_0_0" dir="t" state="M"/>
+
+    <connection from=":n1ca72eb5a38c4819_0" to="r92af3689084d4aef_r" fromLane="0" toLane="1" dir="t" state="M"/>
+    <connection from=":n5c410a027cff4775_0" to="r5c0ff779c96b494a_r" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":n5c410a027cff4775_1" to="r92af3689084d4aef_f" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":n67cf3010a6d943c8_0" to="rfcc7afed98dc4315_f" fromLane="0" toLane="1" dir="t" state="M"/>
+    <connection from=":nb6b41c5ae01d491b_0" to="rfcc7afed98dc4315_r" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":nb6b41c5ae01d491b_1" to="r5c0ff779c96b494a_f" fromLane="0" toLane="1" dir="s" state="M"/>
+
+    <connection from=":n1ca72eb5a38c4819_w0" to="r92af3689084d4aef_r" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="r92af3689084d4aef_f" to=":n1ca72eb5a38c4819_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":n5c410a027cff4775_c0" to=":n5c410a027cff4775_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":n5c410a027cff4775_w0" to="r5c0ff779c96b494a_r" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="r92af3689084d4aef_r" to=":n5c410a027cff4775_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":n5c410a027cff4775_w1" to=":n5c410a027cff4775_c0" fromLane="0" toLane="0" dir="s" state="m"/>
+    <connection from=":n5c410a027cff4775_w1" to="r92af3689084d4aef_f" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="r5c0ff779c96b494a_f" to=":n5c410a027cff4775_w1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":n67cf3010a6d943c8_w0" to="rfcc7afed98dc4315_f" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="rfcc7afed98dc4315_r" to=":n67cf3010a6d943c8_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":nb6b41c5ae01d491b_c0" to=":nb6b41c5ae01d491b_w1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":nb6b41c5ae01d491b_w0" to=":nb6b41c5ae01d491b_c0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":nb6b41c5ae01d491b_w0" to="rfcc7afed98dc4315_r" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="r5c0ff779c96b494a_r" to=":nb6b41c5ae01d491b_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":nb6b41c5ae01d491b_w1" to="r5c0ff779c96b494a_f" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="rfcc7afed98dc4315_f" to=":nb6b41c5ae01d491b_w1" fromLane="0" toLane="0" dir="s" state="M"/>
+</net>

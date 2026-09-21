@@ -1,0 +1,303 @@
+{
+  "project": {
+    "name": "Offline neighborhood experiment (quick smoke run)",
+    "city": "E:\\simroad\\config\\city.yaml",
+    "zones": "E:\\simroad\\config\\zones.yaml",
+    "zone_defaults": "E:\\simroad\\config\\zone_defaults.yaml",
+    "fleet": "E:\\simroad\\config\\fleet_profiles\\mixed_motorcycle.yaml",
+    "demand": "E:\\simroad\\config\\demand.yaml",
+    "infrastructure": "E:\\simroad\\config\\infrastructure.yaml",
+    "simulation": {
+      "begin": 27900.0,
+      "end": 28020.0,
+      "step_length": 0.2,
+      "lateral_resolution": 0.4,
+      "min_green": 10.0,
+      "max_green": 60.0
+    }
+  },
+  "city": {
+    "source": "demo",
+    "bbox": null,
+    "place": null,
+    "osm_file": null,
+    "network_file": null,
+    "left_hand": false,
+    "grid_size": 4,
+    "grid_length_m": 180.0,
+    "overpass_url": "https://overpass-api.de/api/interpreter"
+  },
+  "zones": [
+    {
+      "id": "school",
+      "type": "school",
+      "population": 180,
+      "coordinates": "xy",
+      "center": [
+        180.0,
+        180.0
+      ],
+      "radius_m": 70.0,
+      "polygon": null,
+      "edges": [],
+      "parameters": {}
+    },
+    {
+      "id": "offices",
+      "type": "office",
+      "population": 400,
+      "coordinates": "xy",
+      "center": [
+        360.0,
+        360.0
+      ],
+      "radius_m": 80.0,
+      "polygon": null,
+      "edges": [],
+      "parameters": {}
+    },
+    {
+      "id": "market",
+      "type": "market",
+      "population": 220,
+      "coordinates": "xy",
+      "center": [
+        360.0,
+        180.0
+      ],
+      "radius_m": 60.0,
+      "polygon": null,
+      "edges": [],
+      "parameters": {}
+    },
+    {
+      "id": "homes",
+      "type": "residential",
+      "population": 300,
+      "coordinates": "xy",
+      "center": [
+        180.0,
+        360.0
+      ],
+      "radius_m": 70.0,
+      "polygon": null,
+      "edges": [],
+      "parameters": {}
+    }
+  ],
+  "parameters": {
+    "school": {
+      "vehicle_trips_per_person": 0.8,
+      "pedestrian_trips_per_person": 1.4,
+      "speed_kph": 25.0,
+      "encroachment_fraction": 0,
+      "min_walk_seconds": 15.0,
+      "pedestrian_speed": 1.1,
+      "informal_crossing_probability": 0,
+      "parking_search_probability": 0,
+      "parking_search_seconds": 30,
+      "pulses": [
+        {
+          "hour": 7.75,
+          "sigma_minutes": 10.0,
+          "weight": 1.0,
+          "direction": "in"
+        },
+        {
+          "hour": 15.25,
+          "sigma_minutes": 10.0,
+          "weight": 1.0,
+          "direction": "out"
+        }
+      ]
+    },
+    "offices": {
+      "vehicle_trips_per_person": 1.2,
+      "pedestrian_trips_per_person": 0.4,
+      "speed_kph": null,
+      "encroachment_fraction": 0,
+      "min_walk_seconds": 10,
+      "pedestrian_speed": 1.2,
+      "informal_crossing_probability": 0,
+      "parking_search_probability": 0.1,
+      "parking_search_seconds": 30.0,
+      "pulses": [
+        {
+          "hour": 8.5,
+          "sigma_minutes": 35.0,
+          "weight": 1.0,
+          "direction": "in"
+        },
+        {
+          "hour": 17.5,
+          "sigma_minutes": 40.0,
+          "weight": 1.0,
+          "direction": "out"
+        }
+      ]
+    },
+    "market": {
+      "vehicle_trips_per_person": 0.7,
+      "pedestrian_trips_per_person": 2.0,
+      "speed_kph": 30.0,
+      "encroachment_fraction": 0.15,
+      "min_walk_seconds": 10,
+      "pedestrian_speed": 1.2,
+      "informal_crossing_probability": 0,
+      "parking_search_probability": 0,
+      "parking_search_seconds": 30,
+      "pulses": [
+        {
+          "hour": 9.0,
+          "sigma_minutes": 90.0,
+          "weight": 1.0,
+          "direction": "in"
+        },
+        {
+          "hour": 12.0,
+          "sigma_minutes": 90.0,
+          "weight": 1.0,
+          "direction": "out"
+        },
+        {
+          "hour": 16.0,
+          "sigma_minutes": 90.0,
+          "weight": 1.0,
+          "direction": "in"
+        },
+        {
+          "hour": 18.0,
+          "sigma_minutes": 75.0,
+          "weight": 1.0,
+          "direction": "out"
+        }
+      ]
+    },
+    "homes": {
+      "vehicle_trips_per_person": 1.0,
+      "pedestrian_trips_per_person": 0.6,
+      "speed_kph": 30.0,
+      "encroachment_fraction": 0,
+      "min_walk_seconds": 10,
+      "pedestrian_speed": 1.2,
+      "informal_crossing_probability": 0,
+      "parking_search_probability": 0,
+      "parking_search_seconds": 30,
+      "pulses": [
+        {
+          "hour": 8.0,
+          "sigma_minutes": 40.0,
+          "weight": 1.0,
+          "direction": "out"
+        },
+        {
+          "hour": 18.0,
+          "sigma_minutes": 45.0,
+          "weight": 1.0,
+          "direction": "in"
+        }
+      ]
+    }
+  },
+  "fleet": {
+    "name": "Motorcycle-dominant mixed traffic",
+    "description": "Illustrative sublane-filtering prior, to be fitted to local observations.",
+    "types": [
+      {
+        "id": "motorcycle",
+        "vclass": "motorcycle",
+        "share": 0.65,
+        "length": 2.0,
+        "width": 0.7,
+        "max_speed": 16.7,
+        "accel": 2.6,
+        "decel": 4.5,
+        "tau": 0.6,
+        "sigma": 0.5,
+        "speed_deviation": 0.15,
+        "min_gap": 1.0,
+        "min_gap_lat": 0.15,
+        "lc_assertive": 1.5,
+        "lc_pushy": 0.7,
+        "lc_speed_gain": 2.0,
+        "jm_drive_after_yellow": 0.5,
+        "jm_drive_after_red": 0.0,
+        "jm_ignore_foe_probability": 0.0
+      },
+      {
+        "id": "car",
+        "vclass": "passenger",
+        "share": 0.3,
+        "length": 4.5,
+        "width": 1.8,
+        "max_speed": 16.7,
+        "accel": 2.0,
+        "decel": 4.5,
+        "tau": 1.0,
+        "sigma": 0.5,
+        "speed_deviation": 0.1,
+        "min_gap": 2.5,
+        "min_gap_lat": 0.4,
+        "lc_assertive": 1.1,
+        "lc_pushy": 0.1,
+        "lc_speed_gain": 1.0,
+        "jm_drive_after_yellow": 0.0,
+        "jm_drive_after_red": 0.0,
+        "jm_ignore_foe_probability": 0.0
+      },
+      {
+        "id": "bus",
+        "vclass": "bus",
+        "share": 0.05,
+        "length": 8.0,
+        "width": 2.4,
+        "max_speed": 13.9,
+        "accel": 1.2,
+        "decel": 4.0,
+        "tau": 1.2,
+        "sigma": 0.5,
+        "speed_deviation": 0.05,
+        "min_gap": 2.5,
+        "min_gap_lat": 0.4,
+        "lc_assertive": 1.0,
+        "lc_pushy": 0.0,
+        "lc_speed_gain": 1.0,
+        "jm_drive_after_yellow": 0.0,
+        "jm_drive_after_red": 0.0,
+        "jm_ignore_foe_probability": 0.0
+      }
+    ]
+  },
+  "demand": {
+    "derive_from_zones": true,
+    "scale": 1.0,
+    "bin_minutes": 5.0,
+    "gateways": []
+  },
+  "infrastructure": {
+    "crossings": [
+      {
+        "node": "B1",
+        "edges": [
+          "A1B1",
+          "B1A1"
+        ],
+        "kind": "signalized",
+        "width_m": 4,
+        "min_walk_seconds": 15.0
+      },
+      {
+        "node": "C1",
+        "edges": [
+          "B1C1",
+          "C1B1"
+        ],
+        "kind": "zebra",
+        "width_m": 4,
+        "min_walk_seconds": 10
+      }
+    ],
+    "stops": [],
+    "transit_routes": []
+  }
+}

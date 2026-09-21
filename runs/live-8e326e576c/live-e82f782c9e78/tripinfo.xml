@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-09-13T12:19:12.192753+05:45 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="E:\simroad\runs\live-8e326e576c\network\network.net.xml"/>
+        <route-files value="E:\simroad\runs\live-8e326e576c\live-e82f782c9e78\demand.rou.xml"/>
+        <additional-files value="E:\simroad\runs\live-8e326e576c\live-e82f782c9e78\stops.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="E:\simroad\runs\live-8e326e576c\live-e82f782c9e78\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <collision-output value="E:\simroad\runs\live-8e326e576c\live-e82f782c9e78\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="27900.0"/>
+        <end value="29700.0"/>
+        <step-length value="0.2"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.4"/>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <collision.mingap-factor value="0"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="E:\simroad\runs\live-8e326e576c\live-e82f782c9e78\sumo.log"/>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="27577"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="1"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="v53" depart="27903.20" departLane="B2B1_1" departPos="8.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.05" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="37.00" routeLength="219.33" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="4.87" rerouteNo="0" devices="tripinfo_v53" vType="bus" speedFactor="1.01" vaporized="end"/>
+    <tripinfo id="v65" depart="27909.60" departLane="B2B1_1" departPos="2.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.07" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="30.60" routeLength="162.76" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="1.86" rerouteNo="0" devices="tripinfo_v65" vType="motorcycle" speedFactor="0.82" vaporized="end"/>
+    <tripinfo id="v51" depart="27931.00" departLane="C0C1_1" departPos="4.60" departPosLat="0.00" departSpeed="0.00" departDelay="0.15" arrival="-1.00" arrivalLane="" arrivalPos="-1.00" arrivalPosLat="0.00" arrivalSpeed="-1.00" duration="9.20" routeLength="48.21" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="2.27" rerouteNo="0" devices="tripinfo_v51" vType="car" speedFactor="0.86" vaporized="end"/>
+    <personinfo id="p17" depart="-1" type="ped_school" speedFactor="0.89" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="0.98" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p18" depart="27907.20" type="ped_school" speedFactor="0.88" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27907.20" departPos="0.00" arrival="-1" arrivalPos="-1" duration="33.00" routeLength="-1" timeLoss="0.00" maxSpeed="0.97" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p19" depart="-1" type="ped_school" speedFactor="1.19" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.31" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p21" depart="27905.40" type="ped_school" speedFactor="0.92" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27905.40" departPos="0.00" arrival="-1" arrivalPos="-1" duration="34.80" routeLength="-1" timeLoss="0.00" maxSpeed="1.01" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p24" depart="-1" type="ped_school" speedFactor="0.97" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.07" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p25" depart="-1" type="ped_school" speedFactor="1.02" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.12" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p28" depart="-1" type="ped_school" speedFactor="0.75" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="0.82" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p29" depart="-1" type="ped_school" speedFactor="1.04" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.14" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p30" depart="-1" type="ped_school" speedFactor="1.17" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.29" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p31" depart="-1" type="ped_school" speedFactor="1.14" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.25" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p32" depart="-1" type="ped_school" speedFactor="1.01" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.11" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p33" depart="-1" type="ped_school" speedFactor="0.97" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.07" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p36" depart="-1" type="ped_school" speedFactor="0.97" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.07" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p39" depart="27925.60" type="ped_school" speedFactor="0.92" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27925.60" departPos="0.00" arrival="-1" arrivalPos="-1" duration="14.60" routeLength="-1" timeLoss="0.00" maxSpeed="1.02" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p40" depart="-1" type="ped_school" speedFactor="0.91" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.01" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p41" depart="-1" type="ped_school" speedFactor="1.12" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.23" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p43" depart="-1" type="ped_school" speedFactor="1.00" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.11" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p44" depart="-1" type="ped_school" speedFactor="1.07" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.17" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p45" depart="-1" type="ped_school" speedFactor="0.96" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.05" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p46" depart="-1" type="ped_school" speedFactor="1.19" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.31" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p47" depart="-1" type="ped_school" speedFactor="1.07" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.18" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p48" depart="-1" type="ped_school" speedFactor="1.02" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.13" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p49" depart="27903.80" type="ped_school" speedFactor="0.94" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27903.80" departPos="0.00" arrival="-1" arrivalPos="-1" duration="36.40" routeLength="-1" timeLoss="0.00" maxSpeed="1.04" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p50" depart="27934.60" type="ped_school" speedFactor="1.04" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27934.60" departPos="0.00" arrival="-1" arrivalPos="-1" duration="5.60" routeLength="-1" timeLoss="0.00" maxSpeed="1.15" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p57" depart="-1" type="ped_offices" speedFactor="0.96" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.16" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p58" depart="-1" type="ped_offices" speedFactor="0.83" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="0.99" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p60" depart="27921.40" type="ped_market" speedFactor="1.01" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27921.40" departPos="0.00" arrival="-1" arrivalPos="-1" duration="18.80" routeLength="-1" timeLoss="0.00" maxSpeed="1.22" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p62" depart="27930.40" type="ped_market" speedFactor="1.20" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27930.40" departPos="0.00" arrival="-1" arrivalPos="-1" duration="9.80" routeLength="-1" timeLoss="0.00" maxSpeed="1.44" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p63" depart="-1" type="ped_market" speedFactor="1.06" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.27" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p70" depart="27937.60" type="ped_homes" speedFactor="0.95" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27937.60" departPos="0.00" arrival="-1" arrivalPos="-1" duration="2.60" routeLength="-1" timeLoss="0.00" maxSpeed="1.14" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p71" depart="-1" type="ped_homes" speedFactor="0.99" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.19" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p72" depart="-1" type="ped_homes" speedFactor="0.89" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.07" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p74" depart="-1" type="ped_homes" speedFactor="1.05" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.26" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p75" depart="-1" type="ped_homes" speedFactor="1.10" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.32" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p76" depart="27914.60" type="ped_homes" speedFactor="0.98" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="27914.60" departPos="0.00" arrival="-1" arrivalPos="-1" duration="25.60" routeLength="-1" timeLoss="0.00" maxSpeed="1.18" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p77" depart="-1" type="ped_homes" speedFactor="1.03" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.23" waitingTime="0.00"/>
+    </personinfo>
+    <personinfo id="p78" depart="-1" type="ped_homes" speedFactor="0.92" duration="-1" waitingTime="0.00" timeLoss="0.00" traveltime="-1">
+        <walk depart="-1" departPos="0.00" arrival="-1" arrivalPos="-1" duration="-1" routeLength="-1" timeLoss="0.00" maxSpeed="1.10" waitingTime="0.00"/>
+    </personinfo>
+</tripinfos>

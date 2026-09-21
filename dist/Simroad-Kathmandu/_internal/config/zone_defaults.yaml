@@ -1,0 +1,50 @@
+# Illustrative priors, NOT calibrated empirical estimates. See docs/model-assumptions.md.
+# Vehicle/pedestrian rates are total daily trips per person, split across pulse weights.
+school:
+  vehicle_trips_per_person: 0.8
+  pedestrian_trips_per_person: 1.4
+  speed_kph: 25
+  min_walk_seconds: 15
+  pedestrian_speed: 1.1
+  pulses:
+    - {hour: 7.75, sigma_minutes: 10, weight: 1, direction: in}
+    - {hour: 15.25, sigma_minutes: 10, weight: 1, direction: out}
+office:
+  vehicle_trips_per_person: 1.2
+  pedestrian_trips_per_person: 0.4
+  parking_search_probability: 0.1
+  parking_search_seconds: 30
+  pulses:
+    - {hour: 8.5, sigma_minutes: 35, weight: 1, direction: in}
+    - {hour: 17.5, sigma_minutes: 40, weight: 1, direction: out}
+market:
+  vehicle_trips_per_person: 0.7
+  pedestrian_trips_per_person: 2.0
+  encroachment_fraction: 0.15
+  speed_kph: 30
+  pulses:
+    - {hour: 9, sigma_minutes: 90, weight: 1, direction: in}
+    - {hour: 12, sigma_minutes: 90, weight: 1, direction: out}
+    - {hour: 16, sigma_minutes: 90, weight: 1, direction: in}
+    - {hour: 18, sigma_minutes: 75, weight: 1, direction: out}
+residential:
+  vehicle_trips_per_person: 1.0
+  pedestrian_trips_per_person: 0.6
+  speed_kph: 30
+  pulses:
+    - {hour: 8, sigma_minutes: 40, weight: 1, direction: out}
+    - {hour: 18, sigma_minutes: 45, weight: 1, direction: in}
+hospital:
+  vehicle_trips_per_person: 1.0
+  pedestrian_trips_per_person: 0.8
+  min_walk_seconds: 25
+  pedestrian_speed: 0.8
+  pulses:
+    - {hour: 9, sigma_minutes: 120, weight: 1, direction: in}
+    - {hour: 16, sigma_minutes: 120, weight: 1, direction: out}
+transit:
+  vehicle_trips_per_person: 0.1
+  pedestrian_trips_per_person: 2.0
+  pulses:
+    - {hour: 8, sigma_minutes: 45, weight: 1, direction: in}
+    - {hour: 18, sigma_minutes: 45, weight: 1, direction: out}

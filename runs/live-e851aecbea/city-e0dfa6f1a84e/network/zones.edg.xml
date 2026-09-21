@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<edges>
+  <edge id="r4e4e60fa84f745fd_f">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+  <edge id="r4e4e60fa84f745fd_r">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+  <edge id="r7fbd120ce74b45e7_f">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+  <edge id="r7fbd120ce74b45e7_r">
+    <lane index="1" speed="11.11" width="3.2" />
+  </edge>
+</edges>

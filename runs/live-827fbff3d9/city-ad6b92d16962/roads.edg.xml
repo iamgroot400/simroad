@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<edges>
+  <edge from="n245177547eda4bd4" to="nee2ed0b2e39b40f2" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="r181432c781094e18_f" />
+  <edge from="nee2ed0b2e39b40f2" to="n245177547eda4bd4" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="r181432c781094e18_r" />
+  <edge from="n8331f1d7c0914800" to="ncf1e0c3bd14748ad" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="rb854d43980594eef_f" />
+  <edge from="ncf1e0c3bd14748ad" to="n8331f1d7c0914800" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="rb854d43980594eef_r" />
+  <edge from="nee2ed0b2e39b40f2" to="n8331f1d7c0914800" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="r484d3157eee64f84_f" />
+  <edge from="n8331f1d7c0914800" to="nee2ed0b2e39b40f2" numLanes="1" speed="11.11111111111111" width="3.2" sidewalkWidth="2" id="r484d3157eee64f84_r" />
+</edges>

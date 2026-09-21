@@ -1,0 +1,489 @@
+{
+  "version": 1,
+  "name": "My neighborhood",
+  "nodes": [
+    {
+      "id": "n41cce1d5c2c94b40",
+      "x": -1490.0,
+      "y": 1040.0,
+      "signal": false
+    },
+    {
+      "id": "n2a8cf9392a9a4bd6",
+      "x": 4540.0,
+      "y": -40.0,
+      "signal": false
+    },
+    {
+      "id": "ne57d16a52fbe4a44",
+      "x": 5470.0,
+      "y": 460.0,
+      "signal": false
+    },
+    {
+      "id": "n9afad77ec4a348b9",
+      "x": 5560.0,
+      "y": 810.0,
+      "signal": false
+    },
+    {
+      "id": "nfaf1191f9b9547bd",
+      "x": 4880.0,
+      "y": 1060.0,
+      "signal": false
+    },
+    {
+      "id": "n10bb212a02ee498b",
+      "x": 3970.0,
+      "y": 1160.0,
+      "signal": false
+    },
+    {
+      "id": "n87f359f322d3462e",
+      "x": 2730.0,
+      "y": 1420.0,
+      "signal": true
+    },
+    {
+      "id": "n648b5b971ac0411a",
+      "x": 1940.0,
+      "y": 1540.0,
+      "signal": false
+    },
+    {
+      "id": "nb5f4e82a4fee4e81",
+      "x": 650.0,
+      "y": 1680.0,
+      "signal": false
+    },
+    {
+      "id": "n0e2704de98f94fb1",
+      "x": -110.0,
+      "y": 1580.0,
+      "signal": false
+    },
+    {
+      "id": "n5dbb641991534c91",
+      "x": 350.0,
+      "y": 1220.0,
+      "signal": false
+    },
+    {
+      "id": "nc3617dddd3334465",
+      "x": 1350.0,
+      "y": 1070.0,
+      "signal": false
+    },
+    {
+      "id": "n23f4de7c41b840ef",
+      "x": 1860.0,
+      "y": 1030.0,
+      "signal": false
+    },
+    {
+      "id": "n22f1f616de994ae4",
+      "x": 2720.0,
+      "y": 870.0,
+      "signal": false
+    },
+    {
+      "id": "n14b4a9c8d5274b8a",
+      "x": 2370.0,
+      "y": 640.0,
+      "signal": true
+    },
+    {
+      "id": "ndf309222a8724520",
+      "x": 2130.0,
+      "y": -340.0,
+      "signal": false
+    },
+    {
+      "id": "n9786d4080ded4411",
+      "x": 1000.0,
+      "y": -230.0,
+      "signal": false
+    },
+    {
+      "id": "n8d09e089b7ae4f22",
+      "x": -960.0,
+      "y": 440.0,
+      "signal": false
+    },
+    {
+      "id": "nfb94d09e9bb94153",
+      "x": -1720.0,
+      "y": 900.0,
+      "signal": false
+    },
+    {
+      "id": "nc71efb9681464c7a",
+      "x": -1670.0,
+      "y": 1450.0,
+      "signal": false
+    },
+    {
+      "id": "nc021069fc7dc4cef",
+      "x": -880.0,
+      "y": 1670.0,
+      "signal": false
+    },
+    {
+      "id": "nfdff5d26a3b549df",
+      "x": 1123.8387708796508,
+      "y": 571.8497723797641,
+      "signal": true
+    },
+    {
+      "id": "n42a8a561d7fe473f",
+      "x": 2642.9406212802924,
+      "y": 299.7718290244253,
+      "signal": true
+    },
+    {
+      "id": "nb48c5856193d4895",
+      "x": 5063.240284516536,
+      "y": 241.3119809228691,
+      "signal": true
+    },
+    {
+      "id": "n41108374b253445c",
+      "x": 1650.99361188377,
+      "y": 1571.3650343692032,
+      "signal": true
+    },
+    {
+      "id": "n6854efd563aa4fde",
+      "x": 2264.5221368883026,
+      "y": 209.2987256272358,
+      "signal": true
+    },
+    {
+      "id": "n166ca5ebe3504c9f",
+      "x": 1343.1614335635818,
+      "y": 532.5681014512988,
+      "signal": true
+    },
+    {
+      "id": "n33ac41ecc7e44f8c",
+      "x": 18.222448416949646,
+      "y": 769.8706062536808,
+      "signal": true
+    },
+    {
+      "id": "junction_28",
+      "x": 2301.648672308141,
+      "y": 360.8987452582434,
+      "signal": false
+    }
+  ],
+  "roads": [
+    {
+      "id": "r6fcc9460e11c4001",
+      "a": "n41cce1d5c2c94b40",
+      "b": "n33ac41ecc7e44f8c",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rc163d7eb8182486a",
+      "a": "n2a8cf9392a9a4bd6",
+      "b": "nb48c5856193d4895",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r9dc9cfbb09d74454",
+      "a": "ne57d16a52fbe4a44",
+      "b": "n9afad77ec4a348b9",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r9e4af19270f04cf1",
+      "a": "n9afad77ec4a348b9",
+      "b": "nfaf1191f9b9547bd",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r8ec4d1a77e934b5b",
+      "a": "nfaf1191f9b9547bd",
+      "b": "n10bb212a02ee498b",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rfe73f9cb4fa64d30",
+      "a": "n10bb212a02ee498b",
+      "b": "n87f359f322d3462e",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "raef55926b2f649d0",
+      "a": "n87f359f322d3462e",
+      "b": "n648b5b971ac0411a",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r0d57d281616c40d2",
+      "a": "n648b5b971ac0411a",
+      "b": "n41108374b253445c",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r252e9e78caab4ddd",
+      "a": "nb5f4e82a4fee4e81",
+      "b": "n0e2704de98f94fb1",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "ra7ffbe21d76049e8",
+      "a": "n0e2704de98f94fb1",
+      "b": "n5dbb641991534c91",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rd411f9b4a0454fe8",
+      "a": "n5dbb641991534c91",
+      "b": "nc3617dddd3334465",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "raa9c6b7e7ebb48ee",
+      "a": "nc3617dddd3334465",
+      "b": "n23f4de7c41b840ef",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r0d68f9b715504441",
+      "a": "n23f4de7c41b840ef",
+      "b": "n22f1f616de994ae4",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rad8ef2c184384a66",
+      "a": "n22f1f616de994ae4",
+      "b": "n14b4a9c8d5274b8a",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r2319331c6c9c4b43_part0",
+      "a": "n14b4a9c8d5274b8a",
+      "b": "junction_28",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r2319331c6c9c4b43_part1",
+      "a": "junction_28",
+      "b": "n6854efd563aa4fde",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r06990f19bc714940",
+      "a": "ndf309222a8724520",
+      "b": "n9786d4080ded4411",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "ra5e59482b667471b",
+      "a": "n9786d4080ded4411",
+      "b": "n8d09e089b7ae4f22",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r47c9213b559a4d3a",
+      "a": "n8d09e089b7ae4f22",
+      "b": "nfb94d09e9bb94153",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r18096ea621924a60",
+      "a": "nfb94d09e9bb94153",
+      "b": "nc71efb9681464c7a",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rd91eed0b31554feb",
+      "a": "nc71efb9681464c7a",
+      "b": "nc021069fc7dc4cef",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r7e0164c607ec42be",
+      "a": "nc021069fc7dc4cef",
+      "b": "n41cce1d5c2c94b40",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rfc44e60cf76b4671",
+      "a": "nfdff5d26a3b549df",
+      "b": "n166ca5ebe3504c9f",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r764880d1939d4fd3",
+      "a": "n42a8a561d7fe473f",
+      "b": "n2a8cf9392a9a4bd6",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r87fceb09fc3e4113",
+      "a": "nb48c5856193d4895",
+      "b": "ne57d16a52fbe4a44",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r5f051ee301454f03",
+      "a": "n41108374b253445c",
+      "b": "nb5f4e82a4fee4e81",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r3ef17084ad844438",
+      "a": "n6854efd563aa4fde",
+      "b": "ndf309222a8724520",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rd663678efd3c4add_part0",
+      "a": "n166ca5ebe3504c9f",
+      "b": "junction_28",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "rd663678efd3c4add_part1",
+      "a": "junction_28",
+      "b": "n42a8a561d7fe473f",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    },
+    {
+      "id": "r745b36136bf4429d",
+      "a": "n33ac41ecc7e44f8c",
+      "b": "nfdff5d26a3b549df",
+      "lanes": 1,
+      "speed": 40.0,
+      "two_way": true
+    }
+  ],
+  "crossings": [
+    {
+      "id": "c69c1401c183c4e48",
+      "node": "nfdff5d26a3b549df",
+      "road": "r745b36136bf4429d",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "cfebcb3f5f2c64b84",
+      "node": "n42a8a561d7fe473f",
+      "road": "rd663678efd3c4add_part1",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "c2368a5f40e3b4f48",
+      "node": "nb48c5856193d4895",
+      "road": "rc163d7eb8182486a",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "ceb587ef30e5f4984",
+      "node": "n87f359f322d3462e",
+      "road": "rfe73f9cb4fa64d30",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "c3be3865e08e446ff",
+      "node": "n41108374b253445c",
+      "road": "r0d57d281616c40d2",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "c339307dc4c2345ce",
+      "node": "n14b4a9c8d5274b8a",
+      "road": "rad8ef2c184384a66",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "ccfb54b96d0c14171",
+      "node": "n6854efd563aa4fde",
+      "road": "r2319331c6c9c4b43_part1",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "cebdc3323815445c9",
+      "node": "n166ca5ebe3504c9f",
+      "road": "rfc44e60cf76b4671",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    },
+    {
+      "id": "cabb08ef77e3e482f",
+      "node": "n33ac41ecc7e44f8c",
+      "road": "r6fcc9460e11c4001",
+      "kind": "signalized",
+      "walk_seconds": 15.0
+    }
+  ],
+  "zones": [],
+  "traffic_per_hour": 1800.0
+}
