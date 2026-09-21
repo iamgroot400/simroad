@@ -20,14 +20,14 @@ datas = [
 binaries = []
 hiddenimports = []
 
-for package in ("sumo", "sumolib", "traci"):
+for package in ("sumo", "sumolib", "traci", "rtree"):
     package_datas, package_binaries, package_hidden = collect_all(package)
     datas += package_datas
     binaries += package_binaries
     hiddenimports += package_hidden
 
 datas += collect_data_files("simroad")
-for distribution in ("eclipse-sumo", "sumolib", "traci"):
+for distribution in ("eclipse-sumo", "sumolib", "traci", "rtree"):
     datas += copy_metadata(distribution)
 
 analysis = Analysis(
